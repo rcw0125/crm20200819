@@ -1,0 +1,165 @@
+﻿
+@{
+    Layout = null;
+    @model NF.Framework.DTO.TMB_AREAPLANDTO
+}
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>区域计划量</title>
+    <!-- Bootstrap core CSS -->
+
+    <link href="~/Assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Assets/css/common.css" rel="stylesheet" />
+
+    <script src="~/Assets/js/My97DatePicker/WdatePicker.js"></script>
+
+</head>
+
+<body>
+
+
+
+    <table style="width:100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td align="left">
+                <div class="dv_btn">
+                    <ul>
+                        <li><button type="button" class="btn btn-warning btn-xs" onclick="return delMsg();">删除</button></li>
+                        <li>
+                            <button type="button" class="btn btn-warning btn-xs" onclick="editMsg('Area_Phan_Edit.html','450','350')">修改</button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-warning btn-xs" onclick="showHtml('Area_Phan_Add.html','','450','350')">添加</button>
+                        </li>
+
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+
+                <div class="dv_search">
+                    <ul>
+                        <li>区域</li>
+                        <li>
+                            <select style=" width:120px;">
+                                <option value="华东区域">华北区域</option>
+                                <option value="华南区域">华南区域</option>
+                            </select>
+                        </li>
+                        <li>
+                            时间段
+                        </li>
+                        <li>
+                            <input id="txt_Start" type="text" style=" width:120px;" class="Wdate" onclick="WdatePicker({isShowClear:false,readOnly:true,maxDate:'#F{$dp.$D(\'txt_End\')}'})" />
+
+                        </li>
+                        <li>~</li>
+                        <li>
+                            <input id="txt_End" type="text" style=" width:120px;" class="Wdate" onclick="WdatePicker({isShowClear:false,readOnly:true,minDate:'#F{$dp.$D(\'txt_Start\')}'})" />
+
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-primary btn-xs btn_w60">查询</button>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th style=" width:40px"> <input class="qx1" type="checkbox" name="" value="" /></th>
+                            <th>区域</th>
+                            <th>计划量(吨)</th>
+                            <th>开始时间</th>
+                            <th>结束时间</th>
+                            <th>维护人</th>
+                            <th>维护时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            if (Model.AREAPLAN.Count() > 0)
+                            {
+                                foreach (var item in Model.AREAPLAN.ToList())
+                                {
+                                    <tr>
+                                        <th scope="row"><input class="che2" type="checkbox" name="" value="@item.C_ID" /></th>
+                                        <td>@item.C_AREA_NAME</td>
+                                        <td>@item.N_NUM</td>
+                                        <td>@item.D_START</td>
+                                        <td>@item.D_END</td>
+                                        <td>@item.C_EMP_NAME</td>
+                                        <td>@item.D_MOD_DT</td>
+                                    </tr>
+                                }
+                            }
+                        }
+
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div style="margin-top:-10px">
+                    <ul class="pagination">
+                        <li class="disabled"><a href="#"><span aria-hidden="true">上一页</span></a></li>
+                        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li><a href="#" aria-label="Next"><span aria-hidden="true">下一页</span></a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <script src='~/Assets/js/jquery-2.0.3.min.js'></script>
+    <script src='~/Assets/js/common.js'></script>
+    <script type="text/javascript">
+        function editMsg(url, w, h) {
+
+            var test = $("input[class='che2']:checked");
+            var checkBoxValue = "";
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+            if (checkBoxValue == "") {
+                alert("请任选一项修改");
+                return false;
+            } else {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var arr = checkBoxValue.split(',');
+                if (arr.length > 1) {
+                    alert("请任选一项修改");
+                    return false;
+                } else {
+                    var obj = new Object();
+                    obj.name = arr[0];
+                    showHtml(url, obj, w, h);
+                }
+            }
+        }
+
+        //全选
+        selectAll("input.qx1", "input.che2");
+    </script>
+</body>
+</html>
+

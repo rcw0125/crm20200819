@@ -1,0 +1,91 @@
+﻿@model NF.Framework.DTO.TMF_FILEINFODTO
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>审批</title>
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        <div class="dv_btn" style="margin-top: 5px;">
+            <ul>
+                <li>
+
+                </li>
+            </ul>
+        </div>
+        <table class="table table-bordered">
+            <tr>
+                <td style="width:80px;">标题</td>
+                <td>
+                    @Html.HiddenFor(x => x.N_STATUS)
+                    @Html.HiddenFor(x => x.N_TYPE)
+                    @Html.HiddenFor(x => x.C_EMP_ID)
+                    @Html.HiddenFor(x => x.C_EMP_NAME)
+                    @Html.HiddenFor(x => x.D_MOD_DT)
+                    @Html.HiddenFor(x => x.C_TASK_ID)
+                    @Html.HiddenFor(x => x.D_SB_DT)
+                    <input type="hidden" id="ResultType" name="ResultType" value="@Model.ResultType" />
+                    @Html.TextBoxFor(x => x.C_TITLE, new { style = "width:500;" })
+                </td>
+            </tr>
+            <tr>
+                <td>说明</td>
+                <td>
+                    @Html.TextBoxFor(x => x.C_CONTENT, new { style = "width:500px;height:100px;" })
+                </td>
+            </tr>
+            <tr>
+                <td>审批流</td>
+                <td>
+                    @Html.DropDownList("C_FLOW_ID", Model.ListItem)
+                </td>
+            </tr>
+            <tr>
+                <td>下一处理人</td>
+                <td>
+                    @Html.TextBoxFor(x => x.C_NEXT_EMP_ID)<a href="#" onclick="openWeb();"><span class="glyphicon glyphicon-search"></span></a>
+                    <input id="hidEmpID" name="hidEmpID" type="hidden" />
+                    <input id="hidSetpID" name="hidSetpID" type="hidden" />
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <button id="sb" class="btn btn-primary btn-xs" type="submit">提交</button>&nbsp;&nbsp;
+                    <input type="button" name="Submit" class="btn btn-warning btn-xs" onclick="javascript:history.back(-1);" value="返回">
+                </td>
+            </tr>
+        </table>
+
+        <script type="text/javascript">
+
+            $(function () {
+                if ($("#ResultType").val() == 1) {
+                    alert("审批成功");
+                    document.location = "/Quality/QualityManage";
+                }
+            });
+
+            function openWeb() {
+                var _w = $(window).width();
+                var _h = $(window).height();
+                $.post("/Quality/GetStep", { flowID: $("#C_FLOW_ID").val() }, function (re) {
+                    $("#hidSetpID").val(re);
+                    _iframe('/WebForms/Sale_App/Check_Emp.aspx?ID=' + re,'800', '450','流程');
+                });
+            }
+
+            function SetEmp(arrEmpName, arrEmpID) {
+                $("#C_NEXT_EMP_ID").val(arrEmpName);
+                $("#hidEmpID").val(arrEmpID);
+                close();
+            }
+        </script>
+
+    }
+</body>
+</html>

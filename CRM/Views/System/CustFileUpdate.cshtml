@@ -1,0 +1,227 @@
+﻿@model NF.Framework.DTO.TS_CUSTFILEDTO
+@using NF.Web.Core
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+</head>
+
+<title>@Model.Title</title>
+<body>
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(x => x.C_ID)
+        @Html.HiddenFor(x => x.C_NC_ID)
+        @Html.HiddenFor(x => x.C_NC_M_ID)
+        @Html.HiddenFor(x => x.C_EMP_ID)
+        @Html.HiddenFor(x => x.C_EMP_NAME)
+        @Html.HiddenFor(x => x.N_ISGPS)
+        @Html.HiddenFor(x => x.D_MOD_DT)
+        <input type="hidden" id="OperationType" name="OperationType" value="@Model.OperationType" />
+        <input type="hidden" id="ResultType" name="ResultType" value="@Model.ResultType" />
+        <table class="table table-bordered">
+            <tr>
+                <td style="width:80px;">
+                    客户编码
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.C_NO, new { style = " width:120px", @readonly = "readonly" })
+                </td>
+                <td>@Html.ValidationMessageFor(x => x.C_NO)</td>
+                <td style="width:80px;">
+                    客户名称
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.C_NAME, new { style = " width:120px", @readonly = "readonly" })
+                </td>
+                <td>@Html.ValidationMessageFor(x => x.C_NAME)</td>
+            </tr>
+
+            <tr>
+                <td>
+                    客户简称
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.C_SHORNAME, new { style = " width:120px", @readonly = "readonly" })
+                </td>
+                <td>@Html.ValidationMessageFor(x => x.C_SHORNAME)</td>
+                <td>
+                    法人代表
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.C_LEGALREPRES, new { style = " width:120px" })
+                </td>
+                <td>@Html.ValidationMessageFor(x => x.C_LEGALREPRES)</td>
+            </tr>
+            <tr>
+                <td>
+                    经办人
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.C_OPERATOR, new { style = " width:120px" })
+                </td>
+                <td>@Html.ValidationMessageFor(x => x.C_OPERATOR)</td>
+                <td>
+                    传真
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.C_FAX, new { style = " width:120px" })
+                </td>
+                <td>@Html.ValidationMessageFor(x => x.C_FAX)</td>
+            </tr>
+            <tr>
+                <td>
+                    委托代理人
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.C_AGENT, new { style = " width:120px" })
+                </td>
+                <td>@Html.ValidationMessageFor(x => x.C_AGENT)</td>
+                <td>
+                    客户级别
+                </td>
+                <td>
+                    @Html.DropDownDic("N_LEVEL", "CustLevel", new { style = " width:130px" })
+                </td>
+                <td>@Html.ValidationMessageFor(x => x.N_LEVEL)</td>
+            </tr>
+            <tr>
+                <td>
+                    客户状态
+                </td>
+                <td>
+                    @Html.DropDownDic("N_STATUS", "CustStatus", new { style = " width:130px" })
+                </td>
+                <td>@Html.ValidationMessageFor(x => x.N_STATUS)</td>
+                <td>
+                    客户类别
+                </td>
+                <td>
+                    @Html.DropDownDic("N_TYPE", "CustType", new { style = " width:130px" })
+                </td>
+                <td>@Html.ValidationMessageFor(x => x.N_TYPE)</td>
+            </tr>
+            <tr>
+                <td>
+                    纳税人登记号
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.C_TAXPAYERNO, new { style = " width:120px" })
+                </td>
+                <td align="left">@Html.ValidationMessageFor(x => x.C_TAXPAYERNO)</td>
+                <td>
+                    区域
+                </td>
+                <td>
+                    @Html.DropDownListFor(x => x.C_AREAMMAX, Model.AreaMaxs, "请选择", new { style = " width:130px" })
+                </td>
+                <td>@Html.ValidationMessageFor(x => x.C_TAXPAYERNO)</td>
+            </tr>
+        </table>
+
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>收货公司</th>
+                        <th>收货地址</th>
+                        <th>收货地区</th>
+                        <th>收货人</th>
+                        <th>收货电话</th>
+                        <th>收货电话2</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        if (Model.CustAddrs != null && Model.CustAddrs.Count > 0)
+                        {
+                            for (int i = 0; i < Model.CustAddrs.Count; i++)
+                            {
+                                <tr>
+                                    <td>@Html.TextBoxFor(x => x.CustAddrs[i].C_CGC, new { name = Model.CustAddrs[i].C_CGC, style = "width:80px;" }) <span style="color:red;">@Html.ValidationMessageFor(x => x.CustAddrs[i].C_CGC)</span> </td>
+                                    <td>@Html.TextBoxFor(x => x.CustAddrs[i].C_CGADDR, new { name = Model.CustAddrs[i].C_CGADDR, style = "width:80px;" })<span style="color:red;">@Html.ValidationMessageFor(x => x.CustAddrs[i].C_CGADDR)</span></td>
+                                    <td>@Html.TextBoxFor(x => x.CustAddrs[i].C_CGAREA, new { name = Model.CustAddrs[i].C_CGAREA, style = "width:80px;" })<span style="color:red;">@Html.ValidationMessageFor(x => x.CustAddrs[i].C_CGAREA)</span></td>
+                                    <td>@Html.TextBoxFor(x => x.CustAddrs[i].C_CGMAN, new { name = Model.CustAddrs[i].C_CGMAN, style = "width:80px;" })<span style="color:red;">@Html.ValidationMessageFor(x => x.CustAddrs[i].C_CGMAN)</span></td>
+                                    <td>@Html.TextBoxFor(x => x.CustAddrs[i].C_CGMOBILE, new { name = Model.CustAddrs[i].C_CGMOBILE, style = "width:80px;" })<span style="color:red;">@Html.ValidationMessageFor(x => x.CustAddrs[i].C_CGMOBILE)</span></td>
+                                    <td>@Html.TextBoxFor(x => x.CustAddrs[i].C_CGMOBILE2, new { name = Model.CustAddrs[i].C_CGMOBILE2, style = "width:80px;" })<span style="color:red;">@Html.ValidationMessageFor(x => x.CustAddrs[i].C_CGMOBILE2)</span></td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="Addrs[@i].N_ISDEFAULT" value="@Model.CustAddrs[i].N_ISDEFAULT" />
+                                        @Html.HiddenFor(x => x.CustAddrs[i].C_CUST_ID, new { name = Model.CustAddrs[i].C_CUST_ID })
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>开票单位</th>
+                        <th>开户银行</th>
+                        <th>账号</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        if (Model.CustTots != null && Model.CustTots.Count > 0)
+                        {
+                            for (int i = 0; i < Model.CustTots.Count; i++)
+                            {
+                                <tr>
+                                    <td>@Html.TextBoxFor(x => x.CustTots[i].C_OTCOMPANY, new { name = Model.CustTots[i].C_OTCOMPANY, style = "width:80px;" }) <span style="color:red;">@Html.ValidationMessageFor(x => x.CustTots[i].C_OTCOMPANY)</span> </td>
+                                    <td>@Html.TextBoxFor(x => x.CustTots[i].C_OPENBANK, new { name = Model.CustTots[i].C_OPENBANK, style = "width:80px;" }) <span style="color:red;">@Html.ValidationMessageFor(x => x.CustTots[i].C_OPENBANK)</span> </td>
+                                    <td>@Html.TextBoxFor(x => x.CustTots[i].C_ACCOUNTBANK, new { name = Model.CustTots[i].C_ACCOUNTBANK, style = "width:80px;" }) <span style="color:red;">@Html.ValidationMessageFor(x => x.CustTots[i].C_ACCOUNTBANK)</span> </td>
+                                    <td style="display:none">
+                                        <input type="hidden" name="Tots[@i].N_ISDEFAULT" value="@Model.CustTots[i].N_ISDEFAULT" />
+                                        @Html.HiddenFor(x => x.CustTots[i].C_CUST_ID, new { name = Model.CustTots[i].C_CUST_ID })
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+            <div style="padding-left:40%;" class="bs-example" data-example-id="btn-tags">
+                <button id="btnAddrInsert" class="btn btn-primary btn-xs" type="button">新增地址</button>&nbsp;&nbsp;
+                <button id="btnTotInsert" class="btn btn-primary btn-xs" type="button">新增票据</button>&nbsp;&nbsp;
+                <button id="btnSave" class="btn btn-primary btn-xs" type="button">保存</button>&nbsp;&nbsp;
+                <button id="save" class="btn btn-primary btn-xs" type="submit" style="display:none;">保存</button>&nbsp;&nbsp;
+                <button class="btn btn-default btn-xs" type="submit" onclick="window.close()">关闭</button>
+            </div>
+                    @Html.ValidationMessage("error")
+                        }
+
+
+    <script type="text/javascript">
+        $(function () {
+
+            if ($("#ResultType").val() == "1") {
+                alert("保存成功");
+                window.opener.document.getElementById('btn_Search').click();
+            }
+
+            $("#btnAddrInsert").click(function () {
+                $("#OperationType").val(1);
+                $("#save").click();
+            });
+            $("#btnTotInsert").click(function () {
+                $("#OperationType").val(2);
+                $("#save").click();
+            });
+            $("#btnSave").click(function () {
+                $("#OperationType").val(3);
+                $("#save").click();
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+﻿@model NF.Framework.DTO.TS_MENUDTO
+@using NF.Web.Core;
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>菜单管理</title>
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+</head>
+
+<body>
+    @Html.Partial("~/Views/Shared/_Button.cshtml")
+    @using (Html.BeginForm())
+    {
+        <table class="table table-bordered">
+            <tr>
+                <td>名称</td>
+                <td>
+                    @Html.TextBoxFor(x => x.C_NAME, new { style = "width:120px;" })
+                    <input type="hidden" id="pageIndex" name="BasePage.PageIndex" />
+                </td>
+                <td>  <button id="btn_Search" type="submit" class="btn btn-primary btn-xs btn_w60">查询</button></td>
+            </tr>
+        </table>
+
+    }
+
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th> </th>
+                <th>上级菜单</th>
+                <th>菜单名称</th>
+                <th>菜单描述</th>
+                <th>索引</th>
+                <th>URL</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model.Menus != null && Model.Menus.Count > 0)
+                {
+                    foreach (var item in Model.Menus)
+                    {
+                        <tr>
+                            <th scope="row"><input class="che2" type="radio" name="0" value="@item.C_ID" /></th>
+                            <td>@Html.GetGenerName(item.C_PARENT_ID, "C_NAME", "Menu")</td>
+                            <td>@item.C_NAME</td>
+                            <td>@item.C_DESC</td>
+                            <td>@item.N_SORT</td>
+                            <td>@item.C_URL</td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+
+    @Html.Partial("~/Views/Shared/_Paging.cshtml")
+
+    <script type="text/javascript">
+
+        function add() {
+            _iframe('/SystemUser/MenuInsert', '500', '500');
+        }
+
+        function relations() {
+
+            var test = $("input[class='che2']:checked");
+            var checkBoxValue = "";
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+            if (checkBoxValue == "") {
+                alert("请任选一项修改");
+                return false;
+            } else {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var arr = checkBoxValue.split(',');
+                if (arr.length > 1) {
+                    alert("请任选一项修改");
+                    return false;
+                } else {
+                    var obj = new Object();
+                    obj.id = arr[0];
+                    //window.open("/SystemUser/RelationMenu?id=" + obj.id, 'newwindow', 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,resizable=yes,status=yes,menubar=no,scrollbars=yes');
+                    _iframe('/SystemUser/RelationMenu?id=' + obj.id, '900', '500');
+                }
+            }
+        }
+
+
+        function editMsg() {
+            var test = $("input[class='che2']:checked");
+            var checkBoxValue = "";
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+            if (checkBoxValue == "") {
+                alert("请任选一项修改");
+                return false;
+            } else {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var arr = checkBoxValue.split(',');
+                if (arr.length > 1) {
+                    alert("请任选一项修改");
+                    return false;
+                } else {
+                    var obj = new Object();
+                    obj.id = arr[0];
+                    _iframe('/SystemUser/MenuUpdate?id=' + obj.id, '700', '500');
+                }
+            }
+        }
+
+        function seatch() {
+            $("#btn_Search").click();
+        }
+
+        //全选
+        selectAll("input.qx1", "input.che2");
+    </script>
+</body>
+</html>

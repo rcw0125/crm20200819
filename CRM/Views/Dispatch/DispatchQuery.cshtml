@@ -1,0 +1,173 @@
+﻿@model NF.Framework.DTO.TMD_DISPATCHDTO
+@using NF.Web.Core
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>@Model.Title</title>
+    <script src="~/Assets/js/My97DatePicker/WdatePicker.js"></script>
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+</head>
+<body onresize="fromsize();">
+    <div id="legend" class="">
+        <legend class=""></legend>
+    </div>
+    <table class=" table  table-bordered">
+        <tr>
+            <td>发运单号</td>
+            <td>
+                @Model.C_ID
+            </td>
+            <td>发运日期</td>
+            <td>
+                @Model.D_DISP_DT
+            </td>
+            <td>发运方式</td>
+            <td>
+                @Html.DropDownDic("C_SHIPVIA", "ShipVia", new { disabled = "disabled" })
+            </td>
+            <td>承运商</td>
+            <td>
+                @Model.C_COMCAR
+        </tr>
+        <tr>
+            <td>
+                到站
+            </td>
+            <td>
+                @Model.C_ATSTATION
+            </td>
+
+            <td>车牌号</td>
+            <td>
+                @Model.C_LIC_PLA_NO
+            </td>
+            <td>GPS设备号</td>
+            <td>
+                @Model.C_GPS_NO
+            </td>
+            <td>备注</td>
+            <td>@Model.C_REMARK2</td>
+        </tr>
+    </table>
+    <br />
+    <div style="overflow:scroll;">
+        <table class="table" id="t1" style="min-width:5000px;height:100%;" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td align="center">
+                    <table class="table table-bordered table-hover" style="white-space: nowrap;">
+                        <thead>
+                            <tr>
+                                <th width="200px">发运单号</th>
+                                <th width="200px">合同号</th>
+                                <th width="200px">单号</th>
+                                <th width="95px">勾号</th>
+                                <th width="95px">炉号</th>
+                                <th width="95px">批号</th>
+                                <th width="120px">物料编码</th>
+                                <th width="120px">物料名称</th>
+                                <th width="120px">规格</th>
+                                <th width="120px">钢种</th>
+                                <th width="120px">自由项</th>
+                                <th width="120px">自由项2</th>
+                                <th width="120px">包装要求</th>
+                                <th width="120px">发货仓库</th>
+                                <th width="120px">质量等级</th>
+                                <th width="120px">其他要求</th>
+                                <th width="120px">辅数量</th>
+                                <th width="120px">数量</th>
+                                <th width="120px">换算率</th>
+                                <th width="120px">已出库数量</th>
+                                <th width="120px">计量单位</th>
+                                <th width="120px">发货地点</th>
+                                <th width="120px">到货地点</th>
+                                <th width="120px">订货客户</th>
+                                <th width="120px">收货单位</th>
+                                <th width="120px">是否已出库关闭</th>
+                                <th width="120px">发货地区</th>
+                                <th width="120px">到货地区</th>
+                                <th width="120px">辅计量单位</th>
+                                <th>行备注</th>
+                                <th>计算毛重日期</th>
+                                <th>计算毛重</th>
+                                <th>计算皮重</th>
+                                <th>计算净重</th>
+                                <th>计算毛重时间</th>
+                                <th>计算皮重时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                if (Model != null && Model.DispatchDetails != null && Model.DispatchDetails.Count > 0)
+                                {
+                                    for (int i = 0; i < Model.DispatchDetails.Count; i++)
+                                    {
+                                        <tr>
+                                            @Html.HiddenFor(x => x.DispatchDetails[i].C_ID, new { name = Model.DispatchDetails[i].C_ID })
+                                            <td>@Model.DispatchDetails[i].C_DISPATCH_ID</td>
+                                            <td>@Model.DispatchDetails[i].C_CON_NO</td>
+                                            <td>@Model.DispatchDetails[i].C_NO</td>
+                                            <td>@Model.DispatchDetails[i].C_TICK_NO</td>
+                                            <td>@Model.DispatchDetails[i].C_STOVE</td>
+                                            <td>@Model.DispatchDetails[i].C_BATCH_NO</td>
+                                            <td>@Model.DispatchDetails[i].C_MAT_CODE</td>
+                                            <td>@Model.DispatchDetails[i].C_MAT_NAME</td>
+                                            <td>@Model.DispatchDetails[i].C_SPEC</td>
+                                            <td>@Model.DispatchDetails[i].C_STL_GRD</td>
+                                            <td>@Model.DispatchDetails[i].C_FREE_TERM</td>
+                                            <td>@Model.DispatchDetails[i].C_FREE_TERM2</td>
+                                            <td>@Model.DispatchDetails[i].C_PACK</td>
+                                            <td>@Model.DispatchDetails[i].C_SEND_STOCK</td>
+                                            <td>@Model.DispatchDetails[i].C_QUALIRY_LEV</td>
+                                            <td>@Model.DispatchDetails[i].C_ELSENEED</td>
+                                            <td>@Model.DispatchDetails[i].N_COM_AMOUNT_WGT</td>
+                                            <td>@Model.DispatchDetails[i].N_WGT</td>
+                                            <td>@Model.DispatchDetails[i].C_EQUATION_FACTOR</td>
+                                            <td>@Model.DispatchDetails[i].N_OUT_STOCK_WGT</td>
+                                            <td>@Model.DispatchDetails[i].C_UNITIS</td>
+                                            <td>@Model.DispatchDetails[i].C_SEND_SITE</td>
+                                            <td>@Model.DispatchDetails[i].C_AOG_SITE</td>
+                                            <td>@Model.DispatchDetails[i].C_ORGO_CUST</td>
+                                            <td>@Model.DispatchDetails[i].C_CGC</td>
+                                            <td>@Model.DispatchDetails[i].N_IS_SEND_CLOSE</td>
+                                            <td>@Model.DispatchDetails[i].C_SEND_AREA</td>
+                                            <td>@Model.DispatchDetails[i].C_AREA</td>
+                                            <td>@Model.DispatchDetails[i].C_AU_UNITIS</td>
+                                            <td>@Model.DispatchDetails[i].C_REMARK</td>
+                                            <td>@Model.DispatchDetails[i].D_CAL_FAKE_WGT_DT</td>
+                                            <td>@Model.DispatchDetails[i].N_CAL_FAKE_WGT</td>
+                                            <td>@Model.DispatchDetails[i].N_CAL_PACK_WGT</td>
+                                            <td>@Model.DispatchDetails[i].N_CAL_TRUE_WGT</td>
+                                            <td>@Model.DispatchDetails[i].N_CAL_FAKE_WGT_DT</td>
+                                            <td>@Model.DispatchDetails[i].N_CAL_PACK_WGT_DT</td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <br />
+    <script type="text/javascript">
+        $(function () {
+            fromsize();
+        });
+
+        function fromsize() {
+            //var _w = $("#form1").width();
+            var _h = window.screen.availHeight;
+
+            $("#t1").height(_h - 200);
+            //$("#div1").width(_w);
+        }
+
+    </script>
+</body>
+</html>

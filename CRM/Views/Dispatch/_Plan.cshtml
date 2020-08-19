@@ -1,0 +1,164 @@
+﻿@{
+    NF.Framework.DTO.TMP_PLANDTO dto = (NF.Framework.DTO.TMP_PLANDTO)ViewData["plans"];
+    object obj = ViewData["no"];
+}
+@using NF.Web.Core
+
+<div style="overflow:scroll;">
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+    <div class="dv_btn">
+        <ul>
+            <li><button class="btn btn-warning btn-xs" onclick="planEdit()">计划修改</button></li>
+            <li><button class="btn btn-warning btn-xs" onclick="planAdd()">计划添加</button></li>         
+        </ul>
+    </div>
+    <table class="table" style="min-width:5000px;" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td align="center">
+                <table class="table table-bordered table-hover" style="white-space: nowrap;">
+                    <thead>
+                        <tr>
+                            <th style=" width:40px"> </th>
+                            <th>操作</th>
+                            <th>合同号</th>@Html.Hidden("no", obj == null ? "" : obj.ToString())
+                            <th>订单号</th>
+                            <th>计划发货时间</th>
+                            <th>物料编码</th>
+                            <th>物料名称</th>
+                            <th>规格</th>
+                            <th>钢种</th>
+                            <th>质量等级</th>
+                            <th>数量</th>
+                            <th>已发运数量</th>
+                            <th>到站</th>
+                            <th>到货地区</th>
+                            <th>到货地址</th>
+                            <th>发运方式</th>
+                            <th>收货单位</th>
+                            <th>订货客户</th>
+                            <th>发货库存组织</th>
+                            <th>计划状态</th>
+                            <th>订单要求到货日期</th>
+                            <th>发货仓库</th>
+                            <th>到货库存组织</th>
+                            <th>到货仓库</th>
+                            <th>发货单位</th>
+                            <th>销售公司</th>
+                            <th>到货公司</th>
+                            <th>发货地区</th>
+                            <th>发货地址</th>
+                            <th>发货地点</th>
+                            <th>到货地点</th>
+                            <th>已出库数量</th>
+                            <th>已签收数量</th>
+                            <th>退回数量</th>
+                            <th>途损主数量</th>
+                            <th>制定计划日期</th>
+                            <th>制定计划人</th>
+                            <th>审批日期</th>
+                            <th>审批人</th>
+                            <th>订单类型</th>
+                            <th>来源订单是否退</th>
+                            <th>备注</th>
+                            <th>业务部门</th>
+                            <th>业务类型</th>
+                            <th>业务员</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            if (dto != null && dto.Plans != null && dto.Plans.Count > 0)
+                            {
+                                foreach (var item in dto.Plans)
+                                {
+                                    <tr>
+                                        <th scope="row"><input class="che3" type="checkbox" name="" value="@item.C_ID" /></th>
+                                        <td><a href="/Dispatch/PlanQuery?no=@item.C_ID" target="_blank">查看</a></td>
+                                        <td>@item.C_CON_NO </td>
+                                        <td>@item.C_NO</td>
+                                        <td>@item.D_PLANSEND_DT</td>
+                                        <td>@item.C_MAT_CODE</td>
+                                        <td>@item.C_MAT_NAME</td>
+                                        <td>@item.C_SPEC</td>
+                                        <td>@item.C_STL_GRD</td>
+                                        <td>@item.C_QUALIRY_LEV</td>
+                                        <td>@item.N_WGT</td>
+                                        <td>@item.N_SENDNUM_WGT</td>
+                                        <td>@item.C_ATSTATION</td>
+                                        <td>@item.C_AREA</td>
+                                        <td>@item.C_ADDR</td>
+                                        <td>@item.C_SHIPVIA_NAME</td>
+                                        <td>@item.C_CGC</td>
+                                        <td>@item.C_ORGO_CUST</td>
+                                        <td>@item.C_SEND_STOCK_DEPT</td>
+                                        <td>@item.N_STATUS</td>
+                                        <td>@item.D_ORRE_AOG_DT</td>
+                                        <td>@item.C_SEND_STOCK</td>
+                                        <td>@item.C_AOG_STOCK_DEPT</td>
+                                        <td>@item.C_AOG_STOCK</td>
+                                        <td>@item.C_SEND_COM</td>
+                                        <td>@item.C_SALE_COM</td>
+                                        <td>@item.C_AOG_COM</td>
+                                        <td>@item.C_SEND_AREA</td>
+                                        <td>@item.C_SEND_ADDR</td>
+                                        <td>@item.C_SEND_SITE</td>
+                                        <td>@item.C_AOG_SITE</td>
+                                        <td>@item.N_OUT_STOCK_WGT</td>
+                                        <td>@item.N_SIGN_WGT</td>
+                                        <td>@item.N_BACK_WGT</td>
+                                        <td>@item.N_DAMAGE_WGT</td>
+                                        <td>@item.D_FOR_PLAN_DT</td>
+                                        <td>@item.C_FOR_PALN_NAME</td>
+                                        <td>@item.D_APPROVE_DT</td>
+                                        <td>@item.C_APPROVE_ID</td>
+                                        <td>@Html.DetailName(item.C_ORDER_TYPE, "OrderType")</td>
+                                        <td>@item.N_SORO_BACK</td>
+                                        <td>@item.C_REMARK</td>
+                                        <td>@item.C_BUSINESS_DEPT_NAME</td>
+                                        <td>@item.C_BUSINESS_TYPE</td>
+                                        <td>@item.C_SALESMAN_NAME</td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <script type="text/javascript">
+        function planAdd() {
+            if ($("#no").val() == "")
+            {
+                alert("请选择订单添加计划");
+                return false;
+            }
+            var url = "/Dispatch/PlanInsert?no=" + $("#no").val();
+            window.open(url, 'newwindow', 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,resizable=yes,status=yes,menubar=no,scrollbars=yes');
+        }
+
+        function planEdit() {
+            var test = $("input[class='che3']:checked");
+            var checkBoxValue = "";
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+            if (checkBoxValue == "") {
+                alert("请任选一项修改");
+                return false;
+            } else {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var arr = checkBoxValue.split(',');
+                if (arr.length > 1) {
+                    alert("请任选一项修改");
+                    return false;
+                } else {
+                    var obj = new Object();
+                    obj.id = arr[0];
+                    var url = "/Dispatch/PlanUpdate?no=" + obj.id;
+                    window.open(url, 'newwindow', 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,resizable=yes,status=yes,menubar=no,scrollbars=yes');
+                }
+            }
+        }
+    </script>
+</div>

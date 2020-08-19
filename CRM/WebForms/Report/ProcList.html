@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>产品</title>
+    <script src="js/jsStye.js"></script>
+    <script src="js/jsProc.js"></script>
+</head>
+<body  onresize="fromsize();">
+    <form>
+        <table class="table table-bordered table-hover table-condensed">
+            <tr>
+                <td style="width:80px;">钢种</td>
+                <td style="width:250px;"><input type="text" id="txtstlgrd" style="width:100%" /></td>
+                <td style="width:50px;">类型</td>
+                <td style="width:200px;">
+                    <select id="selectproctype">
+                        <option>全部</option>
+                    </select>
+                </td>
+                <td>
+                    <input id="btncx" type="button" value="查询" class="btn btn-primary btn-xs" onclick="getProcList();" />
+                    <input id="btnadd" type="button" value="添加" class="btn btn-primary btn-xs" onclick="_iframe('ProcAdd.aspx','600','450','产品添加');" />
+                    <input id="btncx" type="button" value="钢类" class="btn btn-primary btn-xs" onclick="_iframe('ProcType.html','600','400','钢类');" />
+
+                </td>
+            </tr>
+        </table>
+        <div id="dvList">
+            <table class="table table-bordered table-hover table-condensed">
+                <thead>
+                    <tr>
+                        <th>钢类</th>
+                        <th>钢种</th>
+                        <th>规格</th>
+                        <th>执行标准</th>
+                        <th>使用范围</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="content1">
+                   
+                </tbody>
+            </table>
+        </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,437 @@
+﻿@model NF.Framework.DTO.TMQ_QUALITY_MAINDTO
+@using NF.Web.Core
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" />
+    <title>@Model.Title</title>
+    <script src="~/Assets/js/My97DatePicker/WdatePicker.js"></script>
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+</head>
+
+<body>
+
+    @using (Html.BeginForm("QualityOperation", "Quality", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.HiddenFor(x => x.C_QUEST_ID)
+        @Html.HiddenFor(x => x.C_PROD_KIND_ID)
+        @Html.HiddenFor(x => x.C_SHIPVIA)
+        @Html.HiddenFor(x => x.N_PARENT_REMAIN_WGT)
+        @Html.HiddenFor(x => x.N_MIDDLE_REMAIN_WGT)
+        @Html.HiddenFor(x => x.OperationType)
+        @Html.HiddenFor(x => x.N_FLAG)
+        @Html.HiddenFor(x => x.N_STATUS)
+        @Html.HiddenFor(x => x.N_ORDERTYPE)
+        @Html.HiddenFor(x => x.C_AREA)
+        @Html.HiddenFor(x => x.C_AREA_NAME)
+        @Html.HiddenFor(x => x.D_MOD_DT)
+        @Html.HiddenFor(x => x.C_EMP_ID)
+        @Html.HiddenFor(x => x.C_EMP_NAME)
+        @Html.HiddenFor(x => x.D_SHIP_START_DT)
+        @Html.HiddenFor(x => x.D_SHIP_END_DT)
+        <input type="hidden" id="ResultType" name="ResultType" value="@Model.ResultType" />
+        <input type="hidden" id="C_ID" name="C_ID" value="@Model.C_ID" />
+        <table class="table table-bordered table-condensed">
+            <tr>
+                <td style="width:100px;">
+                    地区
+                </td>
+                <td colspan="3">
+                    <input type="text" disabled="disabled" value="@Model.C_AREA_NAME" />
+                    <input type="hidden" id="C_AREA" name="C_AREA" value="@Model.C_AREA" />
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.C_AREA)</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    客户
+                </td>
+                <td>
+                    <input type="text" disabled="disabled" value="@Model.C_CUST_NAME" />
+                    <input type="hidden" id="C_CUST_NAME" name="C_CUST_NAME" value="@Model.C_CUST_NAME" />
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.C_CUST_NAME)</span>
+                </td>
+
+                <td style="width:100px;">
+                    客户类型
+                </td>
+                <td>
+                    @Html.DetailName(Model.C_CUST_TYPE == null ? "1" : Model.C_CUST_TYPE, "CustType")
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.C_CUST_TYPE)</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    联系人
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.C_NAME, new { @readonly = "readonly" })
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.C_NAME)</span>
+                </td>
+
+                <td>
+                    联系电话
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.C_TEL, new { @readonly = "readonly" })
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.C_TEL)</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    产品
+                </td>
+                <td>
+                    @Html.HiddenFor(x => x.C_STL_GRD_CLASS)
+                    <input type="text" id="grdClass" disabled="disabled" value="@Model.C_STL_GRD_CLASS" />
+                    <a href="javascript:void(0);" onclick="openWeb(1);"><span class="glyphicon glyphicon-search"></span></a>
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.C_STL_GRD_CLASS)</span>
+                </td>
+
+                <td>
+                    产品用途
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.C_PROD_USE)
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.C_PROD_USE)</span>
+                </td>
+            </tr>
+            @*<tr>
+                    <td class="right">
+                        发货时间
+                    </td>
+                    <td>
+                        @Html.TextBox("D_SHIP_START_DT", Model.D_SHIP_START_DT, new { id = "txt", OnClick = "WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})", name = "D_SHIP_START_DT" })
+                        <span style=" color:red;">   @Html.ValidationMessageFor(x => x.D_SHIP_START_DT)</span>
+                    </td>
+
+                    <td>
+                        到货时间
+                    </td>
+                    <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                        @Html.TextBox("D_SHIP_END_DT", Model.D_SHIP_END_DT, new { id = "txt", OnClick = "WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})", name = "D_SHIP_END_DT" })
+                        <span style=" color:red;">   @Html.ValidationMessageFor(x => x.D_SHIP_END_DT)</span>
+                    </td>
+                </tr>*@
+
+            <tr>
+                <td>
+                    投诉异议内容
+                </td>
+                <td colspan="3">
+                    @Html.TextAreaFor(x => x.C_OBJECT_CONTENT, new { style = " width:100%" })
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.C_OBJECT_CONTENT)</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    用户工艺流程
+                </td>
+                <td colspan="3">
+                    @Html.TextAreaFor(x => x.C_TECH_DESC, new { style = " width:100%" })
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.C_TECH_DESC)</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    现场调查情况
+                </td>
+                <td colspan="3">
+                    @Html.TextAreaFor(x => x.C_SITE_SURVEY_CONTENT, new { style = " width:100%" })
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.C_SITE_SURVEY_CONTENT)</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    母材
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.N_PARENT_QUA, new { maxlength = "8", @class = "numJe" })
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.N_PARENT_QUA)</span>
+                </td>
+                <td>
+                    问题样支数
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.N_QUEST_QUA, new { maxlength = "8", @class = "numJe" })
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.N_QUEST_QUA)</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    中间样支数
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.N_MIDDLE_QUA, new { maxlength = "8", @class = "numJe" })
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.N_MIDDLE_QUA)</span>
+                </td>
+                <td>
+                    其他支数
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.N_ELSE_QUA, new { maxlength = "8", @class = "numJe" })
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.N_ELSE_QUA)</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    本部门
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.C_DEPT)
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.C_DEPT)</span>
+                </td>
+                <td>
+                    质控部
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.C_DEPT2)
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.C_DEPT2)</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    技术中心
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.C_DEPT3)
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.C_DEPT3)</span>
+                </td>
+                <td>
+                    其他部门
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.C_DEPT4)
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.C_DEPT4)</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    备注
+                </td>
+                <td colspan="3">
+                    @Html.TextAreaFor(x => x.C_REMARK, new { style = " width:100%" })
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.C_REMARK)</span>
+                </td>
+            </tr>
+        </table>
+
+        @Html.ValidationMessage("error")
+
+        <table class="table table-bordered table-condensed">
+            <tr>
+                <td style="width:80px;"> 批号</td>
+                <td style="width:120px;"> @Html.TextBoxFor(x => x.BatchNO, new { maxlength = "9" })<span style=" color:red;">   @Html.ValidationMessageFor(x => x.BatchNO)</span></td>
+                <td style="width:80px;"> 炉号</td>
+                <td style="width:120px;"> @Html.TextBoxFor(x => x.Stove, new { maxlength = "9" })<span style=" color:red;">   @Html.ValidationMessageFor(x => x.Stove)</span></td>
+                <td style="width:80px;">类型</td>
+                <td style="width:125px;"> @Html.DropDownDic("OrderType", "OrderType", new { style = "width:120px;" })</td>
+                <td> <button id="insert" class="btn btn-primary btn-xs btn_w60" type="button">查询</button></td>
+                <td>
+                    <button id="save" class="btn btn-primary btn-xs btn_w60" type="submit" style="display:none;">保存</button>&nbsp;&nbsp;
+                    <button id="btnSave" class="btn btn-primary btn-xs btn_w60" type="button">保存</button>
+                    <input type="button" name="Submit" class="btn btn-warning btn-xs btn_w60" onclick="javascript:history.back(-1);" value="返回">
+                </td>
+            </tr>
+        </table>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    @if (Model.N_FLAG == 1)
+                    {
+                        <th>牌号</th>
+                        <th>规格</th>
+                        <th>数量</th>
+                        <th>批号</th>
+                    }
+                    else
+                    {
+                        <th>牌号</th>
+                        <th>规格</th>
+                        <th>批号</th>
+                        <th>发货数量</th>
+                        <th>异议数量</th>
+                        <th>执行标准</th>
+                    }
+
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    if (Model != null && Model.QualityStlGrds != null && Model.QualityStlGrds.Count > 0)
+                    {
+                        for (int i = 0; i < Model.QualityStlGrds.Count; i++)
+                        {
+                            <tr>
+                                @if (Model.N_FLAG == 1)
+                                {
+                                    <td>
+                                        <input type="text" disabled="disabled" value="@Model.QualityStlGrds[i].C_STL_GRD" />
+                                        @Html.HiddenFor(x => x.QualityStlGrds[i].C_STL_GRD, new { name = Model.QualityStlGrds[i].C_STL_GRD })
+                                        @Html.ValidationMessageFor(x => x.QualityStlGrds[i].C_STL_GRD, "", new { style = "color:red;" })
+                                    </td>
+                                    <td>
+                                        φ <input type="text" disabled="disabled" style="width:60px;" value="@Model.QualityStlGrds[i].C_SPEC" /> mm
+                                        @Html.HiddenFor(x => x.QualityStlGrds[i].C_SPEC, new { name = Model.QualityStlGrds[i].C_SPEC })
+                                        @Html.ValidationMessageFor(x => x.QualityStlGrds[i].C_SPEC, "", new { style = "color:red;" })
+                                    </td>
+                                    <td>
+                                        <input type="text" disabled="disabled" value="@Model.QualityStlGrds[i].C_BATCH_NO" />
+                                        @Html.HiddenFor(x => x.QualityStlGrds[i].C_BATCH_NO, new { name = Model.QualityStlGrds[i].C_BATCH_NO })
+                                        @Html.ValidationMessageFor(x => x.QualityStlGrds[i].C_BATCH_NO, "", new { style = "color:red;" })
+                                    </td>
+                                    <td>
+                                        <input type="text" disabled="disabled" value="@Model.QualityStlGrds[i].C_STOVE" />
+                                        @Html.HiddenFor(x => x.QualityStlGrds[i].C_STOVE, new { name = Model.QualityStlGrds[i].C_STOVE })
+                                        @Html.ValidationMessageFor(x => x.QualityStlGrds[i].C_STOVE, "", new { style = "color:red;" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(x => x.QualityStlGrds[i].N_WGT, new { name = Model.QualityStlGrds[i].N_WGT })
+                                        @Html.ValidationMessageFor(x => x.QualityStlGrds[i].N_WGT, "", new { style = "color:red;" })
+                                    </td>
+
+                                }
+                                else
+                                {
+                                    <td>
+                                        <input type="text" disabled="disabled" value="@Model.QualityStlGrds[i].C_STL_GRD" />
+                                        @Html.HiddenFor(x => x.QualityStlGrds[i].C_STL_GRD, new { name = Model.QualityStlGrds[i].C_STL_GRD })
+                                        @Html.ValidationMessageFor(x => x.QualityStlGrds[i].C_STL_GRD, "", new { style = "color:red;" })
+                                    </td>
+                                    <td>
+                                        φ <input type="text" disabled="disabled" style="width:60px;" value="@Model.QualityStlGrds[i].C_SPEC" /> mm
+                                        @Html.HiddenFor(x => x.QualityStlGrds[i].C_SPEC, new { name = Model.QualityStlGrds[i].C_SPEC })
+                                        @Html.ValidationMessageFor(x => x.QualityStlGrds[i].C_SPEC, "", new { style = "color:red;" })
+                                    </td>
+                                    <td>
+                                        <input type="text" disabled="disabled" value="@Model.QualityStlGrds[i].C_BATCH_NO" />
+                                        @Html.HiddenFor(x => x.QualityStlGrds[i].C_BATCH_NO, new { name = Model.QualityStlGrds[i].C_BATCH_NO })
+                                        @Html.ValidationMessageFor(x => x.QualityStlGrds[i].C_BATCH_NO, "", new { style = "color:red;" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(x => x.QualityStlGrds[i].N_SHIP_WGT, new { name = Model.QualityStlGrds[i].N_SHIP_WGT, style = "width:60px;", @class = "numJe" }) 吨
+                                        @Html.ValidationMessageFor(x => x.QualityStlGrds[i].N_SHIP_WGT, "", new { style = "color:red;" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(x => x.QualityStlGrds[i].N_OBJEC_WGT, new { name = Model.QualityStlGrds[i].N_OBJEC_WGT, style = "width:60px;",@class = "numJe" }) 吨
+                                        @Html.ValidationMessageFor(x => x.QualityStlGrds[i].N_OBJEC_WGT, "", new { style = "color:red;" })
+                                    </td>
+                                    <td>
+                                        <input type="text" disabled="disabled" value="@Model.QualityStlGrds[i].C_STD_CODE" />
+                                        @Html.HiddenFor(x => x.QualityStlGrds[i].C_STD_CODE, new { name = Model.QualityStlGrds[i].C_STD_CODE })
+                                        @Html.ValidationMessageFor(x => x.QualityStlGrds[i].C_STD_CODE, "", new { style = "color:red;" })
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+
+        <table class="table table-bordered">
+            <tr>
+                <td>
+                    修改人
+                </td>
+                <td>
+                    <input type="text" disabled="disabled" value="@Model.C_EMP_NAME" />
+                    @Html.HiddenFor(x => x.C_EMP_NAME)
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.C_EMP_NAME)</span>
+                </td>
+                <td>
+                    修改时间
+                </td>
+                <td>
+                    <input type="text" disabled="disabled" value="@Model.D_MOD_DT" />
+                    @Html.HiddenFor(x => x.D_MOD_DT)
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.D_MOD_DT)</span>
+                </td>
+                <td>
+                    审批人
+                </td>
+                <td>
+                    <input type="text" disabled="disabled" value="@Model.C_APPROVER" />
+                    @Html.HiddenFor(x => x.C_APPROVER)
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.C_APPROVER)</span>
+                </td>
+                <td>
+                    审批时间
+                </td>
+                <td>
+                    <input type="text" disabled="disabled" value="@Model.D_APPROVER_DT" />
+                    @Html.HiddenFor(x => x.D_APPROVER_DT)
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.D_APPROVER_DT)</span>
+                </td>
+            </tr>
+        </table>
+                    }
+    <script type="text/javascript">
+        $(function () {
+
+            //添加成功
+            if ($("#ResultType").val() == "1") {
+                alert("保存成功");
+                var url = "/Quality/QualityManage";
+                //window.location = url;
+                window.open(url, '_self', 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,resizable=yes,status=yes,menubar=no,scrollbars=yes');
+            }
+
+            $("#btnSave").click(function () {
+                $("#OperationType").val(1);
+                $("#save").click();
+            });
+
+            $("#insert").click(function () {
+                $("#OperationType").val(2);
+                $("#save").click();
+            });
+        });
+
+        function setName(obj, i) {
+            $("#Title_" + i).text(obj.name);
+            $("#QualityFiles_" + i + "__OperationStatus").val(1);
+        }
+
+        function openWeb(index) {
+            switch (index) {
+                case 1:
+                    _iframe('../../Common/_MatGroup.aspx', '800', '450', "产品");
+                    break;
+            }
+        }
+
+        function SetMatClass(stlGrd) {
+            $("#C_STL_GRD_CLASS").val(stlGrd);
+            $("#grdClass").val(stlGrd);
+            close();
+        }
+
+
+    </script>
+
+    <div class="dv_search" style="display:none;">
+        <ul>
+            <li>
+                时间段
+            </li>
+            <li>
+                <input id="txt_Start" name="Start" type="text" style=" width:120px;" class="Wdate" value="" onclick="WdatePicker({isShowClear:false,readOnly:true,maxDate:'#F{$dp.$D(\'txt_End\')}'})" />
+            </li>
+
+            <li>~</li>
+
+            <li>
+                <input id="txt_End" name="End" type="text" style=" width:120px;" class="Wdate" value="" onclick="WdatePicker({isShowClear:false,readOnly:true,minDate:'#F{$dp.$D(\'txt_Start\')}'})" />
+            </li>
+            <li>
+                <button id="btn_Search" type="submit" class="btn btn-primary btn-xs btn_w60">查询</button>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

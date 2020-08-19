@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>销售签单预测统计</title>
+    <style type="text/css">
+        body {
+            margin-left: 0px;
+            margin-top: 0px;
+            margin-right: 0px;
+            margin-bottom: 0px;
+            overflow: hidden;
+        }
+    </style>
+    <script src="../../Assets/js/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript">
+        $(function ($) {
+            fromsize();
+        });
+
+        function fromsize() {
+
+            var _h = window.screen.availHeight;
+
+            $("#iframe1").height(_h);
+        }
+    </script>
+</head>
+<body onresize="fromsize();">
+    <iframe src='http://192.168.2.96:8080/WebReport/ReportServer?reportlet=ORDER.cpt' style="width: 100%; border: 0px;" id="iframe1"></iframe>
+</body>
+</html>

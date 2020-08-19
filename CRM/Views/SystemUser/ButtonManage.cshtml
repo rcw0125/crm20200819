@@ -1,0 +1,131 @@
+﻿@model NF.Framework.DTO.TS_BUTTONDTO
+@using NF.Web.Core;
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>按钮管理</title>
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+</head>
+
+<body>
+    @Html.Partial("~/Views/Shared/_Button.cshtml")
+    @using (Html.BeginForm())
+    {
+        <table class="table table-bordered">
+            <tr>
+                <td>名称</td>
+                <td>  @Html.TextBoxFor(x => x.C_NAME, new { style = "width:120px;" })</td>
+                <td>按钮描述</td>
+                <td>
+                    @Html.TextBoxFor(x => x.C_DESC, new { style = "width:120px;" })
+                    <input type="hidden" id="pageIndex" name="BasePage.PageIndex" />
+                </td>
+                <td>  <button id="btn_Search" type="submit" class="btn btn-primary btn-xs btn_w60">查询</button></td>
+            </tr>
+        </table>
+
+    }
+
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th> </th>
+                <th>上级菜单</th>
+                <th>按钮名称</th>
+                <th>按钮描述</th>
+                <th>按钮状态</th>
+                <th>编码</th>
+                <th>索引</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model.Buttons != null && Model.Buttons.Count > 0)
+                {
+                    foreach (var item in Model.Buttons)
+                    {
+                        <tr>
+                            <th scope="row"><input class="che2" type="radio" name="0" value="@item.C_ID" /></th>
+                            <td>@Html.GetGenerName(item.C_MENU_ID, "C_DESC", "Menu")-@Html.GetGenerName(item.C_MENU_ID, "C_NAME", "Menu")</td>
+                            <td>@item.C_NAME</td>
+                            <td>@item.C_DESC</td>
+                            <td>@Html.DetailName(item.N_STATUS.ToString(), "CommonStatus")</td>
+                            <td>@item.C_CODE</td>
+                            <td>@item.N_INDEX</td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+
+    @Html.Partial("~/Views/Shared/_Paging.cshtml")
+
+    <script type="text/javascript">
+
+        function add() {
+            _iframe('/SystemUser/ButtonInsert', '500', '500','新增');
+        }
+
+        function relations() {
+            var test = $("input[class='che2']:checked");
+            var checkBoxValue = "";
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+            if (checkBoxValue == "") {
+                alert("请任选一项修改");
+                return false;
+            } else {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var arr = checkBoxValue.split(',');
+                if (arr.length > 1) {
+                    alert("请任选一项修改");
+                    return false;
+                } else {
+                    var obj = new Object();
+                    obj.id = arr[0];
+                    _iframe('/SystemUser/RelationButton?id=' + obj.id, '900','500','关联');
+                }
+            }
+        }
+
+
+        function editMsg() {
+            var test = $("input[class='che2']:checked");
+            var checkBoxValue = "";
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+            if (checkBoxValue == "") {
+                alert("请任选一项修改");
+                return false;
+            } else {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var arr = checkBoxValue.split(',');
+                if (arr.length > 1) {
+                    alert("请任选一项修改");
+                    return false;
+                } else {
+                    var obj = new Object();
+                    obj.id = arr[0];
+                    _iframe('/SystemUser/ButtonUpdate?id=' + obj.id, '700', '500','修改');
+                }
+            }
+        }
+
+        function seatch() {
+            $("#btn_Search").click();
+        }
+
+        //全选
+        selectAll("input.qx1", "input.che2");
+    </script>
+</body>
+</html>

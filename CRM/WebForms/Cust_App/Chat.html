@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>在线咨询</title>
+    <script src="js/jsStye.js"></script>
+    <script src="js/jsChatList.js"></script>
+
+</head>
+<body>
+    <form>
+        <table class="table table-bordered" style="width: 900px; margin-left:100px; margin-top: 20px;">
+            <tr>
+                <td style="width: 250px;" rowspan="3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            咨询代表
+                        </div>
+                        <ul class="list-group"></ul>
+                    </div>
+
+
+                </td>
+                <td style="height: 35px; background-color: #d5e4f1; text-align: center">
+                    <span class="saleEmp"></span><input type="hidden" id="hidsaleempid" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div id="dv_content" style="overflow-y: auto; height:300px;">
+
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="height: 100px; background-color: #d5e4f1">
+                    <div>
+                        <textarea id="txtContent"
+                                  style="width: 100%;  border: 1px solid #CCCCCC; height: 50px; vertical-align: top; resize: none;"></textarea>
+                    </div>
+                    <div style="margin-top: 5px;">
+                        <input id="btnSave" type="button" value="发 送" class="btn btn-primary btn-sm" onclick="send();" />
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <input id="hiduserid" type="hidden" />
+    </form>
+</body>
+</html>

@@ -1,0 +1,105 @@
+﻿@model NF.Framework.DTO.TS_ROLEDTO
+<!DOCTYPE html>
+
+<html>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+@Html.Partial("~/Views/Shared/_AssetsP.cshtml")
+
+<title>@Model.Title</title>
+<body>
+    <div id="legend" class="">
+        <legend class=""></legend>
+    </div>
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(x => x.UserID)
+        @Html.HiddenFor(x => x.RoleID)
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <ul class="nav nav-pills">
+                <li style="width:200px;"><strong>  角色设置 </strong></li>
+                <li>全选</li>
+                <li style="width:50px;"><input class="qx1" type="checkbox" name="" value="" /></li>
+                <li style="width:100px"><button id="btnSave" class="btn btn-primary btn-xs  btn_w60" type="button" onclick="userRelations()">保存</button></li>
+                <li> <spn style=" color:red; ">@Html.ValidationMessage("error")</spn></li>
+               
+            </ul>
+        </div>
+        <table class="table table-bordered  table-hover">
+            @{
+            while (Model.Roles.Count > 0)
+            {
+                int count = 5;
+                if (Model.Roles.Count < 5)
+                {
+                    count = Model.Roles.Count;
+                }
+                List<NF.Framework.DTO.TS_ROLEDTO> list = Model.Roles.Take(5).ToList();
+                <tr>
+                    @for (int i = 0; i < list.Count; i++)
+                {
+                    <td>
+                        <input id="@list[i].C_ID" class="che2" type="checkbox" name="" value="@list[i].C_ID" />
+                        @list[i].C_NAME
+                    </td>
+            }
+                </tr>
+            foreach (var item in list)
+            {
+                Model.Roles.Remove(item);
+            }
+        }
+            }
+
+        </table>
+    </div>
+
+
+
+    }
+
+    <script type="text/javascript">
+
+
+        $(function () {
+            var str = $("#RoleID").val() + "";
+            var arr = str.split(',');
+            for (var i = 0; i < arr.length; i++) {
+                $("#" + arr[i]).attr("checked", true);
+            }
+        });
+
+        function userRelations() {
+            var test = $("input[class='che2']:checked");
+            var checkBoxValue = "";
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+            if (checkBoxValue == "") {
+                alert("请任选一项修改");
+                return false;
+            } else {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var url = "/SystemUser/RelationRole";
+                $.post(url, { userID: $("#UserID").val(), roleID: checkBoxValue }, function (data) {
+                    if (data == "1") {
+                        alert("授权成功");        
+                        window.parent.seatch();
+                        close(); 
+                    } else {
+                        alert("错误");
+                    }
+                });
+            
+            }
+        }
+        //全选
+        selectAll("input.qx1", "input.che2");
+    </script>
+</body>
+</html>

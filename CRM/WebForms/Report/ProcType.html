@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>产品类型</title>
+    <script src="js/jsStye.js"></script>
+    <script src="js/jsProcType.js"></script>
+</head>
+<body>
+    <form>
+        <table class="table table-bordered table-condensed">
+            <tr>
+                <td style="width: 100px;">名称</td>
+                <td style="width: 300px"><input type="text" id="txtname" style="width:100%" /></td>
+                <td>
+                    <input type="button" id="btnsave" class="btn btn-primary btn-xs" value="保存" onclick="addType();" />
+
+                </td>
+            </tr>
+        </table>
+        <div id="dvList" style="overflow: auto; width: 100%; height:320px;">
+            <table class="table table-bordered table-hover table-condensed">
+                <thead><tr><th>名称</th><th style="width: 80px;">操作</th></tr></thead>
+                <tbody id="content1"></tbody>
+            </table>
+        </div>
+        <input type="hidden" id="hidedit">
+        <input type="hidden" id="hidstatus">
+    </form>
+</body>
+</html>

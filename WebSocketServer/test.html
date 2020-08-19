@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="jquery-1.12.4.min.js"></script>
+    <script>
+
+        var ws;
+        var url = 'ws://192.168.1.110:1212/';
+        var isShutdown = false;
+        function initeWS(RE_CON) {
+            if (ws) {
+                ws.close();
+            }
+
+            var user = $('#user').val();
+            ws = new WebSocket(url + user +'/'+RE_CON);
+            ws.onopen = function () {
+                $('#msg').text('connecteds');
+                console.log('connected');
+            }
+
+            ws.onmessage = function (evt) {
+                var msg = evt.data.split(' ');
+                if (msg[0] == 'ShutDown') {
+                    isShutdown = true;
+                    ws.close();
+                    alert(msg[1]);
+                }
+            }
+
+            ws.onerror = function (evt) {
+                console.log('error by ' + evt.reason);
+                $('#msg').text('error by ' + evt.reason);
+            }
+
+            ws.onclose = function (evt) {
+                console.log('closed reason by ' + evt.reason);
+                $('#msg').text('closed reason by ' + evt.reason);
+            }
+        }
+
+        $().ready(function () {
+
+            $('#conn').click(function () {
+                isShutdown = false;
+                $('#msg').append('<p>正在连接</p>');
+
+                initeWS();
+                startHeartBeat();
+            });
+
+            $('#close').click(function () {
+                isShutdown = true;
+                ws.close();
+
+            });
+
+            $('#send').click(function () {
+
+                if (ws.readyState == WebSocket.OPEN) {
+
+                    ws.send($("#to").val() + "|" + $('#content').val());
+
+                }
+
+                else {
+
+                    $('#tips').text('连接已经关闭');
+
+                }
+
+            });
+
+            function startHeartBeat() {
+                // 断线重连机制
+                var intel = setInterval(function () {
+                    if (isShutdown == true) {
+                        console.log('stop...');
+                        clearInterval(intel);
+                        return;
+                    }
+                    // 5秒心跳，如果心跳失败重新连接
+                    try {
+                        if (ws.readyState == WebSocket.OPEN) {
+                            ws.send('HEARTBEAT');
+                            console.log('heartbeat');
+                        }
+                        else {
+                            console.log('re connecton');
+                            initeWS('RE_CON');
+                        }
+                    } catch (e) {
+                        console.log('socket reconnection');
+                    }
+                }, 5000);
+            }
+        });
+
+        window.onbeforeunload = function (event) {
+            if (confirm("确定离开此页面吗？")) {
+                if (ws) {
+                    ws.close();
+                }
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <p>
+
+        <input id="user" type="text" />
+
+        <input id="conn" type="button" value="连接" />
+
+        <input id="close" type="button" value="关闭" /><br />
+
+        <span id="tips"></span>
+
+        <input id="content" type="text" />
+
+        <input id="send" type="button" value="发送" /><br />
+
+        <input id="to" type="text" />目的用户
+
+    <p id="msg">
+
+    </p>
+
+    </p>
+
+</body>
+
+</html>

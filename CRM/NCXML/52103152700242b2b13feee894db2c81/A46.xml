@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ufinterface billtype="46" filename="123.xml" isexchange="Y" operation="req" proc="add" receiver="101" replace="Y" roottag="bill" sender="1107">
+  <bill id="WW1901290000001">
+    <bill_head>
+      <cwarehouseid>jlda0000000000000041</cwarehouseid>
+    </bill_head>
+    <bill_body>
+      <item>
+        <cwarehouseid>1001NC100000009A1YD1</cwarehouseid>
+        <taccounttime>2019-01-29 19:01:59</taccounttime>
+        <coperatorid>17384</coperatorid>
+        <ccheckstate_bid>1001NC1000000047Y2UE</ccheckstate_bid>
+        <cworkcenterid>1001NC100000007513FX</cworkcenterid>
+        <dbizdate>2019-01-29</dbizdate>
+        <vbatchcode>WW1901290000001</vbatchcode>
+        <cinvbasid>0001NC100000001A4UC1</cinvbasid>
+        <pk_produce>1001NC10000000AOFI5A</pk_produce>
+        <ninnum>2.816</ninnum>
+        <ninassistnum>2</ninassistnum>
+        <castunitid>jlda0000000000000041</castunitid>
+        <vfree1>40Cr10Si2Mo~协议</vfree1>
+        <vfree2>40Cr10Si2Mo~JSKZ（BX）-015-42</vfree2>
+        <vfree3>D5Z</vfree3>
+        <vfree4>
+        </vfree4>
+        <vfree5>
+        </vfree5>
+        <pk_corp>1001</pk_corp>
+        <gcbm>
+        </gcbm>
+      </item>
+    </bill_body>
+  </bill>
+</ufinterface>

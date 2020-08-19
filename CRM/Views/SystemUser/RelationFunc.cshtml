@@ -1,0 +1,113 @@
+﻿@model NF.Framework.DTO.TS_FUNCTIONDTO
+<!DOCTYPE html>
+
+<html>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+@Html.Partial("~/Views/Shared/_AssetsP.cshtml")
+
+<title>@Model.Title</title>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(x => x.UserID)
+        @Html.HiddenFor(x => x.FunID)
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <ul class="nav nav-pills">
+                    <li style="width:200px;"><strong> 功能权限设置</strong></li>
+
+                    <li><input class="qx1" type="checkbox" name="" value="" /></li>
+                    <li style="width:50px;">全选</li>
+                    <li style="width:100px"> <button id="btnSave" class="btn btn-primary btn-xs  btn_w60" type="button" onclick="userRelations()">保存</button></li>
+                    <li><spn style=" color:red; ">@Html.ValidationMessage("error")</spn></li>
+                </ul>
+            </div>
+            <table class="table table-bordered  table-hover">
+                @{
+                    foreach (var item in Model.MenuFuncs)
+                    {
+                        <tr>
+                            <td>
+                                <input id="@item.C_ID" class="che2" type="checkbox" code="@item.C_CODE" kind="@item.C_TYPE" name="" value="@item.C_ID" />
+                            </td>
+                            <td>
+                                @item.C_NAME
+                            </td>
+                            @if (Model.ButtonFuncs.Where(x => x.C_CODE.Contains(item.C_CODE)) != null)
+                            {
+                                List<NF.Framework.DTO.TS_FUNCTIONDTO> list = Model.ButtonFuncs.Where(x => x.C_CODE.Contains(item.C_CODE)).ToList();
+                                for (int i = 0; i < list.Count; i++)
+                                {
+                                    <td>
+                                        <input id="@list[i].C_ID" class="che2" type="checkbox" code="@list[i].C_CODE" kind="@list[i].C_TYPE" name="" value="@list[i].C_ID" />
+                                    </td>
+                                    <td>
+                                        @list[i].C_NAME
+                                    </td>
+                                }
+                            }
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+                    }
+
+    <script type="text/javascript">
+
+
+        $(function () {
+            var str = $("#FunID").val() + "";
+            var arr = str.split(',');
+            for (var i = 0; i < arr.length; i++) {
+                $("#" + arr[i]).attr("checked", true);
+            }
+
+
+            $("input[class='che2']").change(function () {
+                var kind = $(this).attr("kind");
+                var code = $(this).attr("code");
+                if (kind == 2) {
+                    var newCode = code.substring(0, 5);
+                    $("input[code='" + newCode + "']").attr("checked", true);
+                    var newCode2 = code.substring(0, 2) + "0";
+                    $("input[code='" + newCode2 + "']").attr("checked", true);
+                } else {
+                    var newCode2 = code.substring(0, 2) + "0";
+                    $("input[code='" + newCode2 + "']").attr("checked", true);
+                }
+            });
+        });
+
+        function userRelations() {
+            var test = $("input[class='che2']:checked");
+            var checkBoxValue = "";
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+            if (checkBoxValue == "") {
+                alert("请任选一项修改");
+                return false;
+            } else {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var url = "/SystemUser/RelationUserFunc";
+                $.post(url, { userID: $("#UserID").val(), funcID: checkBoxValue }, function (data) {
+                    if (data == "1") {
+                        alert("授权成功");
+                        window.parent.seatch();
+                        close();
+                    } else {
+                        alert("错误");
+                    }
+                });
+            }
+        }
+        //全选
+        selectAll("input.qx1", "input.che2");
+    </script>
+</body>
+</html>

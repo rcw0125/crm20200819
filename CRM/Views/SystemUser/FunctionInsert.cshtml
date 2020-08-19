@@ -1,0 +1,112 @@
+﻿@model NF.Framework.DTO.TS_FUNCTIONDTO
+@using NF.Web.Core
+<!DOCTYPE html>
+
+<html>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+@Html.Partial("~/Views/Shared/_Assets.cshtml")
+
+<title>@Model.Title</title>
+<body>
+                @using (Html.BeginForm())
+                {
+                    <table class="table table-bordered">
+
+                        <tr>
+                            <td style="width:120px;">权限编码</td>
+                            <td>
+                                @Html.HiddenFor(x => x.C_ID)
+                                @Html.HiddenFor(x => x.C_EMP_ID)
+                                @Html.HiddenFor(x => x.C_EMP_NAME)
+                                @Html.HiddenFor(x => x.D_MOD_DT)
+                                <input type="hidden" id="ResultType" name="ResultType" value="@Model.ResultType" />
+                                @Html.TextBoxFor(x => x.C_CODE, new { style = " width: 50%" })
+                                <span style=" color:red;"> @Html.ValidationMessageFor(x => x.C_CODE)</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>权限名称</td>
+                            <td>
+                                @Html.TextBoxFor(x => x.C_NAME, new { style = " width: 50%" })
+                                <span style=" color:red;"> @Html.ValidationMessageFor(x => x.C_NAME)</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>  控制器编码</td>
+                            <td>
+                                @Html.TextBoxFor(x => x.C_CONTROLLERCODE, new { style = "width: 50%" })
+                                <span style=" color:red;"> @Html.ValidationMessageFor(x => x.C_CONTROLLERCODE)</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td >动作编码</td>
+                            <td>
+                                @Html.TextBoxFor(x => x.C_ACTIONCODE, new { style = "width: 50%" })
+                                <span style=" color:red;"> @Html.ValidationMessageFor(x => x.C_ACTIONCODE)</span>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td >权限类别</td>
+                            <td>
+                                @Html.DropDownDic("C_TYPE", "FuncType", new { style = "width: 50%" })
+                                <span style=" color:red;"> @Html.ValidationMessageFor(x => x.C_TYPE)</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>描述</td>
+                            <td>
+                                @Html.TextBoxFor(x => x.C_DESC, new { style = "width: 50%" })
+                                <span style=" color:red;"> @Html.ValidationMessageFor(x => x.C_DESC)</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td >状态</td>
+                            <td>
+                                @Html.DropDownDic("N_STATUS", "CommonStatus", new { style = "width: 50%" })
+                                <span style=" color:red;"> @Html.ValidationMessageFor(x => x.N_STATUS)</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>
+                                <button id="btnSave" class="btn btn-primary btn-xs" type="submit">保存</button>
+                                <spn style=" color:red; ">@Html.ValidationMessage("error")</spn>
+                            </td>
+                        </tr>
+                    </table>
+                    <script type="text/javascript">
+                        $(function () {
+                            $("#btnSave").click(function () {
+                                $("#ResultType").val(0);
+                            });
+
+                            if ($("#ResultType").val() == "1") {
+                                alert("新增成功");
+                                window.parent.seatch();
+                                close();     
+                            } else if ($("#ResultType").val() == "2") {
+                                alert("修改成功");
+                                window.parent.seatch();
+                                close();     
+                            }
+                        });
+
+
+                        function queryDept(e) {
+                            var url = "/Base/QueryDept";
+                            //url += "&htmlApproveId=" + $(e).prev().attr("id");
+                            //url += "&htmlApproveName=" + $(e).prev().prev().attr("id");
+                            window.open(url, 'newwindow', 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,resizable=yes,status=yes,menubar=no,scrollbars=yes');
+                        }
+                    </script>
+                }
+</body>
+</html>

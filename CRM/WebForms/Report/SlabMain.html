@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>钢坯库查询</title>
+    <script src="js/jsStye.js"></script>
+    <script src="../JsDate.js"></script>
+    <script src="js/jsSlab.js?ver=1.0"></script>
+    <script type="text/javascript">
+        function exportExcel() {
+            $.ajax({
+                type: "Post",
+                url: "/api/ApiOrderGZ/Export",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    window.open("/ExportExcel/" + data.Result);
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            });
+        }
+
+    </script>
+</head>
+<body onresize="fromsize();">
+    <form>
+        <table class="table table-bordered table-condensed">
+            <tr>
+
+                <td>
+                    <input type="text" id="txtmatcode" placeholder="物料编码" />
+                </td>
+
+                <td><input type="text" id="txtstlgrd" placeholder="钢种" /></td>
+
+                <td><input type="text" id="txtspec" placeholder="规格" /></td>
+                <td>仓库编码</td>
+                <td>
+                    <select id="txtslabCK">
+                        <option>592</option>
+                        <option>591</option>
+
+                        <option>593</option>
+                    </select>
+                </td>
+
+                <td>入库时间</td>
+                <td><input type="text" class="form-control Wdate" readonly="readonly" id="txtStart" /></td>
+                <td><input type="text" class="form-control Wdate" readonly="readonly" id="txtEnd" /></td>
+                <td>
+                    <input type="button" class="btn  btn-primary btn-xs" value="查询" onclick="getSlab();" />
+                    &nbsp;<input type="button" class="btn  btn-success btn-xs" value="导出" onclick="exportExcel();" />
+                </td>
+            </tr>
+        </table>
+        <table class="table table-bordered  table-hover table-condensed" data-toggle="table" data-height="450" id="table" style="white-space: nowrap;">
+            <thead>
+                <tr>
+                    <th data-sortable="true">仓库</th>
+                    <th data-sortable="true">批号</th>
+                    <th data-sortable="true">炉号</th>
+                    <th data-sortable="true">物料编码</th>
+                    <th data-sortable="true">物料名称</th>
+                    <th data-sortable="true">钢种</th>
+                    <th data-sortable="true">规格</th>
+                    <th data-sortable="true">长度</th>
+                    <th data-sortable="true">重量(吨)</th>
+                    <th data-sortable="true">支数</th>
+                    <th data-sortable="true">执行标准</th>
+                    <th data-sortable="true">判定等级</th>
+                    <th data-sortable="true">库存状态</th>
+                    <th data-sortable="true">入库时间</th>
+                </tr>
+            </thead>
+            <tbody id="content1"></tbody>
+        </table>
+    </form>
+</body>
+</html>

@@ -1,0 +1,121 @@
+@charset "utf-8";
+/* CSS Document */
+
+body,div,p,span,a,img,ul,ol,li,dl,dt,dd,form,fieldset,legend,input,button,select,textarea,h1,h2,h3,h4,h5,h6 {
+	margin:0;
+	padding:0;
+	outline:none;
+}
+
+body{
+	word-wrap:break-word;
+	/* word-break:break-all; */
+	font-size:12px;
+	font-family:"Microsoft YaHei","\5fae\8f6f\96c5\9ed1", "\5b8b\4f53";
+	position:relative;
+	background:#ffffff;
+}
+
+ul,li {
+	list-style-type:none;
+}
+
+a {
+	text-decoration:none;
+	color:#000000;
+}
+
+
+/* 清除浮动 */
+.clear{
+	clear:both;
+}
+
+
+ div.head{
+	 background-color:#f4f4f4;
+}
+
+/* 居中页面内容 */
+div.main {
+	position:relative;
+	margin:0 auto;
+	text-align:center;
+}
+
+div.main div.main_top{
+	width:900px;
+	position:relative; 
+	margin:30px auto;
+	
+}
+.redlink{color:red; font-size:12px;}
+
+/*-----------------------Login--------------------------------------------*/
+div.main div.main_top div.main_left{
+	float:left;
+	width:508px;
+	height:502px;
+	
+}
+div.main div.main_top div.main_right{
+	float:right;
+	width:357px;
+	height:502px;
+	border:solid 1px #d5dce5; 
+	text-align:left;
+	
+}
+
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+  font-family:"Microsoft YaHei","\5fae\8f6f\96c5\9ed1", "\5b8b\4f53";
+}
+.form-signin .form-signin-heading {
+  font-weight: normal;
+   margin-bottom: 30px;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 14px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="text"] {
+  margin-bottom: -1px;
+
+}
+.form-signin input[type="password"] {
+	margin-top:15px;
+  margin-bottom: 15px;
+}
+.form-signin .findpwd{
+	margin-bottom:10px;
+	margin-top:10px;
+	}
+	.form-signin .findpwd a{
+		margin-right:20px;
+	}
+	
+/*-----------------------END_Login--------------------------------------------*/
+
+/*-----------------------REG--------------------------------------------*/
+
+/*-----------------------END_REG--------------------------------------------*/
+
+
+
+
+
+
+
+

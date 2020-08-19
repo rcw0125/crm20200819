@@ -1,0 +1,49 @@
+﻿@{
+    NF.Framework.DTO.BASEPAGE page = (NF.Framework.DTO.BASEPAGE)HttpContext.Current.Session["Page"];
+}
+<div style="">
+    <ul id="page" class="pagination">
+        <li><a><span aria-hidden="true">上一页</span></a></li>
+        @for (int i = page.PageBegin; i <= page.PageEnd; i++)
+        {
+            if (i == page.PageIndex)
+            {
+                <li class="active"><a>@i </a></li>
+            }
+            else
+            {
+                <li><a>@i </a></li>
+            }
+        }
+        <li><a aria-label="Next"><span aria-hidden="true">下一页</span></a></li>
+    </ul>
+</div>
+<script type="text/javascript">
+    $(function () {
+         var obj_lis = document.getElementById("page").getElementsByTagName("li");
+        for (i = 0; i < obj_lis.length; i++) {
+            obj_lis[i].onclick = function () {
+                var index = $(this.innerHTML).text();
+                if (@page.PageIndex==1 && $(this.innerHTML).text() == "上一页")
+                    return;
+                else if (@page.PageIndex==@page.TotalPageNum&&$(this.innerHTML).text() == "下一页")
+                    return;
+                else if (@page.PageIndex!=1 && $(this.innerHTML).text() == "上一页") {
+                    $("#pageIndex").val(@page.PageIndex - 1);
+                    $("#btn_Search").click();
+                    return;
+                }
+                else if (@page.PageIndex!=@page.TotalPageNum&&$(this.innerHTML).text() == "下一页") {
+                    $("#pageIndex").val(@page.PageIndex + 1);
+                    $("#btn_Search").click();
+                    return;
+                }
+                else
+                    {
+                $("#pageIndex").val(index);
+                $("#btn_Search").click();
+                }
+            }
+         }
+    });
+</script>

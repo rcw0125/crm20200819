@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>质证书打印</title>
+    <script src="js/jsStye.js"></script>
+    <script type="text/javascript" src="http://192.168.2.96:8080/WebReport/ReportServer?op=resource&resource=/com/fr/web/jquery.js"></script>
+    <script type="text/javascript" src="http://192.168.2.96:8080/WebReport/ReportServer?op=emb&resource=finereport.js"></script>
+    <script src="js/jsCQ.js"></script>
+
+</head>
+<body onresize="fromsize();">
+    <form target="_blank">
+        <table class="table table-bordered table-condensed">
+            <tr>
+
+                <td style="width:100px;">发运单号</td>
+                <td style="width:150px;"><input type="text" id="txtsendcode" /></td>
+                <td style="width:100px;">质证书模块</td>
+                <td style="width:120px;">
+                    <select id="selectmb" style="width: 100%"></select>
+                </td>
+                <td style="width:80px;" >钢种</td>
+                <td>
+                    <select style="width: 100%;" id="selectstlgrd" onchange="GetStdCode();"></select>
+                </td>
+                <td style="width:80px;">执行标准</td>
+                <td>
+                    <select style="width: 100%" id="selectstdcode"></select>
+                </td>
+                <td>
+                    <input type="button" id="btncx" class="btn btn-primary btn-xs" value="查询" onclick="getInfo();" />&nbsp;
+                
+                    <input type="button" id="btnprint" class="btn btn-primary btn-xs" value="预览打印" onclick="_check();" />
+                </td>
+            </tr>
+        </table>
+        <table class="table table-bordered table-condensed">
+            <tr>
+
+                <td style="width:100px;">签证人</td>
+                <td style="width:150px;"><input id="txtqzr" type="text" disabled="disabled" /></td>
+                <td style=" width:100px">备注</td>
+                <td><textarea style="width: 100%;" id="txtbz"></textarea></td>
+            </tr>
+        </table>
+        <table class="table table-bordered table-condensed">
+
+            <tr>
+                <td style="vertical-align:top; ">
+                    <table class="table table-bordered table-condensed table-hover">
+                        <thead>
+                            <tr>
+                                <th>出库单</th>
+                                <th>发运单号</th>
+                                <th>批号/炉号</th>
+                                <th>件数</th>
+                                <th>出库重量</th>
+                                <th>钢种</th>
+                                <th>规格</th>
+                                <th>执行标准</th>
+                                <th>质量等级</th>
+                            </tr>
+                        </thead>
+                        <tbody id="content1"></tbody>
+                    </table>
+                </td>
+                <td style="vertical-align:top; width: 350px;">
+                    <div id="dvcfxn" style="overflow: auto; width: 100%">
+                        <table class="table table-bordered table-condensed table-hover">
+                            <thead>
+                                <tr>
+                                    <th>项目名称</th>
+                                    <th>项目值</th>
+                                </tr>
+                            </thead>
+                            <tbody id="content2">
+                               
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <input id="hidtype" type="hidden" />
+    </form>
+</body>
+</html>

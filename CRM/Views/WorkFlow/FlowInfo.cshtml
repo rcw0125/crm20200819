@@ -1,0 +1,112 @@
+﻿@model NF.Framework.DTO.TMB_FLOWINFODTO
+@using NF.Web.Core;
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../Assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../Assets/css/common.css" rel="stylesheet" />
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+    <title>@Model.Title</title>
+</head>
+<body>
+    @Html.Partial("~/Views/Shared/_Button.cshtml")
+    <div style="height:30px;"></div>
+    @*<button id="btn_Search" type="submit" style="display:none;">查询</button>*@
+
+    @using (Html.BeginForm())
+    {
+        <table class="table table-bordered" style="white-space: nowrap;">
+            <tr>
+                <td style="width:80px;">
+                    流程类型
+                </td >
+                <td style="width:120px;">
+                    @Html.DropDownDic("N_TYPE", "FlowType", "请选择", new { style = "width:120px;" })
+                </td>
+                <td>
+                    <button id="btn_Search" type="submit"class="btn btn-primary btn-xs btn_w60">查询</button>
+                </td>
+            </tr>
+        </table>
+    }
+    <table class="table table-bordered table-hover" style="white-space: nowrap;">
+        <thead>
+            <tr>
+                <th> </th>
+                <th>流程名称</th>
+                <th>说明</th>
+                <th>类型</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var f in Model.FlowInfos)
+                {
+                    <tr>
+                        <td style=" text-align:center;"><input class="che2" type="radio" name="0" value="@f.C_ID" /></td>
+                        <td>@f.C_NAME</td>
+                        <td>@f.C_DESC</td>
+                        <td> @Html.DetailName(f.N_TYPE == null ? "0" : f.N_TYPE.ToString(), "FlowType")</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <script src="../Assets/js/jquery-2.0.3.min.js"></script>
+    <script src="../Assets/js/common.js"></script>
+    <script type="text/javascript">
+
+        //全选
+        selectAll("input.qx1", "input.che2");
+
+        function add() {
+            _iframe('/WorkFlow/FlowInfoInsert', '800', '600', '新增');
+        }
+        function editMsg() {
+            var test = $("input[class='che2']:checked");
+            var checkBoxValue = "";
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+            if (checkBoxValue == "") {
+                alert("请任选一项修改");
+                return false;
+            } else {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var arr = checkBoxValue.split(',');
+                if (arr.length > 1) {
+                    alert("请任选一项修改");
+                    return false;
+                } else {
+                    _iframe('/WorkFlow/FlowInfoUpdate?id=' + arr[0], '800', '600', '修改');
+                }
+            }
+        }
+        function delMsg() {
+            var r = confirm("是否确认删除");
+            if (r) {
+                var test = $("input[class='che2']:checked");
+                var checkBoxValue = "";
+                test.each(function () {
+                    checkBoxValue += $(this).val() + ",";
+                });
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var data = { ids: checkBoxValue };
+                $.post("/WorkFlow/FlowInfoDel", data, function (result) {
+                    if (result == 1)
+                        alert("删除成功");
+                    $("#btn_Search").click();
+                });
+            }
+        }
+
+
+        function seatch() {
+            $("#btn_Search").click();
+        }
+    </script>
+</body>
+</html>

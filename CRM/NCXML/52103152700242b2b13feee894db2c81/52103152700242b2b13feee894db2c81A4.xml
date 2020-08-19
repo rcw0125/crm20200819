@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ufinterface billtype="AM" filename=".xml" isexchange="Y" operation="req" proc="add" receiver="101" replace="Y" roottag="bill" sender="1107">
+  <bill id="WW1901290000001">
+    <bill_head>
+      <zdrid>17384</zdrid>
+      <rq>2019-01-29</rq>
+      <sj>19:01:59</sj>
+      <gzzxbmid>200211</gzzxbmid>
+      <scbmid>1001NC100000007TNL0J</scbmid>
+    </bill_head>
+    <bill_body>
+      <item>
+        <pch>WW1901290000001</pch>
+        <scddh>
+        </scddh>
+        <wlbmid>0001NC100000001A4UC1</wlbmid>
+        <jldwid>jlda0000000000000012</jldwid>
+        <gzzxid>1001NC100000007513FX</gzzxid>
+        <ccxh>WW1901290000001</ccxh>
+        <gxh>
+        </gxh>
+        <pk_produce>1001NC10000000AOFI5A</pk_produce>
+        <ksrq>2019-01-29</ksrq>
+        <kssj>19:01:59</kssj>
+        <jsrq>2019-01-29</jsrq>
+        <jssj>19:01:59</jssj>
+        <hgsl>2.816</hgsl>
+        <fhgsl>2</fhgsl>
+        <sflfcp>N</sflfcp>
+        <sffsgp>N</sffsgp>
+        <zdy1>
+        </zdy1>
+        <zdy2>
+        </zdy2>
+        <zdy3>
+        </zdy3>
+        <zdy4>
+        </zdy4>
+        <zdy5>
+        </zdy5>
+        <freeitemvalue1>40Cr10Si2Mo~协议</freeitemvalue1>
+        <freeitemvalue2>40Cr10Si2Mo~JSKZ（BX）-015-42</freeitemvalue2>
+        <freeitemvalue3>D5Z</freeitemvalue3>
+        <freeitemvalue4>
+        </freeitemvalue4>
+        <freeitemvalue5>
+        </freeitemvalue5>
+        <pk_corp>
+        </pk_corp>
+        <gcbm>
+        </gcbm>
+      </item>
+    </bill_body>
+  </bill>
+</ufinterface>

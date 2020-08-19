@@ -1,0 +1,24 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>确认登录</title>
+</head>
+<body>
+    <div>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    if (confirm('该用户已在线，是否强制登录?')) {
+        window.location.href = '/Home/Index';
+    } else {
+        window.location.href = '/Auth/LogOut';
+    }
+</script>

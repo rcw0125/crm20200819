@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>报表查询</title>
+
+    <script src="js/jsStye.js"></script>
+
+    <script src="js/jsOrderTrace.js"></script>
+
+</head>
+<body>
+    <table class="table table-bordered">
+        <tr>
+            <td>
+                <div class="panel panel-default">
+                    <div class="panel-heading">销售出库/发运报表查询</div>
+
+                    <ul class="list-group">
+                        <li class="list-group-item"> <a href="http://192.168.2.93:8685/webroot/decision/view/report?viewlet=xgcap/cpt_fy_planday.cpt&bypagesize=false" target="_blank">发运指标日报表</a></li>
+
+                        <li class="list-group-item"> <a href="http://192.168.2.93:8685/webroot/decision/view/report?viewlet=xgcap/cpt_xsrck.cpt&bypagesize=false" target="_blank">销售出库日报表</a></li>
+                        <li class="list-group-item"> <a href="http://192.168.2.93:8685/webroot/decision/view/report?viewlet=xgcap/cpt_xsckhz.cpt&bypagesize=false" target="_blank">销售出库汇总表</a></li>
+
+                        <li class="list-group-item"> <a href="http://192.168.2.93:8685/webroot/decision/view/report?viewlet=xgcap/cpt_prod_sale.cpt&bypagesize=false" target="_blank">产、销量日报表</a></li>
+                        <li class="list-group-item"> <a href="http://192.168.2.93:8685/webroot/decision/view/report?viewlet=xgcap/cpt_ckyj.cpt&bypagesize=false" target="_blank">出库预警日报表</a></li>
+                        <li class="list-group-item"><a href="roll_prodcut_excel.aspx" target="_blank">线材库存</a></li>
+
+                        <li class="list-group-item"> <a href="http://192.168.2.93:8685/webroot/decision/view/report?viewlet=xgcap/cpt_qd_fx2.cpt&bypagesize=false" target="_blank">签单指标报表</a></li>
+                        <li class="list-group-item"> <a href="http://192.168.2.93:8685/webroot/decision/view/report?viewlet=xgcap/cpt_con_dlx.cpt&bypagesize=false" target="_blank">合同待履汇总表</a></li>
+                        <li class="list-group-item"> <a href="http://192.168.2.93:8685/webroot/decision/view/report?viewlet=xgcap/cpt_zhiliang.cpt&bypagesize=false" target="_blank">质量问题反馈报表</a></li>
+                        <li class="list-group-item"> <a href="http://192.168.2.93:8685/webroot/decision/view/report?viewlet=xgcap/crm_Book1.cpt&bypagesize=false" target="_blank">客户档案报表</a></li>
+
+                        <li class="list-group-item"> <a href="http://192.168.2.93:8685/webroot/decision/view/report?viewlet=xgcap/cpt_conbook.cpt&bypagesize=false" target="_blank">合同台账报表</a></li>
+                        <li class="list-group-item"> <a href="http://192.168.2.93:8685/webroot/decision/view/report?viewlet=xgcap/cpt_conbook_fx.cpt&bypagesize=false" target="_blank">合同台账分析报表</a></li>
+                    </ul>
+                </div>
+            </td>
+            <td>
+                <div class="panel panel-default">
+                    <div class="panel-heading">计划排产报表查询</div>
+                    <ul class="list-group">
+                        <li class="list-group-item"> <a href="http://192.168.2.93:8685/webroot/decision/view/report?viewlet=xgcap/cpt_pc_zb.cpt&bypagesize=false" target="_blank">排产指标查询</a></li>
+
+                        <li class="list-group-item"> <a href="http://192.168.2.93:8685/webroot/decision/view/report?viewlet=xgcap/cpt_order_plan.cpt&bypagesize=false" target="_blank">区域需求/下达订单/订单生产报表</a></li>
+
+                        <li class="list-group-item"> <a href="http://192.168.2.93:8685/webroot/decision/view/report?viewlet=xgcap/cpt_pc_zt.cpt&bypagesize=false" target="_blank">在途订单报表</a></li>
+                        <li class="list-group-item"> <a href="http://192.168.2.93:8685/webroot/decision/view/report?viewlet=xgcap/cpt_zytpfx.cpt&bypagesize=false" target="_blank">资源调配分析报表</a></li>
+
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="panel panel-default">
+                    <div class="panel-heading">性能/成分报表</div>
+
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <a href="http://192.168.2.93:8685/webroot/decision/view/report?viewlet=xgcap/GPCF.cpt&__bypagesize__=false
+" target="_blank">钢坯性能成分报表查询</a>
+                        </li>
+
+
+                    </ul>
+                </div>
+            </td>
+            <td>
+                <div class="panel panel-default">
+                    <div class="panel-heading">火运计划报表</div>
+
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <a href="http://192.168.2.93:8685/webroot/decision/view/report?viewlet=xgcap/cpt_train.cpt
+" target="_blank">火运计划(内/外)申请</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="javascript:void(0);"onclick="AddTrainLog();">火运日计划报表</a>
+
+                        </li>
+                        <li class="list-group-item">
+                            <a href="http://192.168.2.93:8685/webroot/decision/view/report?viewlet=xgcap/cpt_train_day_QY.cpt
+" target="_blank">汽运日计划报表</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="http://192.168.2.93:8685/webroot/decision/view/report?viewlet=xgcap/cpt_train_plan.cpt
+" target="_blank">火运计划号</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="http://192.168.2.93:8685/webroot/decision/view/report?viewlet=xgcap/cpt_train_exprot_log.cpt
+" target="_blank">火运日计划报表查看日志</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>

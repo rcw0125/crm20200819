@@ -1,0 +1,231 @@
+﻿@model NF.Framework.DTO.TMQ_QUALITY_MAINDTO
+@using NF.Web.Core
+<!DOCTYPE html>
+
+<html>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<script src="~/Assets/js/My97DatePicker/WdatePicker.js"></script>
+@Html.Partial("~/Views/Shared/_Assets.cshtml")
+
+<title>@Model.Title</title>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(x => x.C_QUEST_ID)
+        @Html.HiddenFor(x => x.C_PROD_KIND_ID)
+        @Html.HiddenFor(x => x.C_SHIPVIA)
+        @Html.HiddenFor(x => x.N_PARENT_REMAIN_WGT)
+        @Html.HiddenFor(x => x.N_MIDDLE_REMAIN_WGT)
+        @Html.HiddenFor(x => x.N_STATUS)
+        @Html.HiddenFor(x => x.N_FLAG)
+        @Html.HiddenFor(x => x.D_SHIP_END_DT)
+        @Html.HiddenFor(x => x.D_SHIP_START_DT)
+        @Html.HiddenFor(x => x.N_ORDERTYPE)
+        @Html.HiddenFor(x => x.C_AREA)
+        @Html.HiddenFor(x => x.C_AREA_NAME)
+        <input type="hidden" id="OperationType" name="OperationType" value="@Model.OperationType" />
+        <input type="hidden" id="IsOperation" name="IsOperation" value="@Model.IsOperation" />
+        <input type="hidden" id="ResultType" name="ResultType" value="@Model.ResultType" />
+        <input type="hidden" id="C_ID" name="C_ID" value="@Model.C_ID" />
+        <table class="table table-bordered table-condensed">
+            <tr>
+                <td style="width:100px;">
+                    客户
+                </td>
+                <td>
+                    <input type="text" disabled="disabled" value="@Model.C_CUST_NAME" />
+                    <input type="hidden" id="C_CUST_NAME" name="C_CUST_NAME" value="@Model.C_CUST_NAME" />
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.C_CUST_NAME)</span>
+                </td>
+
+                <td>
+                    客户类型
+                </td>
+                <td colspan="3">
+                    @Html.DetailName(Model.C_CUST_TYPE == null ? "1" : Model.C_CUST_TYPE, "CustType")
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.C_CUST_TYPE)</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    联系人
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.C_NAME, new { })
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.C_NAME)</span>
+                </td>
+                <td>
+                    联系电话
+                </td>
+                <td colspan="3">
+                    @Html.TextBoxFor(x => x.C_TEL, new { })
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.C_TEL)</span>
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    原始盘条样
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.N_PARENT_QUA, new { maxlength = "8", @class = "numJe" })
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.N_PARENT_QUA)</span>
+                </td>
+                <td>
+                    中间产品样
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.N_MIDDLE_QUA, new { maxlength = "8", @class = "numJe" })
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.N_MIDDLE_QUA)</span>
+                </td>
+                <td>
+                    问题产品样
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.N_QUEST_QUA, new { maxlength = "8", @class = "numJe" })
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.N_QUEST_QUA)</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    生产工艺
+                </td>
+                <td colspan="5">
+                    @Html.TextAreaFor(x => x.C_TECH_DESC, new { style = " width:100%" })
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.C_TECH_DESC)</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    信息内容
+                </td>
+                <td colspan="5">
+                    @Html.TextAreaFor(x => x.C_SITE_SURVEY_CONTENT, new { style = " width:100%" })
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.C_SITE_SURVEY_CONTENT)</span>
+                </td>
+            </tr>
+
+
+        </table>
+
+        <table class="table table-bordered table-condensed">
+            <tr>
+                <td style="width:80px"> 批号</td>
+                <td style="width:120px">
+                    @Html.TextBoxFor(x => x.BatchNO, new { maxlength = "9" })
+                    @* <input type="text" disabled="disabled" value="@Model.C_CUST_NAME" />
+                                               <input type="hidden" id="C_CUST_NAME" name="C_CUST_NAME" value="@Model.C_CUST_NAME" />
+                        <span style=" color:red;">   @Html.ValidationMessageFor(x => x.C_CUST_NAME)</span>*@
+                </td>
+                <td style="width:80px">  类型</td>
+                <td style="width:125px">@Html.DropDownDic("OrderType", "OrderType", new { style = "width:120px;" })</td>
+                <td style="width:65px;"><button id="insert" class="btn btn-primary btn-xs btn-w60" type="button">查询</button></td>
+                <td>
+                    <button id="save" class="btn btn-primary btn-xs" type="submit" style="display:none;">保存</button>&nbsp;&nbsp;
+                    <button id="btnSave" class="btn btn-primary btn-xs" type="button">保存</button>&nbsp;&nbsp;
+                    <input type="button" name="Submit" class="btn btn-warning btn-xs" onclick="javascript:history.back(-1);" value="返回">
+                    <spn style=" color:red; ">@Html.ValidationMessage("error")</spn>
+                </td>
+            </tr>
+        </table>
+
+                    <table class="table table-bordered table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th>牌号</th>
+                                <th>规格</th>
+                                <th>批号</th>
+                                <th>数量</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                if (Model != null && Model.QualityStlGrds != null && Model.QualityStlGrds.Count > 0)
+                                {
+                                    for (int i = 0; i < Model.QualityStlGrds.Count; i++)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <input type="text" disabled="disabled" value="@Model.QualityStlGrds[i].C_STL_GRD" />
+                                                @Html.HiddenFor(x => x.QualityStlGrds[i].C_STL_GRD, new { name = Model.QualityStlGrds[i].C_STL_GRD })
+                                                @Html.ValidationMessageFor(x => x.QualityStlGrds[i].C_STL_GRD, "", new { style = "color:red;" })
+                                            </td>
+                                            <td>
+                                                φ <input type="text" disabled="disabled" style="width:60px;" value="@Model.QualityStlGrds[i].C_SPEC" /> mm
+                                                @Html.HiddenFor(x => x.QualityStlGrds[i].C_SPEC, new { name = Model.QualityStlGrds[i].C_SPEC })
+                                                @Html.ValidationMessageFor(x => x.QualityStlGrds[i].C_SPEC, "", new { style = "color:red;" })
+                                            </td>
+                                            <td>
+                                                <input type="text" disabled="disabled" value="@Model.QualityStlGrds[i].C_BATCH_NO" />
+                                                @Html.HiddenFor(x => x.QualityStlGrds[i].C_BATCH_NO, new { name = Model.QualityStlGrds[i].C_BATCH_NO })
+                                                @Html.ValidationMessageFor(x => x.QualityStlGrds[i].C_BATCH_NO, "", new { style = "color:red;" })
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(x => x.QualityStlGrds[i].N_WGT, new { name = Model.QualityStlGrds[i].N_WGT })
+                                                @Html.ValidationMessageFor(x => x.QualityStlGrds[i].N_WGT, "", new { style = "color:red;" })
+                                            </td>
+
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+
+                                        }
+    <script type="text/javascript">
+        $(function () {
+
+            //添加成功
+            if ($("#ResultType").val() == "1") {
+                alert("保存成功");
+
+                var url = "/Quality/Quality";
+                if ($("#IsOperation").val() == "1")
+                    url = "/Quality/QualityManage";
+                //window.location = url;
+                window.open(url, '_self', 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,resizable=yes,status=yes,menubar=no,scrollbars=yes');
+            }
+
+
+            $("#btnSave").click(function () {
+             //操作状态 1 保存 2获取明细
+                $("#OperationType").val(1);
+                //路径
+                $("form").attr("action", "/Quality/QualityObjection");
+                //区分修改和新增 1修改 0新增 对应不同action
+                var execType =@Model.ExecType;
+                if (execType == 1) {
+                    $("form").attr("action", "/Quality/QualityUpdate");
+                }
+                //质量异议类型0 质量异议 1客户反馈
+                $("#N_FLAG").val(1);
+                $("#save").click();
+            });
+
+            $("#insert").click(function () {
+
+                var type =@Model.OperationType;
+                if (type != 3) {
+                    $("form").attr("action", "/Quality/QualityObjection");
+                }
+              //区分修改和新增 1修改 0新增 对应不同action
+                var execType =@Model.ExecType;
+                if (execType == 1) {
+                    $("form").attr("action", "/Quality/QualityUpdate");
+                }
+                 //质量异议类型0 质量异议 1客户反馈
+                $("#N_FLAG").val(1);
+                //操作状态 1 保存 2获取明细 3路径不变
+                $("#OperationType").val(2);
+                $("#save").click();
+            });
+        });
+
+    </script>
+</body>
+</html>

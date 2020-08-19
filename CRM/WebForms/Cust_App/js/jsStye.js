@@ -1,0 +1,14 @@
+﻿document.write('<link href="../../Assets/css/bootstrap.min.css" rel="stylesheet" />');
+document.write('<link href="../../Assets/css/common.css" rel="stylesheet" />');
+document.write('<link href="../../Assets/css/common.css" rel="stylesheet" />');
+document.write('<link href="../../Assets/css/bootstrap-datetimepicker.css" rel="stylesheet" />');
+document.write('<link href="css/zeroModal.css" rel="stylesheet" />');
+document.write('<script src="../../Assets/js/My97DatePicker/WdatePicker.js"></script>');
+document.write('<script src="../../Assets/js/jquery-2.0.3.min.js"></script>');
+document.write('<script src="../../Assets/js/bootstrap.min.js"></script>');
+document.write('<script src="../../Assets/js/common.js"></script>');
+document.write('<script src="../../Assets/js/bootstrap-datetimepicker.min.js"></script>');
+document.write('<script src="../../Assets/js/bootstrap-datetimepicker.zh-CN.js"></script>');
+document.write('<script src="js/zeroModal.js"></script>');
+document.write('<script src="js/zeroModal.min.js"></script>');
+document.write('<script src="../../Assets/js/_zero.js"></script>');

@@ -1,0 +1,135 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>质证书打印</title>
+    <script src="../../Assets/js/jquery-2.0.3.min.js"></script>
+    <script src="../../Assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://192.168.2.96:8080/WebReport/ReportServer?op=resource&resource=/com/fr/web/jquery.js"></script>
+    <script type="text/javascript" src="http://192.168.2.96:8080/WebReport/ReportServer?op=emb&resource=finereport.js"></script>
+
+    <script src="js/jsCQ.js"></script>
+    <style type="text/css">
+        body {
+            margin-left: 3px;
+            margin-top: 0px;
+            margin-right: 3px;
+            margin-bottom: 0px;
+        }
+
+        .btn {
+            BORDER-RIGHT: #7b9ebd 1px solid;
+            PADDING-RIGHT: 2px;
+            BORDER-TOP: #7b9ebd 1px solid;
+            PADDING-LEFT: 2px;
+            FONT-SIZE: 12px;
+            FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#ffffff, EndColorStr=#cecfde);
+            BORDER-LEFT: #7b9ebd 1px solid;
+            CURSOR: hand;
+            COLOR: black;
+            PADDING-TOP: 2px;
+            BORDER-BOTTOM: #7b9ebd 1px solid
+        }
+
+        /*--------------table１样式----------------------------*/
+
+        .tb1 {
+            background-color: #a8c7ce;
+        }
+
+        .mytr1 td {
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+            color: #000000;
+            background-color: #d3eaef;
+        }
+
+        .mytr2 td {
+            height: 30px;
+            line-height: 30px;
+            font-size: 12px;
+            color: #344b50;
+            background-color: #FFFFFF;
+            text-align: center;
+        }
+    </style>
+
+</head>
+<body onresize="fromsize();">
+    <form target="_blank">
+        <table cellpadding="0" cellspacing="0" style="font-size: 14px;
+                                font-family: 微软雅黑; width:100%; border:solid 1px #cccccc">
+            <tr style="height:35px;">
+
+                <td style="width:100px; text-align:center">发运单号</td>
+                <td style="width:150px; text-align:center"><input type="text" id="txtsendcode" /></td>
+                <td style="width:100px; text-align:center">质证书模块</td>
+                <td style="width:120px; text-align:center">
+                    <select id="selectmb" style="width: 100%"></select>
+                </td>
+                <td style="width:80px; text-align:center">钢种</td>
+                <td>
+                    <select style="width: 100%;" id="selectstlgrd" onchange="GetStdCode();"></select>
+                </td>
+                <td style="width:80px; text-align:center">执行标准</td>
+                <td>
+                    <select style="width: 100%" id="selectstdcode"></select>
+                </td>
+                <td style=" padding-left:10px;">
+                    <input type="button" id="btncx" class="btn" style=" height:22px; width:60px;" value="查询" onclick="getInfo();" />&nbsp;
+                    <input type="button" id="btnprint" class="btn" value="预览打印" onclick="_print();" />
+                </td>
+            </tr>
+        </table>
+        <table style="width:100%; border:solid 1px #cccccc">
+            <tr>
+
+                <td style="width:100px; text-align:center">签证人</td>
+                <td style="width:150px;"><input id="txtqzr" type="text" /></td>
+                <td style=" width:100px; text-align:center">备注</td>
+                <td><textarea style="width: 100%;" id="txtbz"></textarea></td>
+            </tr>
+        </table>
+        <table style="width:100%">
+            <tr>
+                <td style="vertical-align:top;">
+                    <table border="0" cellpadding="0" cellspacing="1" style="width: 100%;" class="tb1">
+                        <thead>
+                            <tr class="mytr1">
+                                <td>发运单号</td>
+                                <td>批号/炉号</td>
+                                <td>件数</td>
+                                <td>出库重量</td>
+                                <td>钢种</td>
+                                <td>规格</td>
+                                <td>执行标准</td>
+                                <td>质量等级</td>
+                            </tr>
+                        </thead>
+                        <tbody id="content1"></tbody>
+                    </table>
+                </td>
+                <td style="vertical-align:top; width: 350px;">
+                    <div id="dvcfxn" style="overflow: auto; width: 100%">
+                        <table style="width:100%; border:solid 1px #cccccc">
+                            <thead>
+                                <tr style=" height:30px;">
+                                    <th>项目名称</th>
+                                    <th>项目值</th>
+
+                                </tr>
+                            </thead>
+                            <tbody id="content2"></tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <input id="hidtype" type="hidden" />
+    </form>
+</body>
+</html>

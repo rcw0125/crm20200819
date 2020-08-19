@@ -1,0 +1,242 @@
+﻿@model NF.Framework.DTO.TMD_DISPATCHDTO
+@using NF.Web.Core
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>发运单</title>
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+</head>
+<body>
+    <div>@Html.Partial("~/Views/Shared/_Button.cshtml")</div>
+
+    @using (Html.BeginForm())
+    {
+        <table class="table table-bordered">
+            <tr>
+                <td style="width:50px; text-align:right">日期</td>
+                @{
+                    string start = Model.Start == DateTime.MinValue ? "" : Model.Start.ToString("yyyy-MM-dd");
+                    string end = Model.End == DateTime.MinValue ? "" : Model.End.ToString("yyyy-MM-dd");
+                }
+                <td style="width:125px;">
+                    <input id="txt_Start" name="Start" type="text" style=" width:120px;" class="Wdate" readonly="readonly" value="@start" onclick="WdatePicker({isShowClear:false,readOnly:true,maxDate:'#F{$dp.$D(\'txt_End\')}'})" />
+                </td>
+                <td style="width:125px;">
+                    <input id="txt_End" name="End" type="text" style=" width:120px;" class="Wdate" readonly="readonly" value="@end" onclick="WdatePicker({isShowClear:false,readOnly:true,minDate:'#F{$dp.$D(\'txt_Start\')}'})" />
+                </td>
+                <td style="width:80px">发运单号</td>
+                <td style="width:120px">
+                    @Html.TextBoxFor(x => x.C_ID, new { style = "width:120px;" })
+                    <input type="hidden" id="pageIndex" name="BasePage.PageIndex" />
+                </td>
+                <td style="width:80px">合同号</td>
+                <td style="width:120px">
+                    @Html.TextBoxFor(x => x.C_CON_NO, new { style = "width:120px;" })
+                </td>
+                <td style="width:80px">车牌号</td>
+                <td style="width:120px">
+                    @Html.TextBoxFor(x => x.C_LIC_PLA_NO, new { style = "width:120px;" })
+                </td>
+                <td style="width:80px">发运单状态</td>
+                <td style="width:120px">
+                    @Html.DropDownDic("C_STATUS", "DispatchStatus", "-请选择-",new { style = "width:120px;" })
+                </td>
+                <td>
+                    <button id="btn_Search" type="submit" class="btn btn-primary btn-xs btn_w60">查询</button>
+                </td>
+            </tr>
+        </table>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>发运单号</th>
+                    <th>合同号</th>
+                    <th>发运日期</th>
+                    <th>发运方式</th>
+                    <th>制单人</th>
+                    <th>车牌号</th>
+                    <th>发运单状态</th>
+                    <th>GPS设备号</th>
+                    <th>是否线材销售</th>
+                    <th>操作记录</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    if (Model != null && Model.Dispatchs != null && Model.Dispatchs.Count > 0)
+                    {
+                        foreach (var item in Model.Dispatchs)
+                        {
+                            <tr>
+                                <td><a href="/Dispatch/DispatchUpdate?id=@item.C_ID">@item.C_ID</a></td>
+                                <td>@Html.GetDispatchNo(item.C_ID)</td>
+                                <td>@DateTime.Parse(item.D_DISP_DT.ToString()).ToString("yyyy-MM-dd")</td>
+                                <td>@Html.DetailName(item.C_SHIPVIA, "ShipVia")</td>
+                                <td>@Html.GetGenerName(item.C_CREATE_ID, "C_NAME", "User")</td>
+                                <td>@item.C_LIC_PLA_NO</td>
+                                <td>@Html.DetailName(item.C_STATUS, "DispatchStatus")</td>
+                                <td>@item.C_GPS_NO</td>
+                                <td>@item.C_IS_WIRESALE</td>
+                                <td><a href="/Dispatch/DispatchLogQuery?no=@item.C_ID" target="_blank">查看</a></td>
+                                <td style="display:none;" class="hidStatus">@item.C_STATUS</td>
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+        @Html.Partial("~/Views/Shared/_Paging.cshtml")
+                    }
+    <script type="text/javascript">
+
+        function imports() {
+            if (confirm('确定导入条码吗？')) {
+                var test = $("input[class='che3']:checked");
+                var status = test.parents().parents().first().children(".hidStatus").text();
+                var checkBoxValue = "";
+                test.each(function () {
+                    checkBoxValue += $(this).val() + ",";
+                });
+
+                if (status != "2") {
+                    alert("请选择导入NC状态的发运单导入");
+                    return false;
+                } else {
+                    checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                    var url = "/Dispatch/Imports?no=" + checkBoxValue + "&planID=" + $("#no").val();
+                    $.get(url, function (date) {
+                        alert("导入" + date + "条");
+                        $("#btn_Search").click();
+                    });
+                }
+            }
+        }
+
+        //导入NC
+        function takeEffect() {
+            if (confirm('确定导入NC吗？')) {
+                var test = $("input[class='che3']:checked");
+                var status = test.parents().parents().first().children(".hidStatus").text();
+
+                var checkBoxValue = "";
+                test.each(function () {
+                    checkBoxValue += $(this).val() + ",";
+                });
+
+                if (status != "1" && status != "0") {
+                    alert("请选择金额不足、自由状态发运单导入");
+                    return false;
+                } else {
+                    checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                    $.get("/Dispatch/TakeEffect?no=" + checkBoxValue, function (re) {
+                        alert(re);
+                        $("#btn_Search").click();
+                    });
+                }
+            }
+        }
+
+        function logistics() {
+            if (confirm('确定导入物流吗？')) {
+                var test = $("input[class='che3']:checked");
+                var status = test.parents().parents().first().children(".hidStatus").text();
+
+                var checkBoxValue = "";
+                test.each(function () {
+                    checkBoxValue += $(this).val() + ",";
+                });
+
+                if (status != "3") {
+                    alert("请选择导入条码状态的发运单导入");
+                    return false;
+                } else {
+                    checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                    $.get("/Dispatch/ImportLg?no=" + checkBoxValue, function (re) {
+                        alert(re);
+                        $("#btn_Search").click();
+                    });
+                }
+            }
+        }
+
+        //删除
+        function backOut() {
+            var test = $("input[class='che3']:checked");
+            var checkBoxValue = "";
+
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+
+            if (checkBoxValue == "") {
+                alert("请任选一项");
+                return false;
+            }
+
+            if (confirm('确定删除吗？')) {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                $.get("/Dispatch/BackOut?no=" + checkBoxValue, function (re) {
+                    alert(re);
+                    $("#btn_Search").click();
+                });
+            }
+        }
+
+        //失效
+        function failure() {
+            var test = $("input[class='che3']:checked");
+            var checkBoxValue = "";
+
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+
+            if (checkBoxValue == "") {
+                alert("请任选一项");
+                return false;
+            }
+
+            if (confirm('确定失效吗？')) {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                $.get("/Dispatch/Failure?no=" + checkBoxValue, function (re) {
+                    alert(re);
+                    $("#btn_Search").click();
+                });
+            }
+        }
+
+        //修改
+        function editMsg() {
+            var test = $("input[class='che3']:checked");
+            var status = test.parents().parents().first().children(".hidStatus").text();
+            if (status == "5" && status == "6") {
+                alert("无法进行修改，发运单状态无效");
+                return false;
+            }
+            var checkBoxValue = "";
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+            if (checkBoxValue == "") {
+                alert("请任选一项修改");
+                return false;
+            } else {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var arr = checkBoxValue.split(',');
+                if (arr.length > 1) {
+                    alert("请任选一项修改");
+                    return false;
+                } else {
+                    var obj = new Object();
+                    obj.id = arr[0];
+                    var url = "/Dispatch/DispatchUpdate?id=" + obj.id;
+                    window.open(url, '_self', 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,resizable=yes,status=yes,menubar=no,scrollbars=yes');
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

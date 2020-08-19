@@ -1,0 +1,130 @@
+﻿
+@{
+    Layout = null;
+
+    var list = ViewBag.ProductData as List<NF.MODEL.Mod_TRC_ROLL_WW_MAIN> ?? new List<NF.MODEL.Mod_TRC_ROLL_WW_MAIN>();
+
+    CRM.Controllers.PlanSearchCondition viewModel = Model as CRM.Controllers.PlanSearchCondition ?? new CRM.Controllers.PlanSearchCondition();
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>组批记录</title>
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+</head>
+<body>
+    @using (Html.BeginForm("CancelZP", "Outsourcing"))
+    {
+        <table class="table table-bordered table-condensed" style="margin-top: 5px;">
+
+            <tr>
+                <td>撤销支数</td>
+                <td>
+                    <input id="txt_count" name="Num" type="number" value="@viewModel.Gz" style="width: 100%" />
+                </td>
+                @*<td>班次</td>
+                    <td>
+                        <input id="txtDate" name="BC" type="text" value="@viewModel.Zxbz" style="width: 100%" />
+                    </td>
+                    <td>班组</td>
+                    <td>
+                        <input id="Text1" name="BZ" type="text" value="@viewModel.Gg" style="width: 100%" />
+                    </td>*@
+
+                <td>
+                    <input type="hidden" id="hidCId" name="itemId" />
+                    <input type="hidden" id="hidContractId" name="conractId" value="@ViewBag.ContractId" />
+                    <input id="btnSave" class="btn btn-primary btn-xs" type="button" onclick="btnSubmit()" value="撤销" />
+                </td>
+            </tr>
+        </table>
+    }
+
+    <div class="table-responsive" style="height:300px" id="flow1">
+        <table class="table table-bordered table-hover  table-condensed" style="white-space:nowrap;" id="table1">
+            <thead>
+                <tr>
+                    <th>选择</th>
+                    <th>批号</th>
+                    <th>钢种</th>
+                    <th>规格</th>
+                    <th>执行标准</th>
+                    <th>质量等级</th>
+                    <th>线材物料编码</th>
+                    <th>线材物料名称</th>
+                    <th>线材包装要求</th>
+                    <th>支数</th>
+                    <th>总重</th>
+                    <th>状态</th>
+                    <th style="width: 50px;"></th>
+                </tr>
+            </thead>
+            <tbody id="em_tbody">
+                @{
+                    //var bb = list;
+                    //bb.Add(list.LastOrDefault()?.Clone()??new CRM.Controllers.ProductGrpInfo());
+                    //bb.Add(list.LastOrDefault()?.Clone() ?? new CRM.Controllers.ProductGrpInfo());
+                    //bb.Add(list.LastOrDefault()?.Clone() ?? new CRM.Controllers.ProductGrpInfo());
+                }
+                @foreach (var item in list)
+                {
+                    <tr onclick="setChk(@item.N_QUA_TOTAL)">
+                        <td><input type="radio" id="radio_@(list.IndexOf(item))" name="radio_chk" value="@item.C_ID" /></td>
+                        <td width="150px">@item.C_BATCH_NO</td>
+                        <td>@item.C_STL_GRD_SLAB</td>
+                        <td>@item.C_SPEC_SLAB</td>
+                        <td>@item.C_STD_CODE</td>
+                        <td>@item.C_CHECKSTATE_NAME</td>
+                        <td>@item.C_MAT_XC_CODE</td>
+                        <td>@item.C_MAT_XC_NAME</td>
+                        <td>@item.C_XC_BZYQ</td>
+                        <td>@item.N_QUA_TOTAL</td>
+                        <td>@item.N_WGT_TOTAL</td>
+                        <td>@(CRM.Controllers.ProductGrpInfo.getStatu(item.N_STATUS))</td>
+                        <td style="text-align: center"></td>
+
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+</body>
+</html>
+<script>
+    function setChk(count) {
+        $('#txt_count').val(count);
+    }
+
+    function btnSubmit() {
+        var checkeds = $('input:radio[name="radio_chk"]:checked');
+
+        if (checkeds.length == 0) {
+            alert('请选择批次后再撤销');
+            return;
+        }
+
+        var cid = $('input:radio[name="radio_chk"]:checked').eq(0).val();
+
+        $('#hidCId').val(cid);
+
+        if (confirm('确认撤销吗？') == false) {
+            return false;
+        }
+
+        $('form').eq(0).submit();
+
+        window.close();
+    }
+
+    $(function () {
+        @if (ViewBag.ErrorMsg != null)
+        {
+            @:alert('@(ViewBag.ErrorMsg?.ToString())')
+        }
+        });
+</script>

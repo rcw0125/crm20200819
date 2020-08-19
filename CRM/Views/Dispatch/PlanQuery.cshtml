@@ -1,0 +1,362 @@
+﻿@model NF.Framework.DTO.TMP_PLANDTO
+@using NF.Web.Core
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>@Model.Title</title>
+    <link href="~/Assets/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Assets/js/My97DatePicker/WdatePicker.js"></script>
+    <style>
+        input:read-only {
+            border: 1px solid #DDD;
+            background-color: #F5F5F5;
+            color: #ACA899;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="legend" class="">
+        <legend class=""></legend>
+    </div>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:40px;">
+        <tr>
+            <td align="center">
+                @using (Html.BeginForm())
+                {
+                    <table width="95%"  style="white-space: nowrap;" border="0" cellspacing="0" cellpadding="0" class="table1">
+                        <tr>
+                            <td >
+                                合同号
+                            </td>
+                            <td >
+                                @Model.C_CON_NO
+                            </td>
+                            <td >
+                                订单号
+                            </td>
+                            <td >
+                               @Model.C_NO
+                            </td>
+                  
+                            <td >
+                                日计划单据号
+                            </td>
+                            <td >
+                                @Model.C_ID
+                            </td>
+                        
+                            <td>
+                                计划发货日期
+                            </td>
+                            <td >
+                                @Model.D_PLANSEND_DT
+                            </td>
+                        
+                            <td >
+                                存货编码
+                            </td>
+                            <td >
+                           @Model.C_MAT_CODE
+                            </td>
+                           
+                        </tr>
+                        <tr>
+                            <td >
+                                存货名称
+                            </td>
+                            <td >
+                               @Model.C_MAT_NAME
+                            </td>
+                        
+                            <td >
+                                型号
+                            </td>
+                            <td >
+                              @Model.C_STL_GRD
+                            </td>
+                          
+                            <td >
+                                规格
+                            </td>
+                            <td >
+                               @Model.C_SPEC
+                            </td>
+                      
+                            <td >
+                                质量等级
+                            </td>
+                            <td >
+                               @Model.C_QUALIRY_LEV
+                            </td>
+                          
+                            <td >
+                                数量
+                            </td>
+                            <td >
+                                @Model.N_WGT
+                            </td>
+                      
+                        </tr>
+                        <tr>
+                            <td >
+                                已发运数量
+                            </td>
+                            <td >
+                               @Model.N_SENDNUM_WGT
+                            </td>
+                          
+                            <td >
+                                到站
+                            </td>
+                            <td >
+                               @Model.C_ATSTATION
+                            </td>
+                      
+                            <td>
+                                到货地区
+                            </td>
+                            <td >
+                         @Model.C_AREA
+                            </td>
+                       
+                            <td >
+                                到货地址
+                            </td>
+                            <td  >
+                              @Model.C_ADDR
+                            </td>
+                      
+                            <td  >
+                                发运方式
+                            </td>
+                            <td  >
+                                @Html.DropDownDic("C_SHIPVIA", "ShipVia", new {disabled = "disabled" })
+                            </td>
+                        
+                        </tr>
+                        <tr>
+                            <td >
+                                收货单位
+                            </td>
+                            <td >
+                              @Model.C_CGC
+                            </td>
+                         
+                            <td >
+                                订货客户
+                            </td>
+                            <td >
+                                @Model.C_ORGO_CUST
+                            </td>
+                         
+                            <td  >
+                                发货库存组织
+                            </td>
+                            <td  >
+                           @Model.C_SEND_STOCK_DEPT
+                            </td>
+                           
+                            <td  >
+                                计划状态
+                            </td>
+                            <td  >
+                                @Model.C_STATUS_NAME
+                     
+                            </td>
+                         
+                            <td  >
+                                订单要求到货日期
+                            </td>
+                            <td  >
+                                @Model.D_ORRE_AOG_DT
+                            </td>
+                          
+                        </tr>
+                        <tr>
+                            <td  >
+                                发货仓库
+                            </td>
+                            <td  >
+                              @Model.C_SEND_STOCK
+                            </td>
+                        
+                            <td >
+                                到货库存组织
+                            </td>
+                            <td >
+                              @Model.C_AOG_STOCK_DEPT
+                            </td>
+                       
+                            <td >
+                                到货仓库
+                            </td>
+                            <td >
+                               @Model.C_AOG_STOCK
+                            </td>
+
+                            <td >
+                                发货单位
+                            </td>
+                            <td  >
+                                @Model.C_SEND_COM
+                            </td>
+                            <td >
+                                销售公司
+                            </td>
+                            <td >
+                               @Model.C_SALE_COM
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td  >
+                                到货公司
+                            </td>
+                            <td >
+                               @Model.C_AOG_COM
+                            </td>
+
+                            <td >
+                                发货地区
+                            </td>
+                            <td >
+                                @Model.C_SEND_AREA
+                            </td>
+                
+                            <td >
+                                发货地址
+                            </td>
+                            <td>
+                             @Model.C_SEND_ADDR
+                            </td>
+
+                            <td >
+                                发货地点
+                            </td>
+                            <td >
+                               @Model.C_SEND_SITE
+                            </td>
+
+                            <td >
+                                到货地点
+                            </td>
+                            <td >
+                                @Model.C_AOG_SITE
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                已出库数量
+                            </td>
+                            <td >
+                                @Model.N_OUT_STOCK_WGT
+                            </td>
+                            <td >
+                                已签收数量
+                            </td>
+                            <td >
+                              @Model.N_SIGN_WGT
+                            </td>
+
+                            <td >
+                                退回数量
+                            </td>
+                            <td >
+                            @Model.N_BACK_WGT
+                            </td>
+
+                            <td >
+                                途损主数量
+                            </td>
+                            <td >
+                            @Model.N_DAMAGE_WGT
+                            </td>
+
+                            <td >
+                                制定计划日期
+                            </td>
+                            <td >
+                                @Model.D_FOR_PLAN_DT
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td >
+                                制定计划人
+                            </td>
+                            <td >
+                               @Model.C_FOR_PALN_ID
+                            </td>
+
+                            <td >
+                                审批日期
+                            </td>
+                            <td >
+                              @Model.D_APPROVE_DT
+                            </td>
+
+                            <td >
+                                审批人
+                            </td>
+                            <td >
+                                @Model.C_APPROVE_ID
+                            </td>
+
+                            <td >
+                                订单类型
+                            </td>
+                            <td>
+                                @Model.C_ORDER_TYPE
+                            </td>
+
+                            <td >
+                                来源订单是否退
+                            </td>
+                            <td >
+                                @Html.CheckBoxFor(x => x.SORO_BACK)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td >
+                                备注
+                            </td>
+                            <td >
+                              @Model.C_REMARK
+                            </td>
+                            <td >
+                                业务部门
+                            </td>
+                            <td >
+                                @Model.C_BUSINESS_DEPT
+                            </td>
+
+                            <td >
+                                业务类型
+                            </td>
+                            <td >
+                                @Model.C_BUSINESS_TYPE
+                            </td>
+
+                            <td >
+                                业务员
+                            </td>
+                            <td>
+                                @Model.C_SALESMAN
+                            </td>
+                        </tr>
+                    </table>
+                }
+            </td>
+        </tr>
+    </table>
+    <script type="text/javascript">
+    </script>
+</body>
+</html>

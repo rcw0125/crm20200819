@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>合同跟踪</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="js/jsStye.js"></script>
+    <script src="../JsDate.js"></script>
+    <script src="js/jsOrderJL.js"></script>
+</head>
+<body onresize="fromsize();">
+    <form>
+        <table class="table table-bordered table-condensed">
+            <tr>
+                <td style="width: 80px; text-align: right">合同号</td>
+                <td style="width: 200px;">
+                    <input id="txtconno" type="text" style="width:180px;" />
+
+                </td>
+                <td style="width: 80px; text-align: right">签单日期</td>
+                <td style="width: 125px;">
+                    <input id="txtStart" type="text" style="width: 120px;" readonly class="form-control Wdate" />
+                </td>
+                <td style="width: 125px;">
+                    <input id="txtEnd" type="text" style="width: 125px;" readonly class=" form-control Wdate" />
+                </td>
+                <td>
+                  <input id="btncx" type="button" value="查询" onclick="GetOrder();" class="btn btn-primary btn-xs" />
+                    
+                </td>
+            </tr>
+        </table>
+        <div class="orderList" style="overflow: auto; width: 100%;">
+            <table class="table table-bordered table-hover table-condensed">
+                <thead>
+                <tr>
+                    <th>合同号</th>
+                    <th>物料名称</th>
+                    <th>钢种</th>
+                    <th>规格</th>
+                    <th>包装标准</th> 
+                    <th>数量</th>
+                    <th>审批</th>
+                    <th>生产状态</th>
+                    <th>已履行</th>
+                </tr>
+                </thead>
+                <tbody id="content1">
+
+                </tbody>
+            </table>
+        </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,73 @@
+﻿@model NF.Framework.DTO.TS_CUSTOTCOMPANYDTO
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>开票单位</title>
+    <link href="../Assets/css/bootstrap-form.css" rel="stylesheet" />
+    <script src="~/Assets/js/jquery-2.0.3.min.js"></script>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        
+            @Html.HiddenFor(x => x.OperationType)
+            @Html.HiddenFor(x => x.C_CUST_ID)
+
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>开票单位</th>
+                        <th>开户银行</th>
+                        <th>账号</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        if (Model.Tots.Count > 0)
+                        {
+                            for (int i = 0; i < Model.Tots.Count; i++)
+                            {
+                                <tr>
+                                    <td>@Html.TextBoxFor(x => x.Tots[i].C_OTCOMPANY, new { name = Model.Tots[i].C_OTCOMPANY, style = "width:80px;" }) <span style="color:red;">@Html.ValidationMessageFor(x => x.Tots[i].C_OTCOMPANY)</span> </td>
+                                    <td>@Html.TextBoxFor(x => x.Tots[i].C_OPENBANK, new { name = Model.Tots[i].C_OPENBANK, style = "width:80px;" }) <span style="color:red;">@Html.ValidationMessageFor(x => x.Tots[i].C_OPENBANK)</span> </td>
+                                    <td>@Html.TextBoxFor(x => x.Tots[i].C_ACCOUNTBANK, new { name = Model.Tots[i].C_ACCOUNTBANK, style = "width:80px;" }) <span style="color:red;">@Html.ValidationMessageFor(x => x.Tots[i].C_ACCOUNTBANK)</span> </td>
+                                    <td style="display:none">
+                                        <input type="hidden" name="Tots[@i].N_ISDEFAULT" value="@Model.Tots[i].N_ISDEFAULT" />
+                                        @Html.HiddenFor(x => x.Tots[i].C_CUST_ID, new { name = Model.Tots[i].C_CUST_ID })
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+
+            <table class="table table-bordered">
+                <tr>
+                    <td align="center">
+                        <button id="btnInsert" class="btn btn-primary btn-xs" type="submit">新增</button>&nbsp;&nbsp;
+                        <button id="btnSave" class="btn btn-primary btn-xs" type="submit">保存</button>&nbsp;&nbsp;
+                        <button class="btn btn-default btn-xs" type="submit" onclick="window.close()">关闭</button>
+
+                        @Html.ValidationMessage("error")
+                    </td>
+                </tr>
+            </table>
+       
+    }
+
+    <script type="text/javascript">
+        $(function () {
+            $("#btnInsert").click(function () {
+                $("#OperationType").val(1);
+            });
+            $("#btnSave").click(function () {
+                $("#OperationType").val(2);
+            });
+        });
+    </script>
+</body>
+</html>

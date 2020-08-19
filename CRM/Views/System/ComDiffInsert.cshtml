@@ -1,0 +1,92 @@
+﻿@model NF.Framework.DTO.TMB_COMDIFFDTO
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>@Model.Title</title>
+    <!-- Bootstrap core CSS -->
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+</head>
+<body>
+                @using (Html.BeginForm())
+                {
+                    @Html.HiddenFor(x => x.C_ID)
+                    @Html.HiddenFor(x => x.C_EMP_NAME)
+                    @Html.HiddenFor(x => x.C_EMP_ID)
+                    @Html.HiddenFor(x => x.N_STATUS)
+                    <input type="hidden" id="ResultType" name="ResultType" value="@Model.ResultType" />
+                    <table class="table table-bordered"  style="white-space: nowrap;">
+                        <tr>
+                            <td style="width:80px; text-align:right">
+                                最小值
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                @Html.TextBoxFor(x => x.D_MIN)
+                            </td>
+
+                            <td align="left"><span style="color:red;">@Html.ValidationMessageFor(x => x.D_MIN)</span></td>
+                        </tr>
+                        <tr>
+                            <td align="right" style=" height:40px;">
+                                最大值
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                @Html.TextBoxFor(x => x.D_MAX)
+                            </td>
+
+                            <td align="left"><span style="color:red;">@Html.ValidationMessageFor(x => x.D_MAX)</span></td>
+                        </tr>
+                        <tr>
+                            <td align="right" style=" height:40px;">
+                                误差范围
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                @Html.TextBoxFor(x => x.C_RANGE)
+                            </td>
+
+                            <td align="left"><span style="color:red;">@Html.ValidationMessageFor(x => x.C_RANGE)</span></td>
+                        </tr>
+                        <tr>
+                            <td align="right" style=" height:40px;">
+                                &nbsp;
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px;">
+                                <div class="control-group">
+                                    <!-- Button -->
+                                    <div class="controls">
+                                        <button id="btnSave" class="btn btn-primary btn-xs" type="submit">保存</button>&nbsp;&nbsp;
+                                    </div>
+                                </div>
+                            </td>
+                            <td align="left"><spn style=" color:red; ">@Html.ValidationMessage("error")</spn></td>
+                
+            </tr>
+       
+        </table>
+                }
+                <script type="text/javascript">
+                    $(function () {
+
+                        $("#btnSave").click(function () {
+                            $("#ResultType").val(0);
+                        });
+
+                        if ($("#ResultType").val() == "1") {
+                            alert("新增成功");
+                            window.opener.document.getElementById('btn_Search').click();
+                        }
+                        else if ($("#ResultType").val() == "2") {
+                            alert("修改成功");
+                            window.opener.document.getElementById('btn_Search').click();
+                        }
+                    });
+                </script>
+            </body>
+        </html>

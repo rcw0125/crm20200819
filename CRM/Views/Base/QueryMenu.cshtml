@@ -1,0 +1,92 @@
+﻿@model NF.Framework.DTO.TS_MENUDTO
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="../Assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../Assets/css/common.css" rel="stylesheet" />
+    <script src="../Assets/js/jquery-2.0.3.min.js"></script>
+    <script src="../Assets/js/common.js"></script>
+    <title>查询用户</title>
+</head>
+<body>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td align="left"></td>
+        </tr>
+        <tr>
+            <td>
+                @using (Html.BeginForm())
+                {
+                    <div class="dv_search">
+                        <ul>
+                            <li>
+
+                                <button id="btn_Sb" type="button" class="btn btn-primary btn-xs btn_w60">提交</button>
+
+                            </li>
+                        </ul>
+                    </div>
+                }
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>菜单名称</th>
+                            <th>菜单描述</th>
+                            <th>菜单URL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            if (Model.Menus != null && Model.Menus.Count > 0)
+                            {
+                                foreach (var item in Model.Menus)
+                                {
+                                    <tr>
+                                        <td style=" text-align:center;"><input class="che2" type="radio" name="0" value="@item.C_ID" /></td>
+                                        <td>@item.C_NAME</td>
+                                        <td>@item.C_DESC</td>
+                                        <td>@item.C_URL</td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#btn_Sb").click(function () {
+                var test = $("input[class='che2']:checked");
+                var checkBoxValue = "";
+                var checkBoxName = "";
+                test.each(function () {
+                    checkBoxValue += $(this).val() + ",";
+                    checkBoxName += $(this).parent().next().html() + ",";
+                });
+                if (checkBoxValue == "") {
+                    alert("请任选一项修改");
+                    return false;
+                } else {
+                    checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                    checkBoxName = checkBoxName.substring(0, checkBoxName.length - 1);
+                    var arr = checkBoxValue.split(',');
+                    $(window.opener.document.getElementById("C_MENU_ID")).attr("value", checkBoxValue);
+                    $(window.opener.document.getElementById("C_MENU_NAME")).attr("value", checkBoxName);
+                    window.close();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

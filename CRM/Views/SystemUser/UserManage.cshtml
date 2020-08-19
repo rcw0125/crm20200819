@@ -1,0 +1,319 @@
+﻿@model NF.Framework.DTO.TS_USERDTO
+@using NF.Web.Core;
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>用户管理</title>
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+    <link href="~/Views/SystemUser/css/zeroModal.css" rel="stylesheet" />
+    <script src="~/Views/SystemUser/js/zeroModal.js"></script>
+    <script src="~/Views/SystemUser/js/zeroModal.min.js"></script>
+    <script src="~/Views/SystemUser/js/zeroModal.js"></script>
+   
+</head>
+
+<body>
+    @Html.Partial("~/Views/Shared/_Button.cshtml")
+    @using (Html.BeginForm())
+    {
+        <table class="table table-bordered" style="white-space: nowrap;">
+            <tr>
+                <td>用户名称</td>
+                <td>
+                    @Html.TextBoxFor(x => x.C_NAME, new { style = "width:120px;" })
+                    <input type="hidden" id="pageIndex" name="BasePage.PageIndex" />
+                </td>
+                <td>用户状态</td>
+                <td>  @Html.DropDownDic("N_STATUS", "UserStatus", "请选择", new { style = "width:120px;" })</td>
+                <td>用户类型</td>
+                <td>  @Html.DropDownDic("N_TYPE", "UserType", "请选择", new { style = "width:120px;" })</td>
+                <td> 角色</td>
+                <td> @Html.DropDownListFor(x => x.RoleID, Model.Roles, "请选择", new { style = "width:120px;" })</td>
+                <td> 公司名称</td>
+                <td> @Html.TextBoxFor(x => x.C_SHORTNAME, new { style = "width:120px;" })  <a href="javascript:void(0);" onclick='openWeb(1);'><span class="glyphicon glyphicon-search"></span></a></td>
+                <td>  <button id="btn_Search" type="submit" class="btn btn-primary btn-xs btn_w60">查询</button></td>
+            </tr>
+        </table>
+
+    }
+    <table class="table table-bordered table-hover" style="white-space: nowrap;">
+        <thead>
+            <tr>
+                <th> </th>
+                <th>公司名称</th>
+                <th>用户名</th>
+                <th>登录名</th>
+                <th>用户类型</th>
+                <th>用户状态</th>
+                <th>关联客户</th>
+                <th>邮箱</th>
+                <th>用户部门</th>
+                <th>角色</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model.Users != null && Model.Users.Count > 0)
+                {
+                    foreach (var item in Model.Users)
+                    {
+            <tr>
+                <th scope="row"><input class="che2" type="radio" name="0" value="@item.C_ID" /></th>
+                <td>@item.C_SHORTNAME</td>
+                <td>@item.C_NAME</td>
+                <td>@item.C_ACCOUNT</td>
+                <td>@Html.DetailName(item.N_TYPE.ToString(), "UserType")</td>
+                <td>@Html.DetailName(item.N_STATUS.ToString(), "UserStatus")</td>
+                <td>@(item.CustFile?.C_NAME)</td>
+                <td>@item.C_EMAIL</td>
+                <td>@item.DeptName</td>
+                <td>@Html.GetRoleName(item.C_ID)</td>
+
+            </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+
+    @Html.Partial("~/Views/Shared/_Paging.cshtml")
+
+    <script type="text/javascript">
+        function add() {    
+            _iframe('/SystemUser/UserInsert','700','500','添加用户');
+        }
+
+        function editMsg() {
+            var test = $("input[class='che2']:checked");
+            var checkBoxValue = "";
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+            if (checkBoxValue == "") {
+                alert("请任选一项修改");
+                return false;
+            } else {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var arr = checkBoxValue.split(',');
+                if (arr.length > 1) {
+                    alert("请任选一项修改");
+                    return false;
+                } else {
+                    var obj = new Object();
+                    obj.id = arr[0];
+                    _iframe('/SystemUser/UserUpdate?id=' + obj.id, '700', '500','修改用户')
+                }
+            }
+        }
+
+
+        function del() {
+            var test = $("input[class='che2']:checked");
+            var checkBoxValue = "";
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+            if (checkBoxValue == "") {
+                alert("请任选一项修改");
+                return false;
+            } else {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var arr = checkBoxValue.split(',');
+                if (arr.length > 1) {
+                    alert("请任选一项修改");
+                    return false;
+                } else {
+                    if (confirm('确定注销吗？') == true) {
+                        var data = { id: arr[0] };
+                        $.post("/SystemUser/UserDel", data, function (result) {
+                            if (result == 1)
+                                alert("注销成功");
+                            $("#btn_Search").click();
+                        });
+                    }
+                }
+            }
+        }
+
+        function setPw() {
+            var test = $("input[class='che2']:checked");
+            var checkBoxValue = "";
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+            if (checkBoxValue == "") {
+                alert("请任选一项修改");
+                return false;
+            } else {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var arr = checkBoxValue.split(',');
+                if (arr.length > 1) {
+                    alert("请任选一项修改");
+                    return false;
+                } else {
+                    var obj = new Object();
+                    obj.id = arr[0];
+                    _iframe('/SystemUser/SetPw?id=' + obj.id, '500', '300','重置密码');
+                }
+            }
+        }
+
+        function relation() {
+            var test = $("input[class='che2']:checked");
+            var checkBoxValue = "";
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+            if (checkBoxValue == "") {
+                alert("请任选一项修改");
+                return false;
+            } else {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var arr = checkBoxValue.split(',');
+                if (arr.length > 1) {
+                    alert("请任选一项修改");
+                    return false;
+                } else {
+                    var obj = new Object();
+                    obj.id = arr[0];
+                    _iframe('/SystemUser/Relation?id=' + obj.id, '900', '500','关联客户');
+                }
+            }
+        }
+
+        function cancelRelation() {
+            var test = $("input[class='che2']:checked");
+            var checkBoxValue = "";
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+            if (checkBoxValue == "") {
+                alert("请任选一项修改");
+                return false;
+            } else {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var arr = checkBoxValue.split(',');
+                if (arr.length > 1) {
+                    alert("请任选一项修改");
+                    return false;
+                } else {
+                    if (confirm('取消客户关联吗？') == true) {
+                        var obj = new Object();
+                        obj.id = arr[0];
+                        $.get("/SystemUser/CancelRelation?id=" + obj.id, function (result) {
+                            if (result == 0) {
+                                alert("成功");
+                                $("#btn_Search").click();
+                            }
+                        });
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        function func() {
+            var test = $("input[class='che2']:checked");
+            var checkBoxValue = "";
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+            if (checkBoxValue == "") {
+                alert("请任选一项修改");
+                return false;
+            } else {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var arr = checkBoxValue.split(',');
+                if (arr.length > 1) {
+                    alert("请任选一项修改");
+                    return false;
+                } else {
+                    var obj = new Object();
+                    obj.id = arr[0];
+                    _iframe('/SystemUser/RelationFunc?id=' + obj.id, '900', '500','授予权限');
+                    //window.open("/SystemUser/RelationFunc?id=" + obj.id, 'newwindow', 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,resizable=yes,status=yes,menubar=no,scrollbars=yes');
+                }
+            }
+        }
+
+
+        function relationRole() {
+            var test = $("input[class='che2']:checked");
+            var checkBoxValue = "";
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+            if (checkBoxValue == "") {
+                alert("请任选一项修改");
+                return false;
+            } else {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var arr = checkBoxValue.split(',');
+                if (arr.length > 1) {
+                    alert("请任选一项修改");
+                    return false;
+                } else {
+                    var obj = new Object();
+                    obj.id = arr[0];
+                    _iframe('/SystemUser/RelationRole?id=' + obj.id, '900', '500','授予角色');
+                    //window.open("/SystemUser/RelationRole?id=" + obj.id, 'newwindow', 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,resizable=yes,status=yes,menubar=no,scrollbars=yes');
+                }
+            }
+        }
+
+
+        function secondFun() {
+            var test = $("input[class='che2']:checked");
+            var checkBoxValue = "";
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+            if (checkBoxValue == "") {
+                alert("请任选一项修改");
+                return false;
+            } else {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var arr = checkBoxValue.split(',');
+                if (arr.length > 1) {
+                    alert("请任选一项修改");
+                    return false;
+                } else {
+                    var obj = new Object();
+                    obj.id = arr[0];
+                    _iframe('/SystemUser/SecondFunc?userID=' + obj.id, '900', '500','二级权限');
+                    //window.open("/SystemUser/SecondFunc?userID=" + obj.id, 'newwindow', 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,resizable=yes,status=yes,menubar=no,scrollbars=yes');
+                }
+            }
+        }
+
+
+        function openWeb(index) {
+            switch (index) {
+                case 1:
+                    _iframe('../../Common/_CustList.aspx?flag=2', '720', '350', '选择部门');
+                    break;
+            }
+        }
+
+        function SetOT(id, name, code) {
+            $("#C_SHORTNAME").val(name);
+            close();
+        }
+
+        function seatch() {
+            $("#btn_Search").click();
+        }
+
+        //全选
+        selectAll("input.qx1", "input.che2");
+    </script>
+</body>
+</html>

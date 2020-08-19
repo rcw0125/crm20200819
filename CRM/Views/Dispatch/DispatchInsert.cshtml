@@ -1,0 +1,430 @@
+﻿@model NF.Framework.DTO.TMD_DISPATCHDTO
+@using NF.Web.Core
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>@Model.Title</title>
+    <script src="~/Assets/js/My97DatePicker/WdatePicker.js"></script>
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+</head>
+
+<body>
+    <div id="legend" class="">
+        <legend class=""></legend>
+    </div>
+    @using (Html.BeginForm())
+    {
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:40px;">
+            <tr>
+                <td align="center">
+                    @Html.HiddenFor(x => x.C_EMP_ID)
+                    @Html.HiddenFor(x => x.C_EMP_NAME)
+                    @Html.HiddenFor(x => x.D_MOD_DT)
+                    @Html.HiddenFor(x => x.C_NO)
+                    @Html.HiddenFor(x => x.C_STOVEID)
+                    <input type="hidden" id="ConDetType" name="ConDetType" value="@Model.ConDetType" />
+                    <input type="hidden" id="OperationType" name="OperationType" value="@Model.OperationType" />
+                    <input type="hidden" id="ResultType" name="ResultType" value="@Model.ResultType" />
+                    <table width="95%" border="0" cellspacing="0" cellpadding="0" class="table1">
+                        <tr>
+                            <td style="width:170px; text-align:right">
+                                发运单单据号
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" disabled="disabled" value="@Model.C_ID" />
+                                <input type="hidden" id="C_ID" name="C_ID" value="@Model.C_ID" />
+                                <span style=" color:red;"> @Html.ValidationMessageFor(x => x.C_ID)</span>
+                            </td>
+                            <td style="width:170px; text-align:right">
+                                发运日期
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                @Html.TextBox("D_DISP_DT", Model.D_DISP_DT, new { id = "txt", OnClick = "WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})", name = "D_DISP_DT" })
+                                <span style=" color:red;">   @Html.ValidationMessageFor(x => x.D_DISP_DT)</span>
+                            </td>
+                            <td style="width:170px; text-align:right">
+                                发运方式
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                @Html.DropDownDic("C_SHIPVIA", "ShipVia", new { style = " width:170px;height:25px;", @readonly = "readonly" })
+                                <span style=" color:red;">  @Html.ValidationMessageFor(x => x.C_SHIPVIA)</span>
+                            </td>
+                            <td style="width:170px; text-align:right">
+                                承运商
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                @Html.TextBoxFor(x => x.C_COMCAR, new { style = " width:170px" })
+                                <span style=" color:red;">   @Html.ValidationMessageFor(x => x.C_COMCAR)</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:190px; text-align:right">
+                                路线
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                @Html.TextBoxFor(x => x.C_PATH, new { style = " width:150px", @readonly = "readonly" })
+                                <a href="#" onclick="openWeb(0);"><span class="glyphicon glyphicon-search"></span></a>
+                                <span style=" color:red;"> @Html.ValidationMessageFor(x => x.C_PATH)</span>
+                            </td>
+                            <td style="width:340px; text-align:right">
+                                路线描述
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" style=" width:340px" disabled="disabled" value="@Model.C_PATH_DESC" />
+                                <input type="hidden" id="C_PATH_DESC" name="C_PATH_DESC" value="@Model.C_PATH_DESC" />
+                                <span style=" color:red;"> @Html.ValidationMessageFor(x => x.C_PATH_DESC)</span>
+                            </td>
+                            <td style="width:170px; text-align:right">
+                                发运组织
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" style=" width:170px" disabled="disabled" value="@Model.C_SEND_DEPT" />
+                                <input type="hidden" id="C_SEND_DEPT" name="C_SEND_DEPT" value="@Model.C_SEND_DEPT" />
+                                <span style=" color:red;">      @Html.ValidationMessageFor(x => x.C_SEND_DEPT)</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:170px; text-align:right">
+                                业务部门
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" style=" width:170px" disabled="disabled" value="@Model.C_BUSINESS_DEPT" />
+                                <input type="hidden" id="C_BUSINESS_DEPT" name="C_BUSINESS_DEPT" value="@Model.C_BUSINESS_DEPT" />
+                                <span style=" color:red;">       @Html.ValidationMessageFor(x => x.C_BUSINESS_DEPT)</span>
+                            </td>
+                            <td style="width:170px; text-align:right">
+                                业务员
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" style=" width:170px" disabled="disabled" value="@Model.C_BUSINESS_ID" />
+                                <input type="hidden" id="C_BUSINESS_ID" name="C_BUSINESS_ID" value="@Model.C_BUSINESS_ID" />
+                                <span style=" color:red;">    @Html.ValidationMessageFor(x => x.C_BUSINESS_ID)</span>
+                            </td>
+                            <td style="width:170px; text-align:right">
+                                车牌号
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                @Html.TextBoxFor(x => x.C_LIC_PLA_NO, new { style = " width:170px" })
+                                <span style=" color:red;">    @Html.ValidationMessageFor(x => x.C_LIC_PLA_NO)</span>
+                            </td>
+                            <td style="width:170px; text-align:right">
+                                到站
+                            </td>
+                            <td align="left" style=" width:190px; padding-left:10px; height:40px;">
+                                @Html.TextBoxFor(x => x.C_ATSTATION, new { style = " width:150px", @readonly = "readonly" })
+                                <a href="#" onclick="openWeb(1);"><span class="glyphicon glyphicon-search"></span></a>
+                                <span style=" color:red;">   @Html.ValidationMessageFor(x => x.C_ATSTATION)</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:170px; text-align:right">
+                                发运单审批日期
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" id="txt" name="D_APPROVE_DT" disabled="disabled" OnClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" value="@Model.D_APPROVE_DT" />
+                                <input type="hidden" name="D_CREATE_DT" value="@Model.D_APPROVE_DT" />
+                                <span style=" color:red;">    @Html.ValidationMessageFor(x => x.D_APPROVE_DT)</span>
+                            </td>
+                            <td style="width:170px; text-align:right">
+                                发运单制定日期
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" id="txt" name="D_CREATE_DT" disabled="disabled" OnClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" value="@Model.D_DISP_DT" />
+                                <input type="hidden" name="D_CREATE_DT" value="@Model.D_CREATE_DT" />
+                                <span style=" color:red;">      @Html.ValidationMessageFor(x => x.D_CREATE_DT)</span>
+                            </td>
+                            <td style="width:170px; text-align:right">
+                                审批人
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" disabled="disabled" value="@Model.C_APPROVE_NAME" />
+                                <input type="hidden" id="C_CREATE_ID" name="C_CREATE_ID" value="@Model.C_APPROVE_ID" />
+                                <span style=" color:red;">    @Html.ValidationMessageFor(x => x.C_APPROVE_ID)</span>
+                            </td>
+
+                            <td style="width:170px; text-align:right">
+                                制单人
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" disabled="disabled" value="@Model.C_CREATE_NAME" />
+                                <input type="hidden" id="C_CREATE_ID" name="C_CREATE_ID" value="@Model.C_CREATE_ID" />
+                                <span style=" color:red;">     @Html.ValidationMessageFor(x => x.C_CREATE_ID)</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:170px; text-align:right">
+                                GPS设备号
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                @Html.TextBoxFor(x => x.C_GPS_NO, new { style = " width:170px" })
+                                <span style=" color:red;">    @Html.ValidationMessageFor(x => x.C_GPS_NO)</span>
+                            </td>
+                        </tr>
+                    </table>
+                    @*<br />
+                        <div class="bs-example" data-example-id="btn-tags">
+                            <button id="save" class="btn btn-primary btn-xs" type="submit">保存</button>&nbsp;&nbsp;
+                        </div>
+                        @Html.ValidationMessage("error")*@
+                </td>
+            </tr>
+        </table>
+        <br />
+        <label>订单</label>
+        <div style="overflow:scroll; height:300px; border:1px solid  #c5d0dc;">
+            <table class="table" style="min-width:2000px;" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td align="center">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+
+                                    <th width="120px">规格</th>
+                                    <th width="120px">钢种</th>
+                                    <th width="120px">执行标准</th>
+                                    <th width="120px">数量</th>
+                                    <th width="120px">生产量</th>
+                                    <th width="120px">库存量</th>
+                                    <th width="120px">出库量</th>
+                                    <th width="150px">合同号</th>
+                                    <th width="150px">订单号</th>
+                                    <th width="120px">地区</th>
+                                    <th width="120px">物料编码</th>
+                                    <th width="120px">物料名称</th>
+                                    <th width="120px">客户名称</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    if (Model != null && Model.ConDetails != null && Model.ConDetails.Count > 0)
+                                    {
+                                        for (int i = 0; i < Model.ConDetails.Count; i++)
+                                        {
+                                            <tr>
+
+                                                <td>@Html.TextBoxFor(x => x.ConDetails[i].C_SPEC, new { name = Model.ConDetails[i].C_SPEC, style = "width:120px;", @readonly = "readonly" })</td>
+                                                <td>@Html.TextBoxFor(x => x.ConDetails[i].C_STL_GRD, new { name = Model.ConDetails[i].C_STL_GRD, style = "width:120px;", @readonly = "readonly" })</td>
+                                                @*<td>@Html.TextBoxFor(x => x.DispatchDetails[i].C_SEND_STOCK, new { name = Model.DispatchDetails[i].C_SEND_STOCK, style = "width:100px;", @readonly = "readonly" })      <a href="#" onclick="queryProduct(@i);"><span class="glyphicon glyphicon-search"></span></a></td>*@
+                                                <td>@Html.TextBoxFor(x => x.ConDetails[i].C_STD_CODE, new { name = Model.ConDetails[i].C_STD_CODE, style = "width:120px;", @readonly = "readonly" })</td>
+                                                <td>@Html.TextBoxFor(x => x.ConDetails[i].N_WGT, new { name = Model.ConDetails[i].N_WGT, style = "width:120px;", @readonly = "readonly" })</td>
+                           
+                                                <td>@Html.TextBoxFor(x => x.ConDetails[i].C_CON_NO, new { name = Model.ConDetails[i].C_CON_NO, style = "width:100%;", @readonly = "readonly" })</td>
+                                                <td>@Html.TextBoxFor(x => x.ConDetails[i].C_ORDER_NO, new { name = Model.ConDetails[i].C_ORDER_NO, style = "width:100%;", @readonly = "readonly" })</td>
+                                                <td>@Html.TextBoxFor(x => x.ConDetails[i].C_AREA, new { name = Model.ConDetails[i].C_AREA, style = "width:120px;", @readonly = "readonly" })</td>
+                                                <td>@Html.TextBoxFor(x => x.ConDetails[i].C_MAT_CODE, new { name = Model.ConDetails[i].C_MAT_CODE, style = "width:120px;", @readonly = "readonly" })</td>
+                                                <td>@Html.TextBoxFor(x => x.ConDetails[i].C_MAT_NAME, new { name = Model.ConDetails[i].C_MAT_NAME, style = "width:120px;", @readonly = "readonly" })</td>
+                                                <td>@Html.TextBoxFor(x => x.ConDetails[i].C_CUST_NAME, new { name = Model.ConDetails[i].C_CUST_NAME, style = "width:120px;", @readonly = "readonly" })</td>
+                                                @Html.HiddenFor(x => x.ConDetails[i].N_TYPE, new { name = Model.ConDetails[i].N_TYPE })
+                                                @Html.HiddenFor(x => x.ConDetails[i].C_CUST_NO, new { name = Model.ConDetails[i].C_CUST_NO })
+
+                                                <td style="display:none;" class="hidStlgrd">@Model.ConDetails[i].C_STL_GRD</td>
+                                                <td style="display:none;" class="hidSpec">@Model.ConDetails[i].C_SPEC</td>
+                                                <td style="display:none;" class="hidArea">@Model.ConDetails[i].C_AREA</td>
+                                                <td style="display:none;" class="hidStdcode">@Model.ConDetails[i].C_STD_CODE</td>
+                                                <td style="display:none;" class="hidType">@Model.ConDetails[i].N_TYPE</td>
+                                                <td style="display:none;" class="hidCustNo">@Model.ConDetails[i].C_CUST_NO</td>
+                                                <td style="display:none;" class="hidWgt">@Model.ConDetails[i].N_WGT</td>
+                                            </tr>
+                                        }
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div style="height:25px;"></div>
+        <label>发运单明细</label>
+        <div style="overflow:scroll; height:300px; border:1px solid  #c5d0dc;">
+            <table class="table" style="min-width:1800px;" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td align="center">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="row" width="40px"><input class="qx1" type="checkbox" name="" value="" /></th>
+                                    <th width="120px">规格</th>
+                                    <th width="120px">钢种</th>
+                                    <th width="120px">发货仓库</th>
+                                    <th width="120px">质量等级</th>
+                                    <th width="120px">数量</th>
+                                    <th width="120px">订单类型</th>
+                                    <th width="120px">炉号</th>
+                                    <th width="120px">批号</th>
+                                    <th width="120px">勾号</th>
+                                    <th width="120px">钢坯号</th>
+                                    <th width="120px">物料编码</th>
+                                    <th width="120px">物料名称</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    if (Model != null && Model.DispatchDetails != null && Model.DispatchDetails.Count > 0)
+                                    {
+                                        for (int i = 0; i < Model.DispatchDetails.Count; i++)
+                                        {
+                                            <tr>
+                                                <th scope="row">@Html.CheckBoxFor(x => x.DispatchDetails[i].Check, new { name = Model.DispatchDetails[i].Check, @class = "che2" })</th>
+                                                <td>@Html.TextBoxFor(x => x.DispatchDetails[i].C_SPEC, new { name = Model.DispatchDetails[i].C_SPEC, style = "width:100%;", @readonly = "readonly" })</td>
+                                                <td>@Html.TextBoxFor(x => x.DispatchDetails[i].C_STL_GRD, new { name = Model.DispatchDetails[i].C_STL_GRD, style = "width:100%;", @readonly = "readonly" })</td>
+                                                <td>@Html.TextBoxFor(x => x.DispatchDetails[i].C_SEND_STOCK, new { name = Model.DispatchDetails[i].C_SEND_STOCK, style = "width:100%;", @readonly = "readonly" })</td>
+                                                <td>@Html.TextBoxFor(x => x.DispatchDetails[i].C_QUALIRY_LEV, new { name = Model.DispatchDetails[i].C_QUALIRY_LEV, style = "width:100%;", @readonly = "readonly" })</td>
+                                                <td>@Html.TextBoxFor(x => x.DispatchDetails[i].N_WGT, new { name = Model.DispatchDetails[i].N_WGT, style = "width:100%;", @readonly = "readonly" })</td>
+                                                <td>@Html.DetailName(Model.DispatchDetails[i].C_ORDER_TYPE, "OrderType")@Html.HiddenFor(x => x.DispatchDetails[i].C_ORDER_TYPE, new { name = Model.DispatchDetails[i].C_ORDER_TYPE })</td>
+                                                <td>@Html.TextBoxFor(x => x.DispatchDetails[i].C_STOVE, new { name = Model.DispatchDetails[i].C_STOVE, style = "width:100%;", @readonly = "readonly" })</td>
+                                                <td>@Html.TextBoxFor(x => x.DispatchDetails[i].C_BATCH_NO, new { name = Model.DispatchDetails[i].C_BATCH_NO, style = "width:100%;", @readonly = "readonly" })</td>
+                                                <td>@Html.TextBoxFor(x => x.DispatchDetails[i].C_TICK_NO, new { name = Model.DispatchDetails[i].C_TICK_NO, style = "width:100%;", @readonly = "readonly" })</td>
+                                                <td>@Html.TextBoxFor(x => x.DispatchDetails[i].C_SLAB_NO, new { name = Model.DispatchDetails[i].C_SLAB_NO, style = "width:100%;", @readonly = "readonly" })</td>
+                                                <td>@Html.TextBoxFor(x => x.DispatchDetails[i].C_MAT_CODE, new { name = Model.DispatchDetails[i].C_MAT_CODE, style = "width:100%;", @readonly = "readonly" })</td>
+                                                <td>@Html.TextBoxFor(x => x.DispatchDetails[i].C_MAT_NAME, new { name = Model.DispatchDetails[i].C_MAT_NAME, style = "width:100%;", @readonly = "readonly" })</td>
+                                                @Html.HiddenFor(x => x.DispatchDetails[i].C_ID, new { name = Model.DispatchDetails[i].C_ID })
+                                                @Html.HiddenFor(x => x.DispatchDetails[i].C_DISPATCH_ID, new { name = Model.DispatchDetails[i].C_DISPATCH_ID })
+                                                @Html.HiddenFor(x => x.DispatchDetails[i].C_FREE_TERM, new { name = Model.DispatchDetails[i].C_FREE_TERM })
+                                                @Html.HiddenFor(x => x.DispatchDetails[i].C_ELSENEED, new { name = Model.DispatchDetails[i].C_ELSENEED })
+                                                @Html.HiddenFor(x => x.DispatchDetails[i].N_COM_AMOUNT_WGT, new { name = Model.DispatchDetails[i].N_COM_AMOUNT_WGT })
+                                                @Html.HiddenFor(x => x.DispatchDetails[i].C_EQUATION_FACTOR, new { name = Model.DispatchDetails[i].C_EQUATION_FACTOR })
+                                                @Html.HiddenFor(x => x.DispatchDetails[i].C_UNITIS, new { name = Model.DispatchDetails[i].C_UNITIS })
+                                                @Html.HiddenFor(x => x.DispatchDetails[i].C_SEND_SITE, new { name = Model.DispatchDetails[i].C_SEND_SITE })
+                                                @Html.HiddenFor(x => x.DispatchDetails[i].C_AOG_SITE, new { name = Model.DispatchDetails[i].C_AOG_SITE })
+                                                @Html.HiddenFor(x => x.DispatchDetails[i].C_ORGO_CUST, new { name = Model.DispatchDetails[i].C_ORGO_CUST })
+                                                @Html.HiddenFor(x => x.DispatchDetails[i].C_CGC, new { name = Model.DispatchDetails[i].C_CGC })
+                                                @Html.HiddenFor(x => x.DispatchDetails[i].N_IS_SEND_CLOSE, new { name = Model.DispatchDetails[i].N_IS_SEND_CLOSE })
+                                                @Html.HiddenFor(x => x.DispatchDetails[i].C_SEND_AREA, new { name = Model.DispatchDetails[i].C_SEND_AREA })
+                                                @Html.HiddenFor(x => x.DispatchDetails[i].C_AREA, new { name = Model.DispatchDetails[i].C_AREA })
+                                                @Html.HiddenFor(x => x.DispatchDetails[i].C_AU_UNITIS, new { name = Model.DispatchDetails[i].C_AU_UNITIS })
+                                                @Html.HiddenFor(x => x.DispatchDetails[i].C_CUSTFILE_ID, new { name = Model.DispatchDetails[i].C_CUSTFILE_ID })
+                                                @Html.HiddenFor(x => x.DispatchDetails[i].C_CUST_ID, new { name = Model.DispatchDetails[i].C_CUST_ID })
+                                                @Html.HiddenFor(x => x.DispatchDetails[i].C_REMARK, new { name = Model.DispatchDetails[i].C_REMARK })
+                                                @Html.HiddenFor(x => x.DispatchDetails[i].C_NO, new { name = Model.DispatchDetails[i].C_NO })
+                                                @Html.HiddenFor(x => x.DispatchDetails[i].C_STOVEID, new { name = Model.DispatchDetails[i].C_STOVEID })
+                                            </tr>
+                                        }
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <span style="color:red; padding-left:10px; " id="sum"></span>
+            @Html.HiddenFor(x => x.DispatchSumWgt)
+        </div>
+
+        <div class="bs-example" data-example-id="btn-tags" style="padding-left:40%;text-align:center; float:left; margin-top:10px;">
+            @*<button id="relationPro" disabled="disabled" class="btn btn-primary btn-xs" type="button">选货</button>&nbsp;&nbsp;
+                <button id="removePro" class="btn btn-primary btn-xs" type="submit">清空明细</button>&nbsp;&nbsp;*@
+            <button id="sb" disabled="disabled" class="btn btn-primary btn-xs" type="submit">提交</button>&nbsp;&nbsp;
+            <button id="insertDetails" style="display:none;" class="btn btn-primary btn-xs" type="submit">提交</button>&nbsp;&nbsp;
+            @if (Model.OperationType == 5)
+            {  <button class="btn btn-default btn-xs" type="button" onclick="jumpSecond()">关闭</button>}
+            else
+            {
+                <button class="btn btn-default btn-xs" type="button" onclick="jump()">关闭</button>
+            }
+            <spn style=" color:red; ">@Html.ValidationMessage("error")</spn>
+        </div>
+                                    }
+    <script type="text/javascript">
+        $(function () {
+            //提交明细
+            $("#sb").click(function () {
+                var test = $("input[class='che2']:checked");
+                var checkBoxValue = "";
+                var checkBoxName = "";
+                test.each(function () {
+                    checkBoxValue += $(this).val() + ",";
+                    checkBoxName += $(this).parent().next().html() + ",";
+                });
+                if (checkBoxValue == "") {
+                    alert("勾选生成的发运单明细");
+                    return false;
+                }
+            });
+
+            //修改成功和添加成功跳转不同页面
+            if ($("#ResultType").val() == "1") {
+                if ($("#OperationType").val() == "5") {
+                    alert("修改成功");
+                    jumpSecond();
+                } else {
+                    alert("添加成功");
+                    jump();
+                }
+            }
+
+            //如果发运单明细不为空 可以提交
+            var isDisplay =@Model.DispatchDetails.Count;
+            if (isDisplay > 0) {
+                $("#sb").removeAttr("disabled");
+
+            } else {
+                $("#sb").attr("disabled", true);
+            }
+        });
+
+
+        //添加成功跳转页面
+        function jump() {
+            var url = "/Dispatch/Details";
+            window.open(url, '_self', 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,resizable=yes,status=yes,menubar=no,scrollbars=yes');
+        }
+
+        //修改成功跳转页面
+        function jumpSecond() {
+            var url = "/Dispatch/Dispatch";
+            window.open(url, '_self', 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,resizable=yes,status=yes,menubar=no,scrollbars=yes');
+        }
+
+        function openWeb(index) {
+            switch (index) {
+                case 0:
+                    openPage2("../Common/_Site.aspx?flag=0", "600", "500", "new2");
+                    break;
+                case 1:
+                    openPage2("../Common/_Site.aspx?flag=1", "600", "500", "new2");
+                    break;
+            }
+        }
+
+        //设置路线
+        function SetLine(lineName, lineID) {
+            $("#C_PATH").val(lineName);
+        }
+
+        //设置地点
+        function SetSite(siteName, siteID) {
+            $("#C_ATSTATION").val(siteName);
+        }
+
+           //全选
+        selectAll("input.qx1", "input.che2");
+    </script>
+
+    <div class="dv_search" style="display:none;">
+        <ul>
+            <li>
+                时间段
+            </li>
+            <li>
+                <input id="txt_Start" name="Start" type="text" style=" width:120px;" class="Wdate" value="" onclick="WdatePicker({isShowClear:false,readOnly:true,maxDate:'#F{$dp.$D(\'txt_End\')}'})" />
+            </li>
+
+            <li>~</li>
+
+            <li>
+                <input id="txt_End" name="End" type="text" style=" width:120px;" class="Wdate" value="" onclick="WdatePicker({isShowClear:false,readOnly:true,minDate:'#F{$dp.$D(\'txt_Start\')}'})" />
+            </li>
+            <li>
+                <button id="btn_Search" type="submit" class="btn btn-primary btn-xs btn_w60">查询</button>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

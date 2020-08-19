@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>订单/计划/生产/跟踪</title>
+    <script src="js/jsStye.js"></script>
+    <script src="../JsDate.js"></script>
+    <script src="js/jsOrderTrace.js"></script>
+
+</head>
+<body>
+    <form onresize="fromsize();">
+        <table class="table table-bordered table-condensed">
+            <tr>
+                <td>客户名称</td>
+                <td><input type="text" id="txtcustname"></td>
+                <td>业务员</td>
+                <td><input type="text" id="txtsaleemp"></td>
+                <td>合同号</td>
+                <td><input type="text" id="txtconno"></td>
+                <td>签署日期</td>
+                <td><input type="text" class="form-control Wdate" readonly="readonly" id="txtStart"></td>
+                <td><input type="text" class="form-control Wdate" readonly="readonly" id="txtEnd"></td>
+                <td><input type="button" class="btn btn-primary btn-xs" value="查询" id="btnxc" onclick="getOrder();"></td>
+            </tr>
+        </table>
+        <div class="orderList" style="overflow: auto; width: 100%">
+            <table class="table table-bordered  table-hover table-condensed" style="white-space: nowrap;">
+                <thead>
+                    <tr>
+                        <th>合同号</th>
+                        <th>销售区域</th>
+                        <th>物料名称</th>
+                        <th>钢种</th>
+                        <th>规格</th>
+                        <th>自由项1</th>
+                        <th>自由项2</th>
+                        <th>包装标准</th>
+                        <th>数量</th>
+                        <th>炼钢排产量</th>
+                        <th>轧钢排产量</th>
+                        <th>生产量</th>
+                        <th>出库量</th>
+                        <th>交货日期</th>
+                    </tr>
+                </thead>
+                <tbody id="order"></tbody>
+            </table>
+        </div>
+        <table class="table table-bordered  table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th>批号</th>
+                    <th>炉号</th>
+                    <th>合同号</th>
+                    <th>钢种</th>
+                    <th>规格</th>
+                    <th>件数</th>
+                    <th>总重量</th>
+                    <th>质量等级</th>
+                    <th>生产工位</th>
+                    <th>线材仓库</th>
+                </tr>
+            </thead>
+            <tbody id="roll-slab"></tbody>
+        </table>
+    </form>
+</body>
+</html>

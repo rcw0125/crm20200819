@@ -1,0 +1,185 @@
+﻿@model NF.Framework.DTO.TMQ_QUALITY_MAINDTO
+@using NF.Web.Core
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>质量问题反馈</title>
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+</head>
+
+<body>
+    @Html.Partial("~/Views/Shared/_Button.cshtml")
+
+    @using (Html.BeginForm())
+    {
+
+        <table class="table table-bordered">
+            <tr>
+                <td style="width:50px; text-align:right">日期</td>
+                @{
+                    string start = Model.Start == DateTime.MinValue ? "" : Model.Start.ToString("yyyy-MM-dd");
+                    string end = Model.End == DateTime.MinValue ? "" : Model.End.ToString("yyyy-MM-dd");
+                }
+                <td style="width:125px;">
+                    <input id="txt_Start" name="Start" type="text" style=" width:120px;" class="Wdate" readonly="readonly" value="@start" onclick="WdatePicker({isShowClear:false,readOnly:true,maxDate:'#F{$dp.$D(\'txt_End\')}'})" />
+                </td>
+                <td style="width:125px;">
+                    <input id="txt_End" name="End" type="text" style=" width:120px;" class="Wdate" readonly="readonly" value="@end" onclick="WdatePicker({isShowClear:false,readOnly:true,minDate:'#F{$dp.$D(\'txt_Start\')}'})" />
+                </td>
+                <td style="width:80px">反馈类型</td>
+                <td style="width:120px">@Html.DropDownDic("N_FLAG", "QualityFlag", "请选择", new { style = "width:120px;" })</td>
+                <td style="width:80px">客户名称</td>
+                <td style="width:120px">
+                    @Html.TextBoxFor(x => x.C_CUST_NAME, new { style = "width:120px;" })
+                    <input type="hidden" id="pageIndex" name="BasePage.PageIndex" />
+                </td>
+                <td style="width:80px"> 联系电话</td>
+                <td style="width:120px"> @Html.TextBoxFor(x => x.C_TEL, new { style = "width:120px;" })</td>
+                <td><button id="btn_Search" type="submit" class="btn btn-primary btn-xs btn_w60">查询</button></td>
+
+            </tr>
+        </table>
+    }
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th style=" width:40px"></th>
+                <th>操作</th>
+                <th>反馈信息类型</th>
+                <th>客户名称</th>
+                <th>联系电话</th>
+                <th>质量问题</th>
+                <th>品种</th>
+                <th>发运方式</th>
+                <th>发货时间</th>
+                <th>到货时间</th>
+                <th>状态</th>
+                <th>创建时间</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model.Qualitys.Count > 0)
+                {
+                    foreach (var item in Model.Qualitys)
+                    {
+                        <tr>
+                            <th scope="row"><input class="che2" type="radio" name="0" value="@item.C_ID" /></th>
+                            <td><a href="/Quality/QualityOperationQuery?id=@item.C_ID" target="_blank">查看</a></td>
+                            <td>@(item.N_FLAG == 1 ? "客户信息反馈" : "质量异议")</td>
+                            <td style="display:none;" class="hidFlag">@item.N_FLAG</td>
+                            <td>@item.C_CUST_NAME</td>
+                            <td>@item.C_TEL</td>
+                            <td>@Html.DetailName(item.C_QUEST_ID, "QualityType")</td>
+                            <td> @Html.DetailName(item.C_PROD_KIND_ID, "QualityKind") </td>
+                            <td>@Html.DetailName(item.C_SHIPVIA, "ShipVia") </td>
+                            <td>@(item.D_SHIP_START_DT == null ? "" : DateTime.Parse(item.D_SHIP_START_DT.ToString()).ToString("yyyy-MM-dd"))</td>
+                            <td>@(item.D_SHIP_END_DT == null ? "" : DateTime.Parse(item.D_SHIP_END_DT.ToString()).ToString("yyyy-MM-dd"))</td>
+                            <td>@Html.DetailName(item.N_STATUS.ToString(), "QualityStatus") </td>
+                            <td>@(item.D_MOD_DT == null ? "" : DateTime.Parse(item.D_MOD_DT.ToString()).ToString("yyyy-MM-dd"))</td>
+                            <td style="display:none;" class="hidStatus">@item.N_STATUS</td>
+                        </tr>
+                    }
+
+                }
+            }
+        </tbody>
+    </table>
+
+    @Html.Partial("~/Views/Shared/_Paging.cshtml")
+    <script type="text/javascript">
+        function add() {
+            document.location = "/Quality/QualityMain";
+        }
+
+        function editMsg() {
+            var test = $("input[class='che2']:checked");
+            var status = test.parents().parents().first().children(".hidStatus").text();
+            if (status == "1") {
+                alert("已处理状态不能修改");
+                return false;
+            }
+            var checkBoxValue = "";
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+            if (checkBoxValue == "") {
+                alert("请任选一项修改");
+                return false;
+            } else {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var arr = checkBoxValue.split(',');
+                if (arr.length > 1) {
+                    alert("请任选一项修改");
+                    return false;
+                } else {
+                    var obj = new Object();
+                    obj.id = arr[0];
+                    document.location = "/Quality/QualityUpdate?id=" + obj.id;
+                }
+            }
+        }
+
+        function addDetail() {
+            var test = $("input[class='che2']:checked");
+            var status = test.parents().parents().first().children(".hidStatus").text();
+            if (status == "1") {
+                alert("已处理状态不能修改");
+                return false;
+            }
+            var checkBoxValue = "";
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+            if (checkBoxValue == "") {
+                alert("请任选一项修改");
+                return false;
+            } else {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var arr = checkBoxValue.split(',');
+                if (arr.length > 1) {
+                    alert("请任选一项修改");
+                    return false;
+                } else {
+                    var obj = new Object();
+                    obj.id = arr[0];
+                    document.location = "/Quality/QualityDetail?id=" + obj.id;
+                }
+            }
+        }
+
+        function upLoad() {
+            var test = $("input[class='che2']:checked");
+            var checkBoxValue = "";
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+            if (checkBoxValue == "") {
+                alert("请任选一项上传");
+                return false;
+            } else {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var arr = checkBoxValue.split(',');
+                if (arr.length > 1) {
+                    alert("请任选一项上传");
+                    return false;
+                } else {
+                    var obj = new Object();
+                    obj.id = arr[0];
+                    openPage("/Quality/File?id=" + obj.id, "700", "500")
+                }
+            }
+        }
+
+        //全选
+        selectAll("input.qx1", "input.che2");
+    </script>
+</body>
+</html>

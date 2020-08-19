@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>发运单跟踪</title>
+    <script src="js/jsStye.js"></script>
+    <script src="js/jsFydTrace.js"></script>
+
+</head>
+<body>
+<form>
+    <table class="table table-bordered table-condensed">
+        <tr>
+            <td style="width: 100px;">发运单号</td>
+            <td style="width: 200px;">
+                <input  type="text"  id="txtsendcode" style="width: 180px;" maxlength="20"/>
+            </td>
+            <td>
+                <input type="button" id="btncx" name="btncx" value="查询" class="btn btn-primary btn-xs" onclick="getList();" />
+            </td>
+        </tr>
+    </table>
+    <div id="dvList" style="overflow: auto; width: 100%">
+    <table class="table table-bordered table-hover  table-condensed">
+       <thead>
+       <tr>
+           <th>发运单号</th>
+           <th>出库单号</th>
+           <th>仓库</th>
+           <th>批号</th>
+           <th>炉号</th>
+           <th>存货名称</th>
+           <th>钢种</th>
+           <th>规格</th>
+           <th>件数</th>
+           <th>净重</th>
+           <th>重量</th>
+           <th>钩号</th>
+           <th>出库时间</th>
+       </tr>
+       </thead>
+        <tbody id="content1">
+        </tbody>
+    </table>
+    </div>
+</form>
+</body>
+</html>

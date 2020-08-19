@@ -1,0 +1,110 @@
+﻿@model NF.Framework.DTO.TS_USERDTO
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="../Assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../Assets/css/common.css" rel="stylesheet" />
+    <script src="../Assets/js/jquery-2.0.3.min.js"></script>
+    <script src="../Assets/js/common.js"></script>
+    <title>查询用户</title>
+</head>
+<body>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td align="left"></td>
+        </tr>
+        <tr>
+            <td>
+                @using (Html.BeginForm())
+                {
+                    <div class="dv_search">
+                        <ul>
+                            <li>用户名称</li>
+                            <li>
+                                @Html.TextBoxFor(x => x.C_NAME, new { style = "width:120px;" })
+                                <input type="hidden" id="pageIndex" name="BasePage.PageIndex" />
+                                @Html.HiddenFor(x => x.C_QueryType)
+                                @Html.HiddenFor(x => x.HtmlApproveId)
+                                @Html.HiddenFor(x => x.HtmlApproveName)
+                            </li>
+                            <li>
+                                登录名称
+                            </li>
+                            <li>
+                                @Html.TextBoxFor(x => x.C_ACCOUNT, new { style = "width:120px;" })
+                            </li>
+                            <li>
+                                <button id="btn_Search" type="submit" class="btn btn-primary btn-xs btn_w60">查询</button>
+                                <button id="btn_Sb" type="button" class="btn btn-primary btn-xs btn_w60">提交</button>
+                            </li>
+                        </ul>
+                    </div>
+                }
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>用户名称</th>
+                            <th>登录名称</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            if (Model.Users != null && Model.Users.Count > 0)
+                            {
+                                foreach (var item in Model.Users)
+                                {
+                                    <tr>
+                                        @if (Model.C_QueryType == 1)
+                                        {
+                                            <td style=" text-align:center;"><input class="che2" type="checkbox" name="" value="@item.C_ID" /></td>
+                                        }
+                                        else
+                                        {
+                                            <td style=" text-align:center;"><input class="che2" type="radio" name="0" value="@item.C_ID" /></td>
+                                        }
+                                        <td>@item.C_NAME</td>
+                                        <td>@item.C_ACCOUNT</td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+    @Html.Partial("~/Views/Shared/_Paging.cshtml")
+    <script type="text/javascript">
+        $(function () {
+            $("#btn_Sb").click(function () {
+                var test = $("input[class='che2']:checked");
+                var checkBoxValue = "";
+                var checkBoxName = "";
+                test.each(function () {
+                    checkBoxValue += $(this).val() + ",";
+                    checkBoxName += $(this).parent().next().html() + ",";
+                });
+                if (checkBoxValue == "") {
+                    alert("请任选一项修改");
+                    return false;
+                } else {
+                    checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                    checkBoxName = checkBoxName.substring(0, checkBoxName.length - 1);
+                    var arr = checkBoxValue.split(',');
+                    $(window.opener.document.getElementById($("#HtmlApproveId").val())).attr("value", checkBoxValue);
+                    $(window.opener.document.getElementById($("#HtmlApproveName").val())).attr("value", checkBoxName);
+                    window.close();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

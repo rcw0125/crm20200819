@@ -1,0 +1,118 @@
+﻿@model NF.Framework.DTO.TMQ_QUALITY_FILEDTO
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>上传文件</title>
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+</head>
+<body>
+    <div style="margin:20px auto  10px  10px;">
+        @using (Html.BeginForm("File", "Quality", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+            <input type="hidden" id="id" name="id" value="@ViewData["qualityId"].ToString()" />
+            <input type="hidden" id="ResultType" name="ResultType" value="@Model.ResultType" />
+            <table class="table table-bordered">
+                <tr>
+                    <td style="width:550px">
+                        <div class="file-container" style="display:inline-block;position:relative;overflow: hidden;vertical-align:middle">
+                            <button class="btn btn-success fileinput-button btn-xs" type="button">上传</button>
+                            <input type="file" id="jobData1" name="file1" onchange="loadFile(this.files[0])" style="position:absolute;top:0;left:0;font-size:34px; opacity:0">
+                        </div>
+                        <span id="filename" style="vertical-align: middle">未上传文件</span>
+                        <div class="file-container" style="display:inline-block;position:relative;overflow: hidden;vertical-align:middle">
+                            <button class="btn btn-success fileinput-button btn-xs"" type="button">上传</button>
+                            <input type="file" id="jobData2" name="file2" onchange="loadFile2(this.files[0])" style="position:absolute;top:0;left:0;font-size:34px; opacity:0">
+                        </div>
+                        <span id="filename2" style="vertical-align: middle">未上传文件</span>
+                        <div class="file-container" style="display:inline-block;position:relative;overflow: hidden;vertical-align:middle">
+                            <button class="btn btn-success fileinput-button btn-xs"" type="button">上传</button>
+                            <input type="file" id="jobData3" name="file3" onchange="loadFile3(this.files[0])" style="position:absolute;top:0;left:0;font-size:34px; opacity:0">
+                        </div>
+                        <span id="filename3" style="vertical-align: middle">未上传文件</span>
+                        <div style="margin-left:20px;display:inline-block;position:relative;overflow: hidden;vertical-align:middle">
+                            <button id="save" class="btn btn-primary btn-xs" type="button">保存</button>
+                            <button id="sm" class="btn btn-primary btn-xs" style="display:none;" type="submit">保存</button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th style=" width:40px"> </th>
+                        <th>附件名称</th>
+                        <th>上传时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        if (Model.Files != null && Model.Files.Count > 0)
+                        {
+                            foreach (var item in Model.Files)
+                            {
+                                <tr>
+                                    <th scope="row"><input class="che2" type="radio" name="0" value="@item.C_ID" /></th>
+                                    <td>@item.C_TITLE</td>
+                                    <td>@item.D_DT</td>
+                                    <td><a href="/Quality/DownloadFile?fileName=@item.C_TITLE" target="_blank">下载</a></td>
+                                </tr>
+                            }
+
+                        }
+                    }
+                </tbody>
+            </table>
+                        }
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            $("#save").click(function () {
+                var bool = true;
+                var fileSize1 = document.getElementById('jobData1').files[0]; //获得文件大小；
+                var fileSize2 = document.getElementById('jobData2').files[0]; //获得文件大小；
+                var fileSize3 = document.getElementById('jobData3').files[0]; //获得文件大小；
+                if (fileSize1 != undefined) {
+                    if (fileSize1.size > 2097152)
+                        bool = false;
+                }
+                if (fileSize2 != undefined) {
+                    if (fileSize2.size > 2097152)
+                        bool = false;
+                }
+                if (fileSize3 != undefined) {
+                    if (fileSize3.size > 2097152)
+                        bool = false;
+                }
+                if (bool) {
+                    $("#sm").click();
+                } else {
+                    alert("文件超过2M不能上传");
+                }
+            });
+
+            if ($("#ResultType").val() == "1") {
+                alert("操作成功");
+                window.parent.seatch();
+                close();    
+            }
+        });
+
+
+        function loadFile(file) {
+            $("#filename").html(file.name);
+        }
+
+        function loadFile2(file) {
+            $("#filename2").html(file.name);
+        }
+
+        function loadFile3(file) {
+            $("#filename3").html(file.name);
+        }
+    </script>
+</body>
+</html>

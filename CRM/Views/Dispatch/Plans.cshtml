@@ -1,0 +1,122 @@
+﻿@model NF.Framework.DTO.TMP_PLANDTO
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>发运单制作</title>
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+</head>
+<body>
+    <div>
+   
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td align="left">
+                    <button id="btn_Search" type="button" style="display:none">查询</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @using (Html.BeginForm())
+                    {
+                        <div class="dv_search">
+                            <ul>
+                                <li>合同号</li>
+                                <li>
+                                    @Html.TextBoxFor(x => x.C_CON_NO, new { style = "width:120px;" })
+                                    <input type="hidden" id="pageIndex" name="BasePage.PageIndex" />
+                                </li>
+                                <li>
+                                    订单号
+                                </li>
+                                <li>
+                                    @Html.TextBoxFor(x => x.C_NO, new { style = "width:120px;" })
+                                </li>
+                                <li>
+                                    <button id="btn_Search" type="submit" class="btn btn-primary btn-xs btn_w60">查询</button>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <table id="tb" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th style=" width:40px"> </th>
+                                <th>合同号</th>
+                                <th>订单号</th>
+                                <th>日计划单据号</th>
+                                <th>日计划发货日期</th>
+                                <th>物料编码</th>
+                                <th>物料名称</th>
+                                <th>钢种</th>
+                                <th>规格</th>
+                                <th>质量等级</th>
+                                <th>数量</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                if (Model.Plans.Count > 0)
+                                {
+                                    foreach (var item in Model.Plans)
+                                    {
+                                        <tr>
+                                            <td><input class="che2" type="radio" name="0" value="@item.C_ID" /></td>
+                                            <td>@item.C_CON_NO</td>
+                                            <td>@item.C_NO</td>
+                                            <td>@item.C_ID</td>
+                                            <td>@item.D_PLANSEND_DT</td>
+                                            <td>@item.C_MAT_CODE</td>
+                                            <td>@item.C_MAT_NAME</td>
+                                            <td>@item.C_STL_GRD</td>
+                                            <td>@item.C_SPEC</td>
+                                            <td>@item.C_QUALIRY_LEV</td>
+                                            <td>@item.N_WGT</td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            @Html.Partial("~/Views/Shared/_Paging.cshtml")
+        </table>
+        <div id="dispatch">
+            @Html.Partial("~/Views/Dispatch/_Dispatch.cshtml")
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            $("#tb tr").click(function () {
+                var test = $("input[class='che2']:checked");
+                var checkBoxValue = "";
+                test.each(function () {
+                    checkBoxValue += $(this).val();
+                    $.get("/Dispatch/DispatchPlan?no=" + checkBoxValue, function (data) {
+                        $("#dispatch").html(data);
+                    });
+                });
+
+                $("#btn_Search").click(function () {
+                    var test = $("input[class='che2']:checked");
+                    var checkBoxValue = "";
+                    test.each(function () {
+                        checkBoxValue += $(this).val();
+                        $.get("/Dispatch/DispatchPlan?no=" + checkBoxValue, function (data) {
+                            $("#dispatch").html(data);
+                        });
+                    });
+                });
+            });
+        });
+
+
+    </script>
+</body>
+</html>

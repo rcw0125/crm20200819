@@ -1,0 +1,109 @@
+﻿@model NF.Framework.DTO.TS_DEPTDTO
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>组织机构</title>
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+</head>
+
+<body>
+    @Html.Partial("~/Views/Shared/_Button.cshtml")
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td align="left"></td>
+        </tr>
+        <tr>
+            <td>
+                @using (Html.BeginForm())
+                {
+                    <div class="dv_search">
+                        <ul>
+                            <li>部门编码</li>
+                            <li>
+                                @Html.TextBoxFor(x => x.C_CODE, new { style = "width:120px;" })
+                                <input type="hidden" id="pageIndex" name="BasePage.PageIndex" />
+                            </li>
+                            <li>
+                                部门名称
+                            </li>
+                            <li>
+                                @Html.TextBoxFor(x => x.C_NAME, new { style = "width:120px;" })
+                            </li>
+                            <li>
+                                <button id="btn_Search" type="submit" class="btn btn-primary btn-xs btn_w60">查询</button>
+                            </li>
+                        </ul>
+                    </div>
+                }
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th style=" width:40px"> <input class="qx1" type="checkbox" name="" value="" /></th>
+                            <th>部门编码</th>
+                            <th>部门名称</th>
+                            <th>部门描述</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            if (Model.Depts.Count > 0)
+                            {
+                                foreach (var item in Model.Depts)
+                                {
+                                    <tr>
+                                        <th scope="row"><input class="che2" type="checkbox" name="" value="@item.C_ID" /></th>
+                                        <td>@item.C_CODE</td>
+                                        <td>@item.C_NAME</td>
+                                        <td>@item.C_DESC</td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        @Html.Partial("~/Views/Shared/_Paging.cshtml")
+    </table>
+    <script type="text/javascript">
+        function add() {
+            openPage("/System/", "500", "500")
+        }
+
+        function editMsg() {
+            var test = $("input[class='che2']:checked");
+            var checkBoxValue = "";
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+            if (checkBoxValue == "") {
+                alert("请任选一项修改");
+                return false;
+            } else {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var arr = checkBoxValue.split(',');
+                if (arr.length > 1) {
+                    alert("请任选一项修改");
+                    return false;
+                } else {
+                    var obj = new Object();
+                    obj.id = arr[0];
+                    openPage("/System/?id=" + obj.id, "500", "500")
+                }
+            }
+        }
+        //全选
+        selectAll("input.qx1", "input.che2");
+    </script>
+</body>
+</html>

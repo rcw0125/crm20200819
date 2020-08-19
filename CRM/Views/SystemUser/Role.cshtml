@@ -1,0 +1,123 @@
+﻿@model NF.Framework.DTO.TS_ROLEDTO
+@using NF.Web.Core;
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>角色管理</title>
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+</head>
+
+<body>
+    @Html.Partial("~/Views/Shared/_Button.cshtml")
+
+    @using (Html.BeginForm())
+    {
+        <table class="table table-bordered">
+
+            <tr>
+                <td style="width:80px;">编码</td>
+                <td style="width:120px;"> @Html.TextBoxFor(x => x.C_CODE, new { style = "width:120px;" })</td>
+                <td style="width:80px;">角色名称</td>
+                <td style="width:125px;">
+                    @Html.TextBoxFor(x => x.C_NAME, new { style = "width:120px;" })
+                    <input type="hidden" id="pageIndex" name="BasePage.PageIndex" />
+                </td>
+                <td> <button id="btn_Search" type="submit" class="btn btn-primary btn-xs btn_w60">查询</button></td>
+            </tr>
+        </table>
+
+    }
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th style=" width:40px"> </th>
+                <th>编码</th>
+                <th>角色名称</th>
+                <th>描述</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model.Roles != null && Model.Roles.Count > 0)
+                {
+                    foreach (var item in Model.Roles)
+                    {
+                        <tr>
+                            <th scope="row"><input class="che2" type="radio" name="0" value="@item.C_ID" /></th>
+                            <td>@item.C_CODE</td>
+                            <td>@item.C_NAME</td>
+                            <td>@item.C_DESC</td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+    @Html.Partial("~/Views/Shared/_Paging.cshtml")
+
+    <script type="text/javascript">
+        function add() {
+            _iframe('/SystemUser/RoleInsert', '700', '500', '新增');
+        }
+
+        function editMsg() {
+            var test = $("input[class='che2']:checked");
+            var checkBoxValue = "";
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+            if (checkBoxValue == "") {
+                alert("请任选一项修改");
+                return false;
+            } else {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var arr = checkBoxValue.split(',');
+                if (arr.length > 1) {
+                    alert("请任选一项修改");
+                    return false;
+                } else {
+                    var obj = new Object();
+                    obj.id = arr[0];
+                    _iframe('/SystemUser/RoleUpdate?id=' + obj.id, '700', '500','修改');
+                }
+            }
+        }
+
+        function relation() {
+            var test = $("input[class='che2']:checked");
+            var checkBoxValue = "";
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+            if (checkBoxValue == "") {
+                alert("请任选一项修改");
+                return false;
+            } else {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var arr = checkBoxValue.split(',');
+                if (arr.length > 1) {
+                    alert("请任选一项修改");
+                    return false;
+                } else {
+                    var obj = new Object();
+                    obj.id = arr[0];
+                    _iframe('/SystemUser/RoleFunc?id=' + obj.id,'900','500','授权');
+                }
+            }
+        }
+
+        function seatch() {
+            $("#btn_Search").click();
+        }
+
+        //全选
+        selectAll("input.qx1", "input.che2");
+    </script>
+</body>
+</html>

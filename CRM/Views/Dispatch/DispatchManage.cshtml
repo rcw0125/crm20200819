@@ -1,0 +1,743 @@
+﻿@model NF.Framework.DTO.TMO_CONDETAILSDTO
+@using NF.Web.Core
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>发运单制作</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+</head>
+<body>
+
+    @using (Html.BeginForm())
+    {
+        <div class="dv_btn">
+            <ul>
+                <li>
+                    <input id="product" type="button" value="产品" class="btn btn-primary dropdown-toggle btn-xs" onclick="openWeb(2);" />
+                    <input id="btn" type="button" value="保存" class="btn btn-warning btn-xs" />
+                    <input id="btnSave" style="display:none;" type="submit" value="保存发运单" class="btn btn-warning btn-xs" />
+                    <input type="hidden" id="IsRefresh" name="IsRefresh" value="@Model.IsRefresh" />
+                    <input type="hidden" id="TabIndex1" name="TabIndex1" value="@Model.TabIndex1" />
+                    <input type="hidden" id="TabIndex2" name="TabIndex2" value="@Model.TabIndex2" />
+                    <input type="hidden" id="pageIndex" name="BasePage.PageIndex" />
+                    <input type="hidden" id="SupplementNo" name="SupplementNo" value="@Model.SupplementNo" />
+                    <input type="hidden" id="SupplementQua" name="SupplementQua" value="@Model.SupplementQua" />
+                    <input type="hidden" id="SupplementStove" name="SupplementStove" value="@Model.SupplementStove" />
+                    <input type="hidden" id="SupplementBatchNo" name="SupplementBatchNo" value="@Model.SupplementBatchNo" />
+                    <input type="hidden" id="ResultType" name="ResultType" value="@Model.ResultType" />
+                    <input type="hidden" id="ErrorMessage" name="ErrorMessage" value="@Model.ErrorMessage" />
+                    <input type="hidden" id="PitchConDeitailNo" name="PitchConDeitailNo" value="@Model.PitchConDeitailNo" />
+                    <input type="hidden" id="OperationType" name="OperationType" value="@Model.OperationType" />
+                    <input type="hidden" id="ConfirmOrderType" name="ConfirmOrderType" value="@Model.ConfirmOrderType" />
+                    <input type="hidden" id="CancelDispatchOrderID" name="CancelDispatchOrderID" value="@Model.CancelDispatchOrderID" />
+                    <input type="hidden" id="CancelDispatchQua" name="CancelDispatchQua" value="@Model.CancelDispatchQua" />
+                    <input type="hidden" id="CancelDispatchStove" name="CancelDispatchStove" value="@Model.CancelDispatchStove" />
+                    <input type="hidden" id="CancelDispatchBatchNo" name="CancelDispatchBatchNo" value="@Model.CancelDispatchBatchNo" />
+                    <input type="hidden" id="IsGps" name="IsGps" value="@Model.IsGps" />
+                </li>
+            </ul>
+        </div>
+        <div class="tab-content">
+
+            <!--发运单-->
+            <div id="order" style="padding-top: 5px;">
+                <table class=" table  table-bordered table-condensed">
+                    <tr>
+                        <td>发运单号</td>
+                        <td>
+                            <input type="text" disabled="disabled" value="@Model.Dispatch.C_ID" />
+                            <input type="hidden" id="Dispatch_C_ID" name="Dispatch.C_ID" value="@Model.Dispatch.C_ID" />
+                            <input type="hidden" id="Dispatch.C_REMARK" name="Dispatch.C_REMARK" value="@Model.Dispatch.C_REMARK" />
+                            <input type="hidden" id="Dispatch.N_IS_WIRESALE" name="Dispatch.N_IS_WIRESALE" value="@Model.Dispatch.C_IS_WIRESALE" />
+                            <input type="hidden" id="Dispatch.N_IS_WIRESALE_ID" name="Dispatch.N_IS_WIRESALE_ID" value="@Model.Dispatch.C_IS_WIRESALE_ID" />
+                            <input type="hidden" id="Dispatch_C_GUID" name="Dispatch.C_GUID" value="@Model.Dispatch.C_GUID" />
+                            <input type="hidden" id="Dispatch_C_EXTEND1" name="Dispatch.C_EXTEND1" value="@Model.Dispatch.C_EXTEND1" />
+                            <input type="hidden" id="C_EXTEND5" name="Dispatch.C_EXTEND5" value="@Model.Dispatch.C_EXTEND5" />
+                            <input type="hidden" id="C_CREATE_ID" name="Dispatch.C_CREATE_ID" value="@Model.Dispatch.C_CREATE_ID" />
+                            <input type="hidden" id="C_CREATE_NAME" name="Dispatch.C_CREATE_NAME" value="@Model.Dispatch.C_CREATE_NAME" />
+                            <input type="hidden" id="C_EMP_ID" name="Dispatch.C_EMP_ID" value="@Model.Dispatch.C_EMP_ID" />
+                            <span style=" color:red;"> @Html.ValidationMessageFor(x => x.Dispatch.C_ID)</span>
+                        </td>
+                        <td>发运日期</td>
+                        <td>
+                            @Html.TextBox("Dispatch.D_DISP_DT", DateTime.Parse(Model.Dispatch.D_DISP_DT.ToString()).ToString("yyyy-MM-dd"), new { id = "txt", name = "Dispatch.D_DISP_DT", @class = "Wdate", @readonly = "readonly" })
+                            <span style=" color:red;">   @Html.ValidationMessageFor(x => x.Dispatch.D_DISP_DT)</span>
+                        </td>
+                        <td>发运方式</td>
+                        <td>
+                            @Html.DropDownDic("Dispatch.C_SHIPVIA", "ShipVia", new { @readonly = "readonly" })
+                            <span style=" color:red;">  @Html.ValidationMessageFor(x => x.Dispatch.C_SHIPVIA)</span>
+                        </td>
+                        <td>承运商</td>
+                        <td>
+                            @Html.DropDownDic("Dispatch.C_COMCAR", "TRANCUST", "-请选择-", new { @readonly = "readonly" })
+                            <span style=" color:red;">   @Html.ValidationMessageFor(x => x.Dispatch.C_COMCAR)</span>
+                    </tr>
+                    <tr>
+                        <td>
+                            到站
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(x => x.Dispatch.C_ATSTATION, new { @readonly = "readonly" })
+                            <a href="javascript:void(0);" onclick='openWeb(1);'><span class="glyphicon glyphicon-search"></span></a>
+                            &nbsp;<span style=" color:red;">   @Html.ValidationMessageFor(x => x.Dispatch.C_ATSTATION)</span>
+                        </td>
+                        @*<td>
+                            路线
+                            </td>
+                            <td>
+                            @Html.TextBoxFor(x => x.Dispatch.C_PATH, new { @readonly = "readonly" })
+                            <a href="javascript:void(0);" onclick="openWeb(0);"><span class="glyphicon glyphicon-search"></span></a>
+                            &nbsp;<span style=" color:red;"> @Html.ValidationMessageFor(x => x.Dispatch.C_PATH)</span>
+                            </td>*@
+                        <td>车牌号</td>
+                        <td>
+                            @Html.TextBoxFor(x => x.Dispatch.C_LIC_PLA_NO)
+                            <span style=" color:red;">    @Html.ValidationMessageFor(x => x.Dispatch.C_LIC_PLA_NO)</span>
+                        </td>
+                        <td class="gps">GPS设备号</td>
+                        <td class="gps">
+                            @Html.TextBoxFor(x => x.Dispatch.C_GPS_NO, new { style = " width:170px", disabled = "disabled" })
+                            <span style=" color:red;">    @Html.ValidationMessageFor(x => x.Dispatch.C_GPS_NO)</span>
+                        </td>
+                        <td>备注</td>
+                        <td>
+                            @Html.TextBoxFor(x => x.Dispatch.C_REMARK2, new { style = " width:180px" })
+                            <span style=" color:red;">    @Html.ValidationMessageFor(x => x.Dispatch.C_REMARK2)</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>发运单状态</td>
+                        <td>
+                            @Html.DetailName(Model.Dispatch.C_STATUS, "DispatchStatus")
+                            @Html.HiddenFor(x => x.Dispatch.C_STATUS)
+                            <span style=" color:red;">   @Html.ValidationMessageFor(x => x.Dispatch.C_STATUS)</span>
+                        </td>
+                        <td>审核人</td>
+                        <td>@Html.GetGenerName(Model.Dispatch.C_APPROVE_ID, "C_NAME", "User")</td>
+                        <td>审核日期</td>
+                        <td>@(Model.Dispatch.D_APPROVE_DT == null ? "" : DateTime.Parse(Model.Dispatch.D_APPROVE_DT.ToString()).ToString("yyyy-MM-dd"))</td>
+                        <td>制单人</td>
+                        <td>@Html.GetGenerName(Model.Dispatch.C_CREATE_ID, "C_NAME", "User")</td>
+                    </tr>
+                    <tr>
+                        <td>制单人</td>
+                        <td>@Html.GetGenerName(Model.Dispatch.C_CREATE_ID, "C_NAME", "User")</td>
+                        <td>制单时间</td>
+                        <td>@(Model.Dispatch.D_CREATE_DT == null ? "" : DateTime.Parse(Model.Dispatch.D_CREATE_DT.ToString()).ToString("yyyy-MM-dd"))</td>
+                        <td>修改人</td>
+                        <td>@Html.GetGenerName(Model.Dispatch.C_EMP_ID, "C_NAME", "User")</td>
+                        <td>修改时间</td>
+                        <td>@(Model.Dispatch.D_MOD_DT == null ? "" : DateTime.Parse(Model.Dispatch.D_MOD_DT.ToString()).ToString("yyyy-MM-dd"))</td>
+                    </tr>
+                </table>
+                <ul id="myTab2" class="nav nav-tabs">
+                    <li class="active"><a href="#tab1" data-toggle="tab">发运单明细</a> </li>
+                    <li>
+                        <a href="#tab2" data-toggle="tab" onclick="supplement()">补单</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <!--发运单明细-->
+                    <div class="tab-pane fade in active" id="tab1" style="padding-top: 5px;">
+                        <table class="table table-bordered table-hover table-condensed">
+                            <thead>
+                                <tr>
+                                    @*<th></th>*@
+                                    <th>合同号</th>
+                                    <th>钢种</th>
+                                    <th>规格</th>
+                                    <th>自由项</th>
+                                    <th>自由项2</th>
+                                    <th>包装标准</th>
+                                    <th>质量等级</th>
+                                    <th>物料编码</th>
+                                    <th>物料名称</th>
+                                    <th>批号</th>
+                                    <th>炉号</th>
+                                    <th>地区</th>
+                                    <th>件数</th>
+                                    <th>数量</th>
+                                    @*<th>撤销件数</th>
+                                    <th>操作</th>*@
+                                    @*<th>勾号</th>
+                                        <th>钢坯号</th>*@
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Dispatch.Details != null && Model.Dispatch.Details.Count > 0)
+                                {
+                                    for (int i = 0; i < Model.Dispatch.Details.Count; i++)
+                                    {
+                                        <tr>
+                                            <td>@Model.Dispatch.Details[i].No</td>
+                                            <td>@Model.Dispatch.Details[i].Grd</td>
+                                            <td>@Model.Dispatch.Details[i].Spec</td>
+                                            <td>@Model.Dispatch.Details[i].Free</td>
+                                            <td>@Model.Dispatch.Details[i].Free2</td>
+                                            <td>@Model.Dispatch.Details[i].Pack</td>
+                                            <td>@Model.Dispatch.Details[i].QUALIRY_LEV</td>
+                                            <td>@Model.Dispatch.Details[i].MatCode</td>
+                                            <td>@Model.Dispatch.Details[i].MatName</td>
+                                            <td>@Model.Dispatch.Details[i].BatchNo</td>
+                                            <td>@Model.Dispatch.Details[i].Stove</td>
+                                            <td>@Model.Dispatch.Details[i].Area</td>
+                                            <td>@Model.Dispatch.Details[i].Qua</td>
+                                            <td>@Model.Dispatch.Details[i].Wgt</td>
+                                            @*<td>
+                                                <input type="text" name="Dispatch.Details[@i].OperationQua" onchange='setValue(this,"@i")' value="" />
+                                                <input type="hidden" id="OperationQuaValue_@i" value="" />
+                                            </td>
+                                            <td> <a href='javascript:cancelDispatchStoveID("@Model.Dispatch.Details[i].OrderNo","@Model.Dispatch.Details[i].Qua","@i","@Model.Dispatch.Details[i].Stove","@Model.Dispatch.Details[i].BatchNo");' class="" title="撤销">撤销</a></td>*@
+                                            <td style="display:none;">
+                                                <input type="hidden" name="Dispatch.Details[@i].OrderNo" value="@Model.Dispatch.Details[i].OrderNo" />
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                @if (Model.Dispatch.DispatchDetails != null && Model.Dispatch.DispatchDetails.Count > 0)
+                                {
+                                    for (int i = 0; i < Model.Dispatch.DispatchDetails.Count; i++)
+                                    {
+                                        <tr style="display:none;">
+                                            @*<td> <a href='javascript:cancelDispatchStoveID("@Model.Dispatch.DispatchDetails[i].C_PRODUCT_ID");' class="glyphicon glyphicon-share" title="撤销"></a></td>
+                                                <td>@Model.Dispatch.DispatchDetails[i].C_CON_NO</td>
+                                                                <td>@Model.Dispatch.DispatchDetails[i].C_STL_GRD</td>
+                                                                <td>@Model.Dispatch.DispatchDetails[i].C_SPEC</td>
+                                                                <td>@Model.Dispatch.DispatchDetails[i].C_FREE_TERM</td>
+                                                                <td>@Model.Dispatch.DispatchDetails[i].C_FREE_TERM2</td>
+                                                                <td>@Model.Dispatch.DispatchDetails[i].C_PACK</td>
+                                                                <td>@Model.Dispatch.DispatchDetails[i].C_QUALIRY_LEV</td>
+                                                                <td>@Model.Dispatch.DispatchDetails[i].C_MAT_CODE</td>
+                                                                <td>@Model.Dispatch.DispatchDetails[i].C_MAT_NAME</td>
+                                                                <td>1</td>
+                                                                <td>@Model.Dispatch.DispatchDetails[i].N_WGT</td>
+                                                     <td>@Model.Dispatch.DispatchDetails[i].C_STOVE</td>
+                                                                <td>@Model.Dispatch.DispatchDetails[i].C_BATCH_NO</td>
+                                                        <td>@Model.Dispatch.DispatchDetails[i].C_TICK_NO</td>
+                                                                <td>@Model.Dispatch.DispatchDetails[i].C_SLAB_NO</td>*@
+                                            <td style="display:none;">
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_ID" value="@Model.Dispatch.DispatchDetails[i].C_ID" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_DISPATCH_ID" value="@Model.Dispatch.DispatchDetails[i].C_DISPATCH_ID" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_STOVE" value="@Model.Dispatch.DispatchDetails[i].C_STOVE" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_BATCH_NO" value="@Model.Dispatch.DispatchDetails[i].C_BATCH_NO" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_TICK_NO" value="@Model.Dispatch.DispatchDetails[i].C_TICK_NO" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_SLAB_NO" value="@Model.Dispatch.DispatchDetails[i].C_SLAB_NO" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_MAT_CODE" value="@Model.Dispatch.DispatchDetails[i].C_MAT_CODE" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_PLAN_ID" value="@Model.Dispatch.DispatchDetails[i].C_PLAN_ID" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_MAT_NAME" value="@Model.Dispatch.DispatchDetails[i].C_MAT_NAME" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_SPEC" value="@Model.Dispatch.DispatchDetails[i].C_SPEC" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_STL_GRD" value="@Model.Dispatch.DispatchDetails[i].C_STL_GRD" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_SEND_STOCK" value="@Model.Dispatch.DispatchDetails[i].C_SEND_STOCK" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_QUALIRY_LEV" value="@Model.Dispatch.DispatchDetails[i].C_QUALIRY_LEV" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_FREE_TERM" value="@Model.Dispatch.DispatchDetails[i].C_FREE_TERM" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_ELSENEED" value="@Model.Dispatch.DispatchDetails[i].C_ELSENEED" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].N_COM_AMOUNT_WGT" value="@Model.Dispatch.DispatchDetails[i].N_COM_AMOUNT_WGT" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].N_WGT" value="@Model.Dispatch.DispatchDetails[i].N_WGT" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_EQUATION_FACTOR" value="@Model.Dispatch.DispatchDetails[i].C_EQUATION_FACTOR" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].N_OUT_STOCK_WGT" value="@Model.Dispatch.DispatchDetails[i].N_OUT_STOCK_WGT" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_UNITIS" value="@Model.Dispatch.DispatchDetails[i].C_UNITIS" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_SEND_SITE" value="@Model.Dispatch.DispatchDetails[i].C_SEND_SITE" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_AOG_SITE" value="@Model.Dispatch.DispatchDetails[i].C_AOG_SITE" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_ORGO_CUST" value="@Model.Dispatch.DispatchDetails[i].C_ORGO_CUST" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_CGC" value="@Model.Dispatch.DispatchDetails[i].C_CGC" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].N_IS_SEND_CLOSE" value="@Model.Dispatch.DispatchDetails[i].N_IS_SEND_CLOSE" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_ORDER_TYPE" value="@Model.Dispatch.DispatchDetails[i].C_ORDER_TYPE" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_SEND_AREA" value="@Model.Dispatch.DispatchDetails[i].C_SEND_AREA" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_AREA" value="@Model.Dispatch.DispatchDetails[i].C_AREA" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_AU_UNITIS" value="@Model.Dispatch.DispatchDetails[i].C_AU_UNITIS" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_CUSTFILE_ID" value="@Model.Dispatch.DispatchDetails[i].C_CUSTFILE_ID" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_CUST_ID" value="@Model.Dispatch.DispatchDetails[i].C_CUST_ID" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_REMARK" value="@Model.Dispatch.DispatchDetails[i].C_REMARK" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].D_CAL_FAKE_WGT_DT" value="@Model.Dispatch.DispatchDetails[i].D_CAL_FAKE_WGT_DT" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].N_CAL_FAKE_WGT" value="@Model.Dispatch.DispatchDetails[i].N_CAL_FAKE_WGT" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].N_CAL_PACK_WGT" value="@Model.Dispatch.DispatchDetails[i].N_CAL_PACK_WGT" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].N_CAL_TRUE_WGT" value="@Model.Dispatch.DispatchDetails[i].N_CAL_TRUE_WGT" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].N_CAL_FAKE_WGT_DT" value="@Model.Dispatch.DispatchDetails[i].N_CAL_FAKE_WGT_DT" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].N_CAL_PACK_WGT_DT" value="@Model.Dispatch.DispatchDetails[i].N_CAL_PACK_WGT_DT" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].N_ACTUAL_WGT" value="@Model.Dispatch.DispatchDetails[i].N_ACTUAL_WGT" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].N_QUA" value="@Model.Dispatch.DispatchDetails[i].N_QUA" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_CON_NO" value="@Model.Dispatch.DispatchDetails[i].C_CON_NO" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_NO" value="@Model.Dispatch.DispatchDetails[i].C_NO" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_PRODUCT_ID" value="@Model.Dispatch.DispatchDetails[i].C_PRODUCT_ID" class="pitchid" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_JUDGE_LEV_ZH" value="@Model.Dispatch.DispatchDetails[i].C_JUDGE_LEV_ZH" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_PLAN_ID" value="@Model.Dispatch.DispatchDetails[i].C_PLAN_ID" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_STD_CODE" value="@Model.Dispatch.DispatchDetails[i].C_STD_CODE" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_FREE_TERM" value="@Model.Dispatch.DispatchDetails[i].C_FREE_TERM" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_FREE_TERM2" value="@Model.Dispatch.DispatchDetails[i].C_FREE_TERM2" />
+                                                <input type="hidden" name="Dispatch.DispatchDetails[@i].C_PACK" value="@Model.Dispatch.DispatchDetails[i].C_PACK" />
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr class="info">
+                                    <td>
+                                        合计
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>@Model.Dispatch.Number</td>
+                                    <td>@Model.Dispatch.Wgt</td>
+                                    @*<td></td>
+                                    <td></td>*@
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <!--补单-->
+                    <div class="tab-pane fade" id="tab2">
+                        <table class="table table-bordered table-hover" id="supplementBody"></table>
+                        <table class="table table-bordered  table-hover" style="white-space: nowrap; display:none;">
+                            <thead>
+                                <tr>
+                                    @*<th><a></a></th>*@
+                                    <th>合同号</th>
+                                    <th>物料编码</th>
+                                    <th>钢种</th>
+                                    <th>规格</th>
+                                    <th>数量(吨)</th>
+                                    <th>自由项</th>
+                                    <th>自由项2</th>
+                                    <th>包装标准</th>
+                                    <th>客户</th>
+                                    <th>到货地址</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Dispatch.PitchConDetails != null && Model.Dispatch.PitchConDetails.Count > 0)
+                                {
+                                    for (int i = 0; i < Model.Dispatch.PitchConDetails.Count; i++)
+                                    {
+                                        <tr>
+                                            @*<td>
+                                                    <a href='javascript:pp("@Model.Dispatch.PitchConDetails[i].C_NO");' class="glyphicon glyphicon-plus" title="插销发运单">
+                                                    </a>
+                                                </td>*@
+                                            <td>@Model.Dispatch.PitchConDetails[i].C_CON_NO</td>
+                                            <td>@Model.Dispatch.PitchConDetails[i].C_MAT_CODE</td>
+                                            <td>@Model.Dispatch.PitchConDetails[i].C_STL_GRD</td>
+                                            <td>@Model.Dispatch.PitchConDetails[i].C_SPEC</td>
+                                            <td>@Model.Dispatch.PitchConDetails[i].N_WGT</td>
+                                            <td>@Model.Dispatch.PitchConDetails[i].C_FREE1</td>
+                                            <td>@Model.Dispatch.PitchConDetails[i].C_FREE2</td>
+                                            <td>@Model.Dispatch.PitchConDetails[i].C_PACK</td>
+                                            <td>@Model.Dispatch.PitchConDetails[i].C_CUST_NAME</td>
+                                            <td>@Model.Dispatch.PitchConDetails[i].C_RECEIVEADDRESS</td>
+                                            <td style="display:none;">
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_ORDER_NO" value="@Model.Dispatch.PitchConDetails[i].C_ORDER_NO" class="pitchNo" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_CON_NO" value="@Model.Dispatch.PitchConDetails[i].C_CON_NO" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_CON_NAME" value="@Model.Dispatch.PitchConDetails[i].C_CON_NAME" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_AREA" value="@Model.Dispatch.PitchConDetails[i].C_AREA" class="pitchArea" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_MAT_CODE" value="@Model.Dispatch.PitchConDetails[i].C_MAT_CODE" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_MAT_NAME" value="@Model.Dispatch.PitchConDetails[i].C_MAT_NAME" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_TECH_PROT" value="@Model.Dispatch.PitchConDetails[i].C_TECH_PROT" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_SPEC" value="@Model.Dispatch.PitchConDetails[i].C_SPEC" class="pitchSpec" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_STL_GRD" value="@Model.Dispatch.PitchConDetails[i].C_STL_GRD" class="pitchStlGrd" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_PRO_USE" value="@Model.Dispatch.PitchConDetails[i].C_PRO_USE" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_FUNITID" value="@Model.Dispatch.PitchConDetails[i].C_FUNITID" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_UNITIS" value="@Model.Dispatch.PitchConDetails[i].C_UNITID" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_CUST_SQ" value="@Model.Dispatch.PitchConDetails[i].C_CUST_SQ" />
+
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].D_NEED_DT" value="@Model.Dispatch.PitchConDetails[i].D_NEED_DT" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].D_DELIVERY_DT" value="@Model.Dispatch.PitchConDetails[i].D_DELIVERY_DT" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].D_DT" value="@Model.Dispatch.PitchConDetails[i].D_DT" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_TECH_PROT" value="@Model.Dispatch.PitchConDetails[i].C_TECH_PROT" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_FREE1" value="@Model.Dispatch.PitchConDetails[i].C_FREE1" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_FREE2" value="@Model.Dispatch.PitchConDetails[i].C_FREE2" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_PACK" value="@Model.Dispatch.PitchConDetails[i].C_PACK" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].N_WGT" value="@Model.Dispatch.PitchConDetails[i].N_WGT" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_CRECEIPTAREAID" value="@Model.Dispatch.PitchConDetails[i].C_CRECEIPTAREAID" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_RECEIVEADDRESS" value="@Model.Dispatch.PitchConDetails[i].C_RECEIVEADDRESS" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_RECEIPTAREAID" value="@Model.Dispatch.PitchConDetails[i].C_RECEIPTAREAID" />
+
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_CURRENCYTYPEID" value="@Model.Dispatch.PitchConDetails[i].C_CURRENCYTYPEID" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_STD_CODE" value="@Model.Dispatch.PitchConDetails[i].C_STD_CODE" class="pitchStdCode" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_DESIGN_NO" value="@Model.Dispatch.PitchConDetails[i].C_DESIGN_NO" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_STDID" value="@Model.Dispatch.PitchConDetails[i].C_STDID" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_DESIGNID" value="@Model.Dispatch.PitchConDetails[i].C_DESIGNID" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].N_SLAB_MATCH_WGT" value="@Model.Dispatch.PitchConDetails[i].N_SLAB_MATCH_WGT" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].N_LINE_MATCH_WGT" value="@Model.Dispatch.PitchConDetails[i].N_LINE_MATCH_WGT" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].N_STATUS" value="@Model.Dispatch.PitchConDetails[i].N_STATUS" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].N_FLAG" value="@Model.Dispatch.PitchConDetails[i].N_FLAG" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].N_TYPE" value="@Model.Dispatch.PitchConDetails[i].N_TYPE" class="orderType" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].N_EXEC_STATUS" value="@Model.Dispatch.PitchConDetails[i].N_EXEC_STATUS" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].N_USER_LEV" value="@Model.Dispatch.PitchConDetails[i].N_USER_LEV" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_REMARK" value="@Model.Dispatch.PitchConDetails[i].C_REMARK" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_EMP_ID" value="@Model.Dispatch.PitchConDetails[i].C_EMP_ID" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_EMP_NAME" value="@Model.Dispatch.PitchConDetails[i].C_EMP_NAME" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].D_MOD_DT" value="@Model.Dispatch.PitchConDetails[i].D_MOD_DT" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_CUST_NO" value="@Model.Dispatch.PitchConDetails[i].C_CUST_NO" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_CUST_NAME" value="@Model.Dispatch.PitchConDetails[i].C_CUST_NAME" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_SALE_CHANNEL" value="@Model.Dispatch.PitchConDetails[i].C_SALE_CHANNEL" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_LEV" value="@Model.Dispatch.PitchConDetails[i].C_LEV" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_ORDER_LEV" value="@Model.Dispatch.PitchConDetails[i].C_ORDER_LEV" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].N_COST" value="@Model.Dispatch.PitchConDetails[i].N_COST" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].N_TAXRATE" value="@Model.Dispatch.PitchConDetails[i].N_TAXRATE" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].N_ORIGINALCURPRICE" value="@Model.Dispatch.PitchConDetails[i].N_ORIGINALCURPRICE" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].N_ORIGINALCURTAXPRICE" value="@Model.Dispatch.PitchConDetails[i].N_ORIGINALCURTAXPRICE" />
+
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].N_ORIGINALCURTAXMNY" value="@Model.Dispatch.PitchConDetails[i].N_ORIGINALCURTAXMNY" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].N_ORIGINALCURMNY" value="@Model.Dispatch.PitchConDetails[i].N_ORIGINALCURMNY" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].N_ORIGINALCURSUMMNY" value="@Model.Dispatch.PitchConDetails[i].N_ORIGINALCURSUMMNY" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].N_FNUM" value="@Model.Dispatch.PitchConDetails[i].N_FNUM" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].N_HSL" value="@Model.Dispatch.PitchConDetails[i].N_HSL" />
+                                                <input type="hidden" name="Dispatch.PitchConDetails[@i].C_VDEF1" value="@Model.Dispatch.PitchConDetails[i].C_VDEF1" />
+                                                <input class="pitchSize" type="hidden" name="Dispatch.PitchConDetails[@i].C_SLAB_SIZE" value="@Model.Dispatch.PitchConDetails[i].C_SLAB_SIZE" />
+                                                <input class="pitchLen" type="hidden" name="Dispatch.PitchConDetails[@i].N_SLAB_LENGTH" value="@Model.Dispatch.PitchConDetails[i].N_SLAB_LENGTH" />
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!--订单量与发运单量-->
+                <div class="" id="order" style="padding-top: 5px;">
+                    <table class=" table  table-bordered table-condensed">
+                        <thead>
+                            <tr>
+                                <th>合同</th>
+                                <th>钢种</th>
+                                <th>规格</th>
+                                <th>执行标准</th>
+                                <th>自由项</th>
+                                <th>自由项2</th>
+                                <th>物料编码</th>
+                                <th>数量</th>
+                                <th>发运量</th>
+                            </tr>
+                        </thead>
+                        @if (Model.Dispatch != null && Model.Dispatch.PitchConDetails != null && Model.Dispatch.PitchConDetails.Count > 0)
+                        {
+                            for (int i = 0; i < Model.Dispatch.PitchConDetails.Count; i++)
+                            {
+                                <tr>
+                                    <td>@Model.Dispatch.PitchConDetails[i].C_CON_NO</td>
+                                    <td>@Model.Dispatch.PitchConDetails[i].C_STL_GRD</td>
+                                    <td>@Model.Dispatch.PitchConDetails[i].C_SPEC</td>
+                                    <td>@Model.Dispatch.PitchConDetails[i].C_STD_CODE</td>
+                                    <td>@Model.Dispatch.PitchConDetails[i].C_FREE1</td>
+                                    <td>@Model.Dispatch.PitchConDetails[i].C_FREE2</td>
+                                    <td>@Model.Dispatch.PitchConDetails[i].C_MAT_CODE</td>
+                                    <td>@Model.Dispatch.PitchConDetails[i].DispatchSumQua</td>
+                                    <td>@Model.Dispatch.PitchConDetails[i].DispatchSumWgt</td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+
+                $(function () {
+
+                $("#txt").datetimepicker({
+                    format: 'yyyy-mm-dd',
+                    minView: 'month',
+                    language: 'zh-CN',
+                    autoclose: true,
+                    todayBtn: true,//显示今日按钮
+                    startDate: new Date()
+                });
+
+                $("#Start").datetimepicker({
+                    format: 'yyyy-mm-dd',
+                    minView: 'month',
+                    language: 'zh-CN',
+                    autoclose: true,
+                    todayBtn: true
+                }).on("changeDate", function (ev) {
+                    $("#End").datetimepicker('setStartDate', $("#Start").val())
+                    });
+
+                $("#End").datetimepicker({
+                    format: 'yyyy-mm-dd',
+                    minView: 'month',
+                    language: 'zh-CN',
+                    autoclose: true,
+                    todayBtn: true
+                }).on("changeDate", function (ev) {
+                    $("#Start").datetimepicker('setEndDate', $("#End").val())
+                });
+
+                    if ($("#TabIndex2").val() == 0)
+                        $('#myTab2 li:eq(0) a').tab('show');
+                    else if ($("#TabIndex2").val() == 1)
+                        $('#myTab2 li:eq(1) a').tab('show');
+                    else
+                        $('#myTab2 li:eq(2) a').tab('show');
+
+                    $("#btnQuery").click(function () {
+                        //操作类型1查询 2选中订单 3补单添加 4.提交  5.撤销发运单
+                        $("#OperationType").val(1);
+                        //是否关闭页面
+                        $("#IsRefresh").val(1);
+                        //提交
+                        $("#btnSave").click();
+                    });
+
+                    $("#btn").click(function () {
+                        //操作类型1查询 2选中订单 3补单添加 4.提交  5.撤销发运单
+                        $("#OperationType").val(4);
+                        //是否关闭页面
+                        $("#IsRefresh").val(1);
+                        //提交
+                        $("#btnSave").click();
+                    });
+
+                    $("#save").click(function () {
+                        //操作类型1查询 2选中订单 3补单添加 4.提交  5.撤销发运单
+                        $("#OperationType").val(6);
+                        //是否关闭页面
+                        $("#IsRefresh").val(1);
+                        //提交
+                        $("#btnSave").click();
+                    });
+
+                    //添加成功
+                    if ($("#ResultType").val() == "1") {
+                        alert("保存成功");
+                        var url = "/Dispatch/DispatchUpdate?id=" + $("#Dispatch_C_ID").val();
+                        //window.location = url;
+                        window.open(url, '_self', 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,resizable=yes,status=yes,menubar=no,scrollbars=yes');
+                    }
+
+                    //验证gps
+                    $("#Dispatch_C_SHIPVIA").change(function () {
+                         var shipvia = 0;
+                         var url = "/Dispatch/GetShipviaGps";
+                         //$.post()前把ajax设置为同步：
+                         $.ajaxSettings.async = false;
+                         $.post(url, { shipvia: $("#Dispatch_C_SHIPVIA").val(), }, function (re) {
+                             shipvia = re;
+                         });
+                         //在$.post()后把ajax改回为异步：
+                         $.ajaxSettings.async = true;
+                         if (shipvia == 1 && $("#IsGps").val() == 1) {
+                             $("#Dispatch_C_GPS_NO").attr("disabled", false);
+                         } else {
+                             $("#Dispatch_C_GPS_NO").attr("disabled", true);
+                         }
+                    });
+
+                    //验证gps
+                    var url = "/Dispatch/GetShipviaGps";
+                    var secondShipvia = 0;
+                    //$.post()前把ajax设置为同步：
+                    $.ajaxSettings.async = false;
+                    $.post(url, { shipvia: $("#Dispatch_C_SHIPVIA").val(), }, function (re) {
+                        secondShipvia = re;
+                    });
+                    //在$.post()后把ajax改回为异步：
+                    $.ajaxSettings.async = true;
+                    if (secondShipvia == 1 && $("#IsGps").val() == 1) {
+                        $("#Dispatch_C_GPS_NO").attr("disabled", false);
+                    } else {
+                        $("#Dispatch_C_GPS_NO").attr("disabled", true);
+                    }
+           });
+
+                function tabClose() {
+                    var test = $("input[class='pitchid']");
+                    var checkBoxValue = "";
+                    test.each(function () {
+                        checkBoxValue += $(this).val() + ",";
+                    });
+                    var url = "/Dispatch/ClosePage";
+                    //$.post()前把ajax设置为同步：
+                    $.ajaxSettings.async = false;
+                    $.post(url, { id: checkBoxValue, isRefresh: $("#IsRefresh").val(), type: $("#ConfirmOrderType").val() }, function (re) {
+                    });
+                    //在$.post()后把ajax改回为异步：
+                    $.ajaxSettings.async = true;
+                }
+
+                window.onbeforeunload = function (event) {
+                    var test = $("input[class='pitchid']");
+                    var checkBoxValue = "";
+                    test.each(function () {
+                        checkBoxValue += $(this).val() + ",";
+                    });
+                    var url = "/Dispatch/ClosePage";
+                    //$.post()前把ajax设置为同步：
+                    $.ajaxSettings.async = false;
+                    $.post(url, { id: checkBoxValue, isRefresh: $("#IsRefresh").val(), type: $("#ConfirmOrderType").val() }, function (re) {
+                    });
+                    //在$.post()后把ajax改回为异步：
+                    $.ajaxSettings.async = true;
+                };
+
+                function openWeb(index) {
+                    switch (index) {
+                        case 0:
+                            _iframe('../Common/_Site.aspx?flag=0', '600', '500', '到站');
+                            break;
+                        case 1:
+                            _iframe('../Common/_Site.aspx?flag=1', '600', '500', "到站");
+                            break;
+                        case 2:
+                            _iframe('/Dispatch/ConDetails', '1000', '500', '产品');
+                            break;
+                    }
+                }
+
+                //设置路线
+                function SetLine(lineName, lineID) {
+                    $("#Dispatch_C_PATH").val(lineName);
+                    close();
+                }
+
+                //设置地点
+                function SetSite(siteName, siteID) {
+                    $("#Dispatch_C_ATSTATION").val(siteName);
+                    close();
+                }
+
+                //选中订单
+                function pitchConDeitaiNo(no,type) {
+                     @{
+                            decimal ? pitchType = 0;
+                         if (Model.Dispatch != null && Model.Dispatch.PitchConDetails != null && Model.Dispatch.PitchConDetails.Count > 0)
+                         { pitchType = Model.Dispatch.PitchConDetails[0].N_TYPE; }
+                     }
+                    var pitchType =@pitchType;
+                    if (pitchType != 0) {
+                    if (type != pitchType){
+                        alert("不能同时添加钢坯和线材");
+                        return false;
+                        }
+                    }
+                    //订单号
+                    $("#PitchConDeitailNo").val(no);
+                     //操作类型1查询 2选中订单 3补单添加 4.提交  5.撤销发运单
+                    $("#OperationType").val(2);
+                    //是否关闭页面
+                    $("#IsRefresh").val(1);
+                    //提交
+                    $("#btnSave").click();
+                }
+
+                //撤销发运单
+                function cancelDispatchStoveID(orderid, qua, i, stove, batchNo) {
+                    var quaValue = $($("#OperationQuaValue_" + i)).val();
+                   if (quaValue > qua)
+                   {
+                       alert("撤销支数不能大于选中支数");
+                       return false;
+                    }
+                   //订单号
+                   $("#CancelDispatchOrderID").val(orderid);
+                   $("#CancelDispatchQua").val(quaValue);
+                   $("#CancelDispatchStove").val(stove);
+                   $("#CancelDispatchBatchNo").val(batchNo);
+                   //操作类型1查询 2选中订单 3补单添加 4.提交  5.撤销发运单 6.保存
+                    $("#OperationType").val(5);
+                    //是否关闭页面
+                    $("#IsRefresh").val(1);
+                    //提交
+                    $("#btnSave").click();
+                }
+
+                //tab版状态记录
+                function clickTab0() {
+                    $("#TabIndex1").val(0);
+                }
+
+                //tab版状态记录
+                function clickTab1() {
+                    $("#TabIndex1").val(1);
+                }
+
+                //补单记录
+                function supplement() {
+                    //地区信息
+                    var area = $("input[class='pitchArea']");
+                    var areaValue = "";
+                    area.each(function () {
+                        areaValue += $(this).val() + ",";
+                    });
+
+                    //钢种
+                    var stlGrd = $("input[class='pitchStlGrd']");
+                    var stlGrdValue = "";
+                    stlGrd.each(function () {
+                        stlGrdValue += $(this).val() + ",";
+                    });
+
+                    //规格
+                    var spec = $("input[class='pitchSpec']");
+                    var specValue = "";
+                    spec.each(function () {
+                        specValue += $(this).val() + ",";
+                    });
+
+                    //执行标准
+                    var stdCode = $("input[class='pitchStdCode']");
+                    var stdCodeValue = "";
+                    stdCode.each(function () {
+                        stdCodeValue += $(this).val() + ",";
+                    });
+
+                    //批号
+                    var no = $("input[class='pitchNo']");
+                    var noValue = "";
+                    no.each(function () {
+                        noValue += $(this).val() + ",";
+                    });
+
+                    //断面
+                    var size = $("input[class='pitchSize']");
+                    var sizeValue = "";
+                    size.each(function () {
+                        sizeValue += $(this).val() + ",";
+                    });
+
+                    //长度
+                    var len = $("input[class='pitchLen']");
+                    var lenValue = "";
+                    len.each(function () {
+                        lenValue += $(this).val() + ",";
+                    });
+
+                    var url;
+                    var type = $("#ConfirmOrderType").val();
+                    if (type == 8) {
+                        url = "/Dispatch/_Supplement";
+                        $.post(url, { area: areaValue, stlGrd: stlGrdValue, spec: specValue, stdCode: stdCodeValue, no: noValue }, function (re) {
+                            $("#supplementBody").html(re);
+                        });
+                    }
+                    else
+                        {
+                        url = "/Dispatch/_SupplementSecond";
+                        $.post(url, { area: areaValue, stlGrd: stlGrdValue, spec: sizeValue, len: lenValue, stdCode: stdCodeValue, no: noValue }, function (re) {
+                            $("#supplementBody").html(re);
+                        });
+                    }
+                }
+
+                function setValue(object, i) {
+                    $($("#OperationQuaValue_" + i)).val(object.value);
+                }
+
+        </script>
+    }
+
+</body>
+</html>

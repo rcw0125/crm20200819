@@ -1,0 +1,391 @@
+﻿
+@{
+    Layout = null;
+}
+
+@{
+    var list = ViewBag.InventoryData as List<CRM.Controllers.ProductGrpInfo> ?? new List<CRM.Controllers.ProductGrpInfo>();
+
+    var listzkd = ViewBag.ZKDData as List<NF.MODEL.ZKDInfoDto> ?? new List<NF.MODEL.ZKDInfoDto>();
+
+    CRM.Controllers.PlanSearchCondition viewModel = Model as CRM.Controllers.PlanSearchCondition ?? new CRM.Controllers.PlanSearchCondition();
+
+    var isBFCK = list.Any(w => w.InventoryCode.StartsWith("16")) == false;
+
+    var user = System.Web.HttpContext.Current.Session["CurrentUser"] as NF.Framework.CurrentUser;
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>外委转库</title>
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+</head>
+<body>
+
+    <table class="table table-bordered table-condensed" id="div_search" style="margin-top: 5px;">
+
+        <tr>
+            @using (Html.BeginForm("InventoryManager", "Outsourcing", FormMethod.Post, new { autocomplete = "off" }))
+            {
+                <td>仓库编码</td>
+                <td>
+                    <div class="btn-group" style="width:100%">
+                        <input type="text" placeholder="输入查询仓库编码" autocomplete="off" name="LineWhCode" data-toggle="dropdown" aria-expanded="false" value="@viewModel.LineWhCode" style="width:100%">
+                        <ul class="dropdown-menu pre-scrollable">
+                            @foreach (var itemCheckItem in (ViewBag.ListCK as List<NF.MODEL.Mod_TPB_LINEWH> ?? new List<NF.MODEL.Mod_TPB_LINEWH>()))
+                            {
+                                <li><a href="javascript:void(0)" onclick="selectedCK('@itemCheckItem.C_LINEWH_CODE',$(this).parent().parent().parent())">@($"{itemCheckItem.C_LINEWH_CODE}-{itemCheckItem.C_LINEWH_NAME}")</a></li>
+                            }
+                        </ul>
+                    </div>
+                </td>
+                @*<td>批次号</td>*@
+                <td>
+                    <input name="searchBatchNo" placeholder="批次号" type="text" value="@viewModel.SearchBatchNo" style="width: 100%" />
+                </td>
+                @*<td>钢种</td>*@
+                <td>
+                    <input id="Text3" name="gz" placeholder="钢种" type="text" value="@viewModel.Gz" style="width: 100%" />
+                </td>
+                @*<td>执行标准</td>*@
+                <td>
+                    <input id="txtDate" name="zxbz" placeholder="执行标准" type="text" value="@viewModel.Zxbz" style="width: 100%" />
+                </td>
+                @*<td>规格</td>*@
+                <td>
+                    <input id="Text1" name="gg" type="text" placeholder="规格" value="@viewModel.Gg" style="width: 100%" />
+                </td>
+                <td>
+                    <button id="btnSave" class="btn btn-primary btn-xs" type="submit">查询</button>
+                </td>
+            }
+            @using (Html.BeginForm("SaveInventory", "Outsourcing", FormMethod.Post, new { autocomplete = "off", id = "formInventory" }))
+            {
+                @*<td>目标仓库</td>*@
+                <td>
+                    <div class="btn-group" style="width:100%;">
+                        <input type="text" placeholder="输入转库目标仓库编码" autocomplete="off" name="lineWhCode" data-toggle="dropdown" aria-expanded="false" style="width:100%">
+                        <ul class="dropdown-menu pre-scrollable">
+                            @foreach (var itemCheckItem in (ViewBag.ListCK as List<NF.MODEL.Mod_TPB_LINEWH> ?? new List<NF.MODEL.Mod_TPB_LINEWH>()))
+                            {
+                                <li><a href="javascript:void(0)" onclick="selectedCK('@itemCheckItem.C_LINEWH_CODE',$(this).parent().parent().parent())">@($"{itemCheckItem.C_LINEWH_CODE}-{itemCheckItem.C_LINEWH_NAME}")</a></li>
+                            }
+                        </ul>
+                    </div>
+                </td>
+                <td>
+                    <input type="hidden" name="zkJson" id="hidJson" />
+                    <button id="btnSave" class="btn btn-danger btn-primary btn-xs" type="button" onclick="btnChange($(this))">转库</button>
+                </td>
+            }
+        </tr>
+    </table>
+
+
+    <div class="table-responsive" id="flow1" style="overflow:auto;">
+        <table class="table table-bordered table-hover  table-condensed" style="white-space:nowrap;" id="table1">
+            <thead>
+                <tr class="info">
+                    <td colspan="7" align="right">合计：</td>
+                    <th>@list.Sum(w => w.Count)</th>
+                    <th>@list.Sum(w => w.Wgt)</th>
+                    @if (isBFCK)
+                    {
+                        <th>@list.Sum(w => w.NCCount)</th>
+                        <th colspan="6">@list.Sum(w => w.NCWgt)</th>
+                    }
+                    <th colspan="5"></th>
+                </tr>
+                <tr>
+                    <th>
+                        <input id="cbxAll" type="checkbox" class="form-control" />
+                    </th>
+                    <th>批号</th>
+                    <th>钢种</th>
+                    <th>执行标准</th>
+                    <th>规格</th>
+                    <th>质量等级</th>
+                    <th>包装要求</th>
+                    <th>支数</th>
+                    <th>重量</th>
+                    @if (isBFCK)
+                    {
+                        <th>NC支数</th>
+                        <th>NC重量</th>
+                        <th>NC批号</th>
+                    }
+                    <th>仓库</th>
+                    <th>销售区域</th>
+                    <th>转库支数</th>
+                    <th>转库重量</th>
+                    <th>操作</th>
+                    <th style="width: 50px;"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in list)
+                {
+                    var iserror = item.Count != item.NCCount && isBFCK == true;
+                    var batcherror = item.BatchNo != item.NCBatchNO;
+                    <tr>
+                        <td width="25px">
+                            <input type="checkbox" style="width:16px" name="chk_item" class="form-control" value="@item.BatchNo" />
+                            <input type="hidden" name="gz" class="form-control" value="@item.StlGrd" />
+                            <input type="hidden" name="zxbz" class="form-control" value="@item.StdCode" />
+                            <input type="hidden" name="spec" class="form-control" value="@item.Spec" />
+                            <input type="hidden" name="inventoryCode" value="@item.InventoryCode" />
+                            <input type="hidden" name="mtrlCode" value="@item.MtrlCode" />
+                            <input type="hidden" name="bzyq" value="@item.BZYQ" />
+                            <input type="hidden" name="zldj" value="@item.ZLDJ" />
+                        </td>
+                        <td>@item.BatchNo</td>
+                        <td>@item.StlGrd</td>
+                        <td>@item.StdCode</td>
+                        <td>@item.Spec</td>
+                        <td>@item.ZLDJ</td>
+                        <td>@item.BZYQ</td>
+                        <td style="@(iserror?"color:red":"")">@item.Count</td>
+                        <td>@item.Wgt</td>
+                        @if (isBFCK)
+                        {
+                            <td>@item.NCCount</td>
+                            <td>@item.NCWgt</td>
+                            <td style="@(batcherror ? "color:red" : "")">@item.NCBatchNO</td>
+                        }
+                        <td>@item.InventoryCode</td>
+                        <td>@item.SalesArea</td>
+                        <td name="td_number"><input style="width:60px" type="number" value="@item.Count" /></td>
+                        <td name="td_amt"><input type="number" style="width:80px" value="@item.Wgt" /></td>
+                        <td>
+                            @using (Html.BeginForm("UpdateToNcBatchNo", "Outsourcing", FormMethod.Post, new { id = "formUptNo" + list.IndexOf(item) }))
+                            {
+                                <button class="btn btn-primary btn-xs" type="button"
+                                        onclick="btnDetail('@item.BatchNo','@item.StlGrd','@item.StdCode','@item.Spec','@item.InventoryCode','@item.MtrlCode','@item.BZYQ','@item.ZLDJ',$(this))">
+                                    查看详情
+                                </button>
+                                if (item.BatchNo != item.NCBatchNO)
+                                {
+                                    <input type="hidden" name="batchNo" value="@item.BatchNo" />
+                                    <input type="hidden" name="gz" value="@item.StlGrd" />
+                                    <input type="hidden" name="zxbz" value="@item.StdCode" />
+                                    <input type="hidden" name="Spec" value="@item.Spec" />
+                                    <input type="hidden" name="ck" value="@item.InventoryCode" />
+                                    <input type="hidden" name="wl" value="@item.MtrlCode" />
+                                    <input type="hidden" name="bzyq" value="@item.BZYQ" />
+                                    <input type="hidden" name="zldj" value="@item.ZLDJ" />
+                                    <input class="btn btn-primary btn-xs" type="submit"
+                                           onclick="return confirm('确认同步吗?\r\n批号:@item.BatchNo\r\nNC批号:@item.NCBatchNO')" value="同步NC批号" />
+                                }
+                            }
+                        </td>
+                        <td style="text-align: center"></td>
+
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+
+    <div class="table-responsive" id="flow2" style="overflow:auto;">
+        <table class="table table-bordered table-hover  table-condensed" style="white-space:nowrap" id="table1">
+            <thead>
+                <tr>
+                    <th>转库单</th>
+                    <th>批号</th>
+                    <th>钢种</th>
+                    <th>执行标准</th>
+                    <th>质量等级</th>
+                    <th>规格</th>
+                    <th>数量</th>
+                    <th>重量</th>
+                    <th>出库仓库</th>
+                    <th>目标仓库</th>
+                    <th>状态</th>
+                    <th>制单人</th>
+                    <th>制单时间</th>
+                    <th>操作</th>
+                    <th style="width: 50px;"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in listzkd)
+                {
+                    var zxbz = NF.MODEL.NCInventoryDto.GetZXBZ(item.C_ZYX1, item.C_ZYX2);
+                    <tr>
+                        <td>@item.C_ZKD_NO</td>
+                        <td>@item.C_BATCH_NO</td>
+                        <td>@item.C_STL_GRD</td>
+                        <td>@zxbz</td>
+                        <td>@item.C_JUDGE_LEV_ZH</td>
+                        <td>@item.C_SPEC</td>
+                        <td>@item.N_NUM</td>
+                        <td>@item.N_WGT</td>
+                        <td>@item.C_LINEWH_CODE</td>
+                        <td>@item.C_MBLINEWH_CODE</td>
+                        <td>@(item.N_STATUS == 3 ? "待同步" : "完成")</td>
+                        <td>@item.UserName</td>
+                        <td>@item.D_MOD_DT.Value.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td>
+                            @using (Html.BeginForm("SyncZk", "Outsourcing", FormMethod.Post, new { id = "formzkd" + listzkd.IndexOf(item) }))
+                            {
+                                <input type="hidden" name="id" value="@item.C_ZKD_NO" />
+                                <input type="submit" onclick="return confirm('确认同步实绩吗？')" class="btn btn-primary btn-xs" value="同步实绩" />
+                            }
+                            @*<input type="button" class="btn btn-danger btn-xs" value="撤销" />*@
+                        </td>
+                        <td></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+
+<script>
+
+    function btnChange($btnDOm) {
+        var putArr = [];
+        // 获取选中的数据
+        $('input[name=chk_item]:checked').each(function () {
+            // 获取转库数据,
+            // 批号
+            var batchNo = $(this).val();
+            // 钢种
+            var gz = $(getNextPreObj(this, 1)).val();
+            var zxbz = $(getNextPreObj(this, 2)).val();
+            var spec = $(getNextPreObj(this, 3)).val();
+            var inventoryCode = $(getNextPreObj(this, 4)).val();
+            var mtrlCode = $(getNextPreObj(this, 5)).val();
+            var bzyq = $(getNextPreObj(this, 6)).val();
+            var zldj = $(getNextPreObj(this, 7)).val();
+            var number = $(this).parent().parent().children("td[name=td_number]:first").children("input[type=number]:first").val();
+            var amt = $(this).parent().parent().children("td[name=td_amt]:first").children("input[type=number]:first").val();
+            putArr.push({
+                batchNo: batchNo,
+                gz: gz,
+                zxbz: zxbz,
+                spec: spec,
+                number: number,
+                inventoryCode: inventoryCode,
+                mtrlCode: mtrlCode,
+                bzyq: bzyq,
+                amt: amt,
+                zldj: zldj
+            });
+
+        });
+
+        if (putArr.length == 0) {
+            alert('请选择要转库的库存数据');
+            return;
+        }
+
+        if ($('input[name=lineWhCode]:first').val() == '') {
+            alert('请选择目标仓库');
+            return;
+        }
+
+        console.log(JSON.stringify(putArr));
+
+        $('#hidJson').val(JSON.stringify(putArr));
+
+        // 转库提示
+        var msg = '';
+        for (var i in putArr) {
+            if (msg != '') {
+                msg += "\n";
+            }
+            msg += '批号：' + putArr[i].batchNo + ' 数量：' + putArr[i].number + ' 重量：' + putArr[i].amt + ' 质量等级：' + putArr[i].zldj;
+        }
+
+        if (confirm('确认提交吗？\n' + msg) == false) return;
+
+        $('#formInventory').submit();
+    }
+
+    function getNextPreObj(emel, index) {
+        var obj = emel;
+        for (var i = 0; i < index; i++) {
+            obj = obj.nextElementSibling;
+        }
+
+        return obj;
+    }
+
+    function selectedCK(ckCode, $div) {
+        var $a = $($div.children()).eq(0);
+        $a.val(ckCode);
+        $a.focus();
+    }
+
+    function btnDetail(batchNo, gz, zxbz, gg, ck, wl, bzyq, zldj, $btn) {
+        var param = "?batchNo=" + batchNo;
+        param += "&gz=" + gz;
+        param += "&zxbz=" + zxbz;
+        param += "&gg=" + gg;
+        param += "&ck=" + ck;
+        param += "&wl=" + wl;
+        param += "&bzyq=" + bzyq;
+        param += "&zldj=" + zldj;
+
+        var url = '/Outsourcing/InventoryDetail' + param;
+
+        _iframe(url, '830', '480', '仓库：' + ck + '，批次：' + batchNo + '线材详情');
+    }
+
+    $(function () {
+        $('input[name=LineWhCode]').bind('input propertychange', function () {
+            //alert($(this).val());
+            var val = $(this).val();
+            $(this).parent().children('ul:first').children("li").each(function () {
+                if (val) {
+                    if ($(this).text().indexOf(val) >= 0) {
+                        $(this).show();
+                        return;
+                    }
+                    else {
+                        $(this).hide();
+                    }
+                } else {
+                    $(this).show();
+                }
+            });
+
+
+        });
+    });
+
+    $(function () {
+        @if (ViewBag.ErrorMsg != null)
+        {
+            @:alert('@(ViewBag.ErrorMsg?.ToString())')
+        }
+
+        $('#cbxAll').change(function () {
+            var me = this
+            $('input[type=checkbox]').each(function () {
+                if (this == me) { return; }
+
+                this.checked = me.checked;
+            });
+        });
+
+        var h = document.documentElement.clientHeight - $('#div_search').height() - 20;
+
+        var h53 = parseInt(h * 3 / 5);
+        var h52 = h - h53;
+        $('#flow1').height(h53);
+        $('#flow2').height(h52);
+        console.log(h53);
+
+        //$('#flow2').height(h - $('#flow1').height() - 50);
+
+        console.log(h52);
+    });
+</script>

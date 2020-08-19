@@ -1,0 +1,56 @@
+﻿
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>密码重置</title>
+    <!-- Bootstrap core CSS -->
+    <link href="~/Assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Assets/css/login.css" rel="stylesheet" />
+</head>
+
+<body>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td align="center" valign="top">
+                <div class="main">
+                    <form action="" method="post" class="form-signin">
+                        <h3 class="form-signin-heading">
+                            密码重置
+                        </h3>
+                        @Html.Password("pw", null, new { @class = "form-control", placeholder = "输入密码" })
+                        <label style="color:red">&nbsp;@Html.ValidationMessage("pw") </label>
+                        @Html.Password("confirmPw", null, new { @class = "form-control", placeholder = "确认密码" })
+                        <label style="color:red">&nbsp;@Html.ValidationMessage("confirmPw") </label>
+                        <div class="form-inline">
+                            <div class="form-group" style="margin-bottom:10px; margin-top:10px; overflow:hidden;">
+                                <label style="color:red">提示：&nbsp;@Html.ValidationMessage("error") </label>
+                            </div>
+                        </div>
+                        <input id="btnSave" type="submit" value="提交" class="btn btn-lg btn-primary btn-block" />
+                        <input id="id" type="hidden" name="id" value="@ViewBag.id" />
+                        <input id="ResultType" type="hidden" name="ResultType" value="@ViewBag.ResultType" />
+                    </form>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <script src="~/Assets/js/jquery-1.10.2.min.js"></script>
+    <script src="~/Assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            if ($("#ResultType").val() == "1") {
+                alert("密码重置成功！");
+                window.parent.seatch();
+                close(); 
+            }
+        });
+    </script>
+</body>
+</html>

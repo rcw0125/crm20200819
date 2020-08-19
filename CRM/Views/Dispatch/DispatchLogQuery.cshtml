@@ -1,0 +1,52 @@
+﻿@model NF.Framework.DTO.TMD_DISPATCH_LOGDTO
+@using NF.Web.Core
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>发运单操作记录</title>
+    <link href="../Assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../Assets/css/common.css" rel="stylesheet" />
+    <script src="../Assets/js/jquery-2.0.3.min.js"></script>
+    <script src="../Assets/js/common.js"></script>
+</head>
+<body>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td align="center">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>操作人</th>
+                            <th>操作时间</th>
+                            <th>操作类型</th>
+                            <th>原发运单状态</th>
+                            <th>现发运单状态</th>
+                            <th>操作说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            if (Model.Logs != null && Model.Logs.Count > 0)
+                            {
+                                foreach (var item in Model.Logs)
+                                {
+                                    <tr>
+                                        <td>@item.C_EMP_NAME</td>
+                                        <td>@item.D_MOD_DT</td>
+                                        <td>@Html.DetailName(item.N_TYPE, "DisOperType")</td>
+                                        <td>@Html.DetailName(item.C_BSTATUS, "DispatchStatus")</td>
+                                        <td>@Html.DetailName(item.C_ASTATUS, "DispatchStatus")</td>
+                                        <td>@item.C_EXPLAIN</td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

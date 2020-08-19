@@ -1,0 +1,117 @@
+﻿@model NF.Framework.DTO.TS_CUSTFILEDTO
+@using NF.Web.Core;
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>客户档案</title>
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+</head>
+
+<body>
+    @using (Html.BeginForm())
+    {
+        <table class="table table-bordered">
+            <tr>
+                <td >客户编号</td>
+                <td >
+                    @Html.HiddenFor(x => x.OperationType)
+                    @Html.HiddenFor(x => x.C_EXTEND1)
+                    @Html.HiddenFor(x => x.C_EXTEND2)
+                    <input id="ResultType" name="ResultType" type="hidden" value="@Model.ResultType" />
+                    <input id="Msg" name="Msg" type="hidden" value="@Model.Msg" />
+                    @Html.TextBoxFor(x => x.C_NO, new { })
+                </td>
+                <td >客户名称</td>
+                <td >
+                    @Html.TextBoxFor(x => x.C_NAME, new {  })
+                    <input type="hidden" id="pageIndex" name="BasePage.PageIndex" />
+                </td>
+                <td >客户等级</td>
+                <td> @Html.DropDownDic("N_LEVEL", "CustLevel", "请选择", new {})</td>
+                <td>
+                    <button id="btn_Search" type="submit" class="btn btn-primary btn-xs btn_w60">查询</button>&nbsp;&nbsp;
+                    <button id="btn_Sb" type="submit" class="btn btn-primary btn-xs btn_w60">提交</button>
+                </td>
+            </tr>
+        </table>
+
+    }
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th style=" width:40px"></th>
+                <th>客户编号</th>
+                <th>客户名称</th>
+                <th>客户简称</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model.CustFiles.Count > 0)
+                {
+                    foreach (var item in Model.CustFiles)
+                    {
+                        <tr>
+                            <th scope="row"><input class="che2" type="radio" name="0" value="@item.C_ID" /></th>
+                            <td>@item.C_NO</td>
+                            <td>@item.C_NAME</td>
+                            <td>@item.C_SHORNAME</td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+    @Html.Partial("~/Views/Shared/_Paging.cshtml")
+
+    <script type="text/javascript">
+
+        $(function () {
+
+            if ($("#ResultType").val() == "1") {
+                alert($("#Msg").val());
+                window.parent.seatch();
+                close();
+            } else if ($("#ResultType").val() == "2") {
+                alert($("#Msg").val());
+            }
+
+            $("#btn_Sb").click(function () {
+                $("#OperationType").val(1);
+                var test = $("input[class='che2']:checked");
+                var checkBoxValue = "";
+                test.each(function () {
+                    checkBoxValue += $(this).val() + ",";
+                });
+                if (checkBoxValue == "") {
+                    alert("请任选一项修改");
+                    return false;
+                } else {
+                    checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                    var arr = checkBoxValue.split(',');
+                    if (arr.length > 1) {
+                        alert("请任选一项修改");
+                        return false;
+                    } else {
+                        var obj = new Object();
+                        obj.id = arr[0];
+                        $("#C_EXTEND2").val(obj.id);
+                    }
+                }
+            });
+
+            $("#btn_Search").click(function () {
+                $("#OperationType").val(2);
+            });
+        });
+        //全选
+        selectAll("input.qx1", "input.che2");
+    </script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+﻿
+@{
+    Layout = null;
+
+    var list = ViewBag.ProductData as List<CRM.Controllers.ProductGrpInfo> ?? new List<CRM.Controllers.ProductGrpInfo>();
+
+    CRM.Controllers.PlanSearchCondition viewModel = Model as CRM.Controllers.PlanSearchCondition ?? new CRM.Controllers.PlanSearchCondition();
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>可组批库存</title>
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+</head>
+<body>
+    @using (Html.BeginForm("SaveZP", "Outsourcing"))
+    {
+        <table class="table table-bordered table-condensed" style="margin-top: 5px;">
+
+            <tr>
+                <td>组批批号</td>
+                <td>
+                    <input type="text" id="zpBachNo" name="BachNo" style="width: 100%" />
+                </td>
+                <td>组批支数</td>
+                <td>
+                    <input id="txt_count" name="Num" type="number" style="width: 100%" />
+                </td>
+                <td>组批重量</td>
+                <td>
+                    <input id="txt_amt" name="ZpAmt" type="number" style="width: 100%" />
+                </td>
+                <td>班次</td>
+                <td>
+                    <select name="BC" style="width: 100%">
+                        @{var listBc = ViewBag.ListBC as List<NF.MODEL.Dto.WWBCBZ> ?? new List<NF.MODEL.Dto.WWBCBZ>();}
+                        @foreach (var item in listBc)
+                        {
+                            <option value="@item.PK_WTID" @(item.Selected ? "selected" : "")>@item.BCNAME</option>
+                        }
+                    </select>
+                </td>
+                <td>班组</td>
+                <td>
+                    <select name="BZ" style="width: 100%">
+                        @{var listBz = ViewBag.ListBZ as List<NF.MODEL.Dto.WWBZ> ?? new List<NF.MODEL.Dto.WWBZ>();}
+                        @foreach (var item in listBz)
+                        {
+                            <option value="@item.PK_PGAID" @(item.Selected ? "selected" : "")>@item.BZMC</option>
+                        }
+                    </select>
+                </td>
+
+            </tr>
+            <tr>
+                <td>备注</td>
+                <td colspan="6"><input id="Text3" name="Remark" type="text" style="width: 100%" /></td>
+                <td>
+                    <input type="hidden" id="hidCId" name="CBatchNo" />
+                    <input type="hidden" id="hidContractId" name="id" value="@ViewBag.ContractId" />
+                    <input type="hidden" id="hidMtrlCode" name="MtrlCode" />
+                    <input type="hidden" id="hidInventory" name="InventoryCode" />
+                    <input type="hidden" id="hidZLDJ" name="ZLDJ" />
+                    <input type="hidden" id="hidBZYQ" name="BZYQ" />
+                    <input id="btnSave" class="btn btn-primary btn-xs" type="button" onclick="btnSubmit()" value="组批" />
+                </td>
+            </tr>
+        </table>
+    }
+
+    <div class="table-responsive" id="flow1">
+        <table class="table table-bordered table-hover  table-condensed" style="white-space:nowrap;" id="table1">
+            <thead>
+                <tr>
+                    <th>选择</th>
+                    <th>批号</th>
+                    <th>钢种</th>
+                    <th>规格</th>
+                    <th>执行标准</th>
+                    <th>质量等级</th>
+                    <th>支数</th>
+                    <th>总重</th>
+                    <th>物料编码</th>
+                    <th>物料描述</th>
+                    <th>线材仓库编码</th>
+                    <th>包装要求</th>
+                    <th style="width: 50px;"></th>
+                </tr>
+            </thead>
+            <tbody id="em_tbody">
+                @{
+                    //var bb = list;
+                    //bb.Add(list.LastOrDefault()?.Clone()??new CRM.Controllers.ProductGrpInfo());
+                    //bb.Add(list.LastOrDefault()?.Clone() ?? new CRM.Controllers.ProductGrpInfo());
+                    //bb.Add(list.LastOrDefault()?.Clone() ?? new CRM.Controllers.ProductGrpInfo());
+                }
+                @foreach (var item in list)
+                {
+                    var batchmtrlCode = $"{item.BatchNo},{item.MtrlCode},{item.InventoryCode}";
+                    <tr onclick="setChk(@item.Count,'@item.BatchNo',@item.Wgt,'@item.ZLDJ','@item.BZYQ')">
+                        <td>
+                            <input type="radio" id="radio_@(list.IndexOf(item))" name="radio_chk" value="@batchmtrlCode" />
+                        </td>
+                        <td width="150px">@item.BatchNo</td>
+                        <td>@item.StlGrd</td>
+                        <td>@item.Spec</td>
+                        <td>@item.StdCode</td>
+                        <td>@item.ZLDJ</td>
+                        <td>@item.Count</td>
+                        <td>@item.Wgt</td>
+                        <td>@item.MtrlCode</td>
+                        <td>@item.MtrlName</td>
+                        <td>@item.InventoryCode</td>
+                        <td>@item.BZYQ</td>
+                        <td style="text-align: center"></td>
+
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+</body>
+</html>
+<script>
+    function setChk(count,batchNo,wgt,zldj,bzyq) {
+        $('#txt_count').val(count);
+        $('#txt_amt').val(wgt);
+        $('input[name=BachNo]').eq(0).val(batchNo);
+        $('#hidZLDJ').val(zldj);
+        $('#hidBZYQ').val(bzyq);
+    }
+
+    function btnSubmit() {
+        var checkeds = $('input:radio[name="radio_chk"]:checked');
+
+        if (checkeds.length == 0) {
+            alert('请选择批次后再组批');
+            return;
+        }
+
+        var cid = $('input:radio[name="radio_chk"]:checked').eq(0).val();
+
+        var arr = cid.split(',');
+        $('#hidCId').val(arr[0]);
+        $('#hidMtrlCode').val(arr[1]);
+        $('#hidInventory').val(arr[2]);
+
+        if ($('#hidCId').val() == $('#zpBachNo').val()) {
+            alert('请修改批号后再组批');
+            return;
+        }
+
+        if (confirm('确认提交吗？') == false) {
+            return false;
+        }
+
+        $('form').eq(0).submit();
+
+        //close();
+    }
+
+    $(function () {
+        @if (ViewBag.ErrorMsg != null)
+        {
+            @:alert('@(ViewBag.ErrorMsg?.ToString())')
+        }
+    });
+</script>

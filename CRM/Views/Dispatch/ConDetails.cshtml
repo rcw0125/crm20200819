@@ -1,0 +1,208 @@
+﻿@model NF.Framework.DTO.TMO_CONDETAILSDTO
+@using NF.Web.Core
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>合同详情</title>
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        <table class="table table-bordered">
+            <tr>
+                <td>
+                    @Html.TextBoxFor(x => x.C_CON_NO, new { placeholder = "合同号", @class = "input-xlarge" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.C_CON_NAME, new { placeholder = "合同名称", @class = "input-xlarge" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.C_CUST_NAME, new { placeholder = "客户名称", @class = "input-xlarge" })
+                </td>
+                <td>
+                    @Html.DropDownDicName("C_AREA", "ConArea", "-请选择-", new { })
+                </td>
+                <td>
+                    @Html.DropDownDic("N_TYPE", "OrderType", new { style = " width:130px" })
+                </td>
+                <td>计划交货日期</td>
+                <td>
+                    <input id="Start" type="text" name="Start" style="width: 110px;" readonly class="form-control Wdate" value="@Model.Start.ToString("yyyy-MM-dd")">
+                </td>
+                <td>
+                    <input id="End" type="text" name="End" style="width: 110px;" readonly class="form-control Wdate"    value="@Model.End.ToString("yyyy-MM-dd")" />
+                </td>
+
+                <td>
+                    <input id="btnQuery" type="submit" value="查询" class="btn btn-primary dropdown-toggle btn-xs" />
+                    <input id="save" type="button" value="提交" class="btn btn-primary dropdown-toggle btn-xs" />
+                    <input id="btnSave" style="display:none;" type="submit" value="提交" class="btn btn-primary dropdown-toggle btn-xs" />
+                    <input type="hidden" id="ConfirmOrderType" name="ConfirmOrderType" value="@Model.ConfirmOrderType" />
+                </td>
+            </tr>
+        </table>
+        <table class="table table-bordered  table-hover" style="white-space: nowrap;">
+            <thead>
+                <tr>
+                    <th style=" width:40px"> </th>
+                    <th>合同号</th>
+                    <th>合同名称</th>
+                    <th>物料编码</th>
+                    <th>钢种</th>
+                    <th>规格</th>
+                    <th>数量(吨)</th>
+                    <th>自由项</th>
+                    <th>自由项2</th>
+                    <th>包装标准</th>
+                    <th>客户</th>
+                    <th>到货地址</th>
+                    <th>区域</th>
+                    <th>计划交货日期</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.ConDetails != null && Model.ConDetails.Count > 0)
+                {
+                    for (int i = 0; i < Model.ConDetails.Count; i++)
+                    {
+
+                        <tr>
+                            <td>
+                                @*<a href='javascript:pitchConDeitaiNo("@Model.ConDetails[i].C_ORDER_NO","@Model.ConDetails[i].N_TYPE");' class="glyphicon glyphicon-plus" title="加入发运单">
+                                    </a>*@
+                                <input class="che2" type="checkbox" name="" value="@Model.ConDetails[i].C_ORDER_NO" />
+                            </td>
+                            <td>@Model.ConDetails[i].C_CON_NO</td>
+                            <td>@Model.ConDetails[i].C_CON_NAME</td>
+                            <td>@Model.ConDetails[i].C_MAT_CODE</td>
+                            <td>@Model.ConDetails[i].C_STL_GRD</td>
+                            <td>@Model.ConDetails[i].C_SPEC</td>
+                            <td>@Model.ConDetails[i].N_WGT</td>
+                            <td>@Model.ConDetails[i].C_FREE1</td>
+                            <td>@Model.ConDetails[i].C_FREE2</td>
+                            <td>@Model.ConDetails[i].C_PACK</td>
+                            <td>@Model.ConDetails[i].C_CUST_NAME</td>
+                            <td>@Model.ConDetails[i].C_RECEIVEADDRESS </td>
+                            <td>@Model.ConDetails[i].C_AREA </td>
+                            <td>@DateTime.Parse(Model.ConDetails[i].D_DELIVERY_DT.ToString()).ToString("yyyy-MM-dd") </td>
+                            <td style="display:none;">
+                                <input type="hidden" name="ConDetails[@i].C_ORDER_NO" value="@Model.ConDetails[i].C_ORDER_NO" />
+                                <input type="hidden" name="ConDetails[@i].C_CON_NO" value="@Model.ConDetails[i].C_CON_NO" />
+                                <input type="hidden" name="ConDetails[@i].C_CON_NAME" value="@Model.ConDetails[i].C_CON_NAME" />
+                                <input type="hidden" name="ConDetails[@i].C_AREA" value="@Model.ConDetails[i].C_AREA" />
+                                <input type="hidden" name="ConDetails[@i].C_XGID" value="@Model.ConDetails[i].C_XGID" />
+                                <input type="hidden" name="ConDetails[@i].C_INVBASDOCID" value="@Model.ConDetails[i].C_INVBASDOCID" />
+                                <input type="hidden" name="ConDetails[@i].C_INVENTORYID" value="@Model.ConDetails[i].C_INVENTORYID" />
+                                <input type="hidden" name="ConDetails[@i].C_PROD_NAME" value="@Model.ConDetails[i].C_PROD_NAME" />
+                                <input type="hidden" name="ConDetails[@i].C_PROD_KIND" value="@Model.ConDetails[i].C_PROD_KIND" />
+                                <input type="hidden" name="ConDetails[@i].C_MAT_CODE" value="@Model.ConDetails[i].C_MAT_CODE" />
+                                <input type="hidden" name="ConDetails[@i].C_MAT_NAME" value="@Model.ConDetails[i].C_MAT_NAME" />
+                                <input type="hidden" name="ConDetails[@i].C_SPEC" value="@Model.ConDetails[i].C_SPEC" />
+                                <input type="hidden" name="ConDetails[@i].C_STL_GRD" value="@Model.ConDetails[i].C_STL_GRD" />
+                                <input type="hidden" name="ConDetails[@i].C_PRO_USE" value="@Model.ConDetails[i].C_PRO_USE" />
+                                <input type="hidden" name="ConDetails[@i].C_FUNITID" value="@Model.ConDetails[i].C_FUNITID " />
+                                <input type="hidden" name="ConDetails[@i].C_UNITID" value="@Model.ConDetails[i].C_UNITID" />
+                                <input type="hidden" name="ConDetails[@i].C_CUST_SQ" value="@Model.ConDetails[i].C_CUST_SQ" />
+                                <input type="hidden" name="ConDetails[@i].D_NEED_DT" value="@Model.ConDetails[i].D_NEED_DT" />
+                                <input type="hidden" name="ConDetails[@i].D_DELIVERY_DT" value="@Model.ConDetails[i].D_DELIVERY_DT" />
+                                <input type="hidden" name="ConDetails[@i].D_DT" value="@Model.ConDetails[i].D_DT" />
+                                <input type="hidden" name="ConDetails[@i].C_TECH_PROT" value="@Model.ConDetails[i].C_TECH_PROT" />
+                                <input type="hidden" name="ConDetails[@i].C_FREE1" value="@Model.ConDetails[i].C_FREE1" />
+                                <input type="hidden" name="ConDetails[@i].C_FREE2" value="@Model.ConDetails[i].C_FREE2" />
+                                <input type="hidden" name="ConDetails[@i].C_PACK" value="@Model.ConDetails[i].C_PACK" />
+                                <input type="hidden" name="ConDetails[@i].N_WGT" value="@Model.ConDetails[i].N_WGT" />
+                                <input type="hidden" name="ConDetails[@i].C_CRECEIPTAREAID" value="@Model.ConDetails[i].C_CRECEIPTAREAID" />
+                                <input type="hidden" name="ConDetails[@i].C_RECEIVEADDRESS" value="@Model.ConDetails[i].C_RECEIVEADDRESS" />
+                                <input type="hidden" name="ConDetails[@i].C_RECEIPTAREAID" value="@Model.ConDetails[i].C_RECEIPTAREAID" />
+                                <input type="hidden" name="ConDetails[@i].C_CURRENCYTYPEID" value="@Model.ConDetails[i].C_CURRENCYTYPEID" />
+                                <input type="hidden" name="ConDetails[@i].C_STD_CODE" value="@Model.ConDetails[i].C_STD_CODE" />
+                                <input type="hidden" name="ConDetails[@i].C_DESIGN_NO" value="@Model.ConDetails[i].C_DESIGN_NO" />
+                                <input type="hidden" name="ConDetails[@i].C_STDID" value="@Model.ConDetails[i].C_STDID" />
+                                <input type="hidden" name="ConDetails[@i].C_DESIGNID" value="@Model.ConDetails[i].C_DESIGNID" />
+                                <input type="hidden" name="ConDetails[@i].N_SLAB_MATCH_WGT" value="@Model.ConDetails[i].N_SLAB_MATCH_WGT" />
+                                <input type="hidden" name="ConDetails[@i].N_LINE_MATCH_WGT" value="@Model.ConDetails[i].N_LINE_MATCH_WGT" />
+                                <input type="hidden" name="ConDetails[@i].N_STATUS" value="@Model.ConDetails[i].N_STATUS" />
+                                <input type="hidden" name="ConDetails[@i].N_FLAG" value="@Model.ConDetails[i].N_FLAG" />
+                                <input type="hidden" name="ConDetails[@i].N_TYPE" value="@Model.ConDetails[i].N_TYPE" />
+                                <input type="hidden" name="ConDetails[@i].N_EXEC_STATUS" value="@Model.ConDetails[i].N_EXEC_STATUS" />
+                                <input type="hidden" name="ConDetails[@i].N_USER_LEV" value="@Model.ConDetails[i].N_USER_LEV" />
+                                <input type="hidden" name="ConDetails[@i].C_REMARK" value="@Model.ConDetails[i].C_REMARK" />
+                                <input type="hidden" name="ConDetails[@i].C_EMP_ID" value="@Model.ConDetails[i].C_EMP_ID" />
+                                <input type="hidden" name="ConDetails[@i].C_EMP_NAME" value="@Model.ConDetails[i].C_EMP_NAME" />
+                                <input type="hidden" name="ConDetails[@i].D_MOD_DT" value="@Model.ConDetails[i].D_MOD_DT" />
+                                <input type="hidden" name="ConDetails[@i].C_CUST_NO" value="@Model.ConDetails[i].C_CUST_NO" />
+                                <input type="hidden" name="ConDetails[@i].C_CUST_NAME" value="@Model.ConDetails[i].C_CUST_NAME" />
+                                <input type="hidden" name="ConDetails[@i].C_SALE_CHANNEL" value="@Model.ConDetails[i].C_SALE_CHANNEL" />
+                                <input type="hidden" name="ConDetails[@i].C_LEV" value="@Model.ConDetails[i].C_LEV" />
+                                <input type="hidden" name="ConDetails[@i].C_ORDER_LEV" value="@Model.ConDetails[i].C_ORDER_LEV" />
+                                <input type="hidden" name="ConDetails[@i].N_COST" value="@Model.ConDetails[i].N_COST" />
+                                <input type="hidden" name="ConDetails[@i].N_TAXRATE" value="@Model.ConDetails[i].N_TAXRATE" />
+                                <input type="hidden" name="ConDetails[@i].N_ORIGINALCURPRICE" value="@Model.ConDetails[i].N_ORIGINALCURPRICE" />
+                                <input type="hidden" name="ConDetails[@i].N_ORIGINALCURTAXPRICE" value="@Model.ConDetails[i].N_ORIGINALCURTAXPRICE" />
+                                <input type="hidden" name="ConDetails[@i].N_ORIGINALCURTAXMNY" value="@Model.ConDetails[i].N_ORIGINALCURTAXMNY" />
+                                <input type="hidden" name="ConDetails[@i].N_ORIGINALCURMNY" value="@Model.ConDetails[i].N_ORIGINALCURMNY" />
+                                <input type="hidden" name="ConDetails[@i].N_ORIGINALCURSUMMNY" value="@Model.ConDetails[i].N_ORIGINALCURSUMMNY" />
+                                <input type="hidden" name="ConDetails[@i].N_FNUM" value="@Model.ConDetails[i].N_FNUM" />
+                                <input type="hidden" name="ConDetails[@i].N_HSL" value="@Model.ConDetails[i].N_HSL" />
+                                <input type="hidden" name="ConDetails[@i].C_VDEF1" value="@Model.ConDetails[i].C_VDEF1" />
+                                <input type="hidden" name="ConDetails[@i].C_SLAB_SIZE" value="@Model.ConDetails[i].C_SLAB_SIZE" />
+                                <input type="hidden" name="ConDetails[@i].N_SLAB_LENGTH" value="@Model.ConDetails[i].N_SLAB_LENGTH" />
+                            </td>
+                            <td style="display:none;" class="hidType">@Model.ConDetails[i].N_TYPE</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        @Html.Partial("~/Views/Shared/_Paging.cshtml")
+    }
+    <script type="text/javascript">
+        $(function () {
+            $("#Start").datetimepicker({
+                format: 'yyyy-mm-dd',
+                minView: 'month',
+                language: 'zh-CN',
+                autoclose: true
+
+            }).on("changeDate", function (ev) {
+                $("#End").datetimepicker('setStartDate', $("#Start").val())
+            });
+            $("#End").datetimepicker({
+                format: 'yyyy-mm-dd',
+                minView: 'month',
+                language: 'zh-CN',
+                autoclose: true
+            }).on("changeDate", function (ev) {
+                $("#Start").datetimepicker('setEndDate', $("#End").val())
+            });
+
+            $("#save").click(function () {
+                var test = $("input[class='che2']:checked");
+                var checkBoxValue = "";
+                test.each(function () {
+                    checkBoxValue += $(this).val() + ",";
+                });
+                if (checkBoxValue == "") {
+                    alert("请任选一项修改");
+                    return false;
+                } else {
+                    checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                    var arr = checkBoxValue.split(',');
+                    if (arr.length > 1) {
+                        alert("请任选一项修改");
+                        return false;
+                    } else {
+                        var obj = new Object();
+                        obj.id = arr[0];
+                        window.parent.pitchConDeitaiNo(obj.id, $("#ConfirmOrderType").val());
+                        window.close();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1437 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{554E3F8D-97C8-4806-A974-42A6A9F9F8DA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NF.EF.Model</RootNamespace>
+    <AssemblyName>NF.EF.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.2.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.2.2\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Interception.4.0.1\lib\Net45\Microsoft.Practices.Unity.Interception.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Interception.4.0.1\lib\Net45\Microsoft.Practices.Unity.Interception.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.122.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <HintPath>..\packages\Oracle.ManagedDataAccess.12.2.1100\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CAPContext.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CAPContext.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CAPContext.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CAPContext.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CAPContext.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="CPLAN_CASTING.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CPLAN_ORDER.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CPLAN_TAPPING.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CPLAN_TAPPING_ACT.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TB_ALLOY_STOCK.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_AUTO_SYNC_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_BC.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_BCBZ.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_BCBZGZ.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_BZ.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_CONFIG_LIMIT.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_CONFIG_LIMIT_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_CONFIG_PERCENTAGE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_FILE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_ITEM_TYPE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_LG_PLAN_EDIT_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_LG_PLAN_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_MATRL_CONTRAST.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_MATRL_GROUP.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_MATRL_MAIN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_NCIF_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_NC_ZYX.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_ORDER_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_OVERDUE_CONFIGURE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_PLAN_OPERATION_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_PRO.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_PROCEDURES_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_REHEATING_FURNACE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_RF_SYNCWGT_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_SHIFT.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_SLAB_MATRAL.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_SLAB_TYPE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_STA.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_STD_CONFIG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_STD_CONFIG_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TB_ZG_PLAN_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TCS_CS.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TI_DDFP_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TI_RF_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMB_ACTIVITY.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMB_AREA.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMB_AREAMAX.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMB_AREAPLAN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMB_COMDIFF.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMB_FILE_NEXT_EMP.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMB_FLOWINFO.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMB_FLOWPROC.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMB_FLOWSTEP.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMB_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMB_MEAS.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMB_NCADDRESS.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMB_NCADDRESS_COST.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMB_NCADDRESS_COST_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMB_NOTICE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMB_PROC.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMB_PROC_TYPE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMB_RP.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMB_STLGRD_PRICE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMB_STLGRD_PRICE_WGT.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMB_TAXITEMS.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMB_XG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMC_CHAT.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMC_CHAT_EMP.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMC_CUSTGIVEMARK.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMC_CUSTGMARK_MAIN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMC_CUST_BOOK.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMC_CUST_EVAL.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMC_CUST_EVAL_SUB.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMC_CUST_MONEY.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMC_CUST_REPORT.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMC_EVAL_ITEM.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMC_GIVEMARK_ITEM.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMC_QUESTION.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMC_QUESTION_DEPT.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMC_ROLL_APPLY.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMC_ROLL_DEPLOY_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMC_TECH_CONSULT.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMC_TECH_CONSULT_RESULT.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMC_TRAIN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMC_TRAIN_EXPORT_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMC_TRAIN_MAIN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMD_CAR_NUMBER.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMD_CKD_REPRINT.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMD_DELIVERY_ORDER.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMD_DISPATCH.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMD_DISPATCHDETAILS.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMD_DISPATCHDETAILS_MAIN_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMD_DISPATCH_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMD_DISPATCH_MAIN_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMD_DISPATCH_SJZJB.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMD_DISPATCH_TMZJB.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMD_DIS_CONDET.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMD_FYZB.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMD_GPFY_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMD_HY_INFO.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMD_HY_PLAN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMD_ZZSCONFIRM_RECORD.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMD_ZZS_REPRINT.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMF_FILEINFO.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMO_CON.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMO_CONDETAILS.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMO_CONRULES.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMO_CON_END.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMO_CON_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMO_CON_ORDER.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMO_LOWMAOLI_ORDER.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMO_ORDER.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMO_ORDER_DETIL.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMO_ORDER_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMO_ORDER_MATCH.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMO_ORDER_PCZB.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMO_ORDER_PJ_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMO_SALEORDER.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMO_SALEORDERITEM.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMP_DAYPLAN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMP_PLAN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMQ_QUALITY_FILE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMQ_QUALITY_MAIN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMQ_QUALITY_MAIN_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMQ_QUALITY_STL_GRD.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMQ_QUA_ITEM.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TMQ_QUA_MAIN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPA_DHL_PLAN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPA_HL_ACT.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPA_HL_PLAN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPA_KP_ACT.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPA_KP_PLAN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPA_ROLL_ACT_PLAN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPA_ROLL_PLAN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPA_SLAB_IN_PLAN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPA_SLAB_USE_PLAN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPA_TS_PLAN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPA_XM_ACT.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPA_XM_PLAN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_BORDER_GRD.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_BORDER_GRD_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_BORDER_GRD_LOG_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_BXGXMGZ.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_CAST_STOVE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_CAST_STOVE_WGT.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_CAST_TIME.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_CCM_CONTRAST.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_CC_CHANGE_TIME.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_CHANGESPEC_TIME.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_DAILY_CAPACITY.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_ENDTOEND_GRD.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_GZ_STA.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_HOOK.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_JRLTJ.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_KPSTOVE_LWWH.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_LADLE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_LGGYK.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_LGJH.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_LINEWH.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_LINEWH_AREA.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_LINEWH_LOC.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_LINEWH_TIER.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_LINE_SPEC.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_MATERIAL_COST.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_MATRL_CONTRAST.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_MIXTURE_TIME.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_N_GRD.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_REPLACE_GRD.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_RINSE_GRD.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_ROLLXM.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_ROLL_XM.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_SCLX.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_SLABWH.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_SLABWH_AREA.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_SLABWH_LOC.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_SLABWH_TIER.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_SLAB_ALLOT.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_SLAB_CAPACITY.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_SLAB_STOCK_PLAN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpb_slab__Stock__plan.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_STATION_CAPACITY.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_STA_CN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_STA_HISTORY_CAP.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_STA_MOVETIME.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_STA_WH.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_STEEL_PRO_CONDITION.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_STEEL_PRO_CONDITION_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_STEEL_SMELT_TIME.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_STOVE_LWWH.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_TRANSITION_GRD.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_WASTE_RATIO.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_Y_GRD.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPB_ZGXMYQ.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPC_PLAN_ROLL.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPC_PLAN_SMS.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPO_APS_CONFIG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPO_GPKWT_LAB.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPO_XCKWT_LAB.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPP_CAST.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPP_CAST_PLAN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPP_DHL_PLAN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPP_HL_PLAN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPP_INITIALIZE_ITEM.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPP_INITIALIZE_LINE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPP_INITIALIZE_ORDER.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPP_INITIALIZE_PRO_CAP.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPP_INITIALIZE_STA.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPP_KP_PLAN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPP_LGPC_JCITEM.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPP_LGPC_LCLSB.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPP_LGPC_LCLSB_TEST.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPP_LGPC_LSB.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPP_LGPC_LSB_TEST.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPP_PROD_INITIALIZE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPP_ROLL_PRODUCT.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPP_SLAB_PLAN_KP.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPP_SLAB_PLAN_XM.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPP_TURNAROUND_PLAN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TPP_XM_PLAN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_ALLOY_CONSUMPTION.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_CHARACTER.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_CHECKSTATE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_CHECKTYPE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_COOL.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_COOL_BASIC.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_COPING.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_COPING_BASIC.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_DESIGN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_DESIGN_ITEM.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_DESIGN_ITEM_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_DESIGN_ORDER.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_FAULT_REASON_DETAILS.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_FAULT_REASON_TYPE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_FAULT_STATISTICS.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_GP_LCP_BASIS.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_GRADE_RULE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_GRADE_RULE_STD.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_GZ_CHECK.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_PACK.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_PC_INFO.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_PHYSICS_CONFIGURE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_PHYSICS_EQUIPMENT.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_PHYSICS_GROUP.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_PHYSICS_GROUP_STD.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_PHYSICS_QUALITATIVE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_PRINT_REMARK.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_REPLACE_SLAB.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_RINSE_TANK_GRD.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_ROUTE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_SAMPLING.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_SAMPLING_GROUP.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_SAMP_ITEM_MODLE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_SAMP_ITEM_MODLE_JSZX.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_SAMP_MODLE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_SAMP_MODLE_JSZX.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_SLAB_LEN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_SLAB_LEN_MATCH.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_STD_CFXN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_STD_FILE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_STD_FILE_TYPE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_STD_MAIN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_STD_MAIN_COPY.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_STD_SAMPLING.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_STD_SPEC.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_STD_TYPE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_STL_GRD_AL.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_STL_GRD_NAME.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_STL_GRD_TYPE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_TRUCK.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_TSBZ_CF.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_TSBZ_MAIN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_WAREHOUSE_CAUSE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_WAREHOUSE_CAUSE_OPINION.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_XN_CHECK_PROCEDURE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_XN_CHECK_USER.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_ZZS_PRINT_MODLE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQB_ZZS_PRINT_ROWNUM.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_CFXN_NC.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_COMPRE_ITEM_RESULT.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_COMPRE_ROLL.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_COMPRE_SLAB.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_FACE_ROLL.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_FACE_ROLL_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_FACE_SLAB.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_FACE_SLAB_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_PHYSICS_RESULT.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_PHYSICS_RESULT_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_PHYSICS_RESULT_MAIN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_PRESENT_SAMPLES.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_PRESENT_SAMPLES_JSZX.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_PRESENT_SAMPLES_NAME.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_QUA_RESULT.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_QUA_RESULT_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_RATING_PROCESS.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_RATING_PROCESS_ITEM.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_RECHECK.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_RESULT_MAIN_ZJB.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_ROLL_COMMUTE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_ROOL_CHECK_AFFIRM.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_SLAB_COMMUTE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_SLAB_YC.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_SLAB_YC_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_SPECIFIC_CONTENT.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_SPECIFIC_CONTENT_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_TP_SLAB_COMMUTE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_UPDATE_MATERIAL.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_UPDATE_MATERIAL_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_UPD_MATERIAL_MAIN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_WAREHOUSE_CHECK_ROLL.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_WAREHOUSE_CHECK_SLAB.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_WE_CHECK_AFFIRM.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_ZZS_FILE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQC_ZZS_INFO.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQR_FAULT_STA_ROLL.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQR_FAULT_STA_SLAB.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQR_GRADE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQR_REJECTS.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQR_ZBS_ITEM.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQ_MODULE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TQ_MODULE_LIST.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_COGDOWN_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_COGDOWN_MAIN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_COGDOWN_PRODUCT.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_COGDOWN_PRODUCT_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ENERGY_RECORD.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_JK_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_PLAN_REGROUND.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_PLAN_REGROUND_HANDLER.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_PLAN_REGROUND_ITEM.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_PRODUCTION_IMPACT.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLLCZ_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLL_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLL_MAIN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLL_MAIN_CLOSE_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLL_MAIN_ITEM.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLL_PDD.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLL_PDD_ITEM.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLL_PRODCUT.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLL_PRODUCT_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLL_PRODUCT_PDD.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLL_PRODUCT_TM.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLL_QTCKD.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLL_QTCKDBYTM.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLL_QTCKD_ITEM.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLL_QTCKD_ITEMBYTM.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLL_SPOT_CHECK.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLL_SPOT_CHECK_NAME.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLL_STORAGE_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLL_TIME.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLL_TMLOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLL_WGD.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLL_WGD_HANDLER.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLL_WGD_HANDLER_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLL_WGD_ITEM.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLL_WGD_ITEM_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLL_WGD_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLL_WW_MAIN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLL_YWD_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLL_ZKD.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLL_ZKD_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_ROLL__LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_SLABWH_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_WARM_FURNACE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRC_WARM_FURNACE_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRD_GPDRKC.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRD_GPDRKC_INFO.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRD_GPDRKC_ITEM.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRD_GPRPKBB.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRD_ROLL_CQ.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRD_ROLL_CQ_INFO.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRD_ROLL_XCDRKC.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRD_ROLL_XCDRKC_INFO.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRD_ROLL_XCDRKC_ITEM.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRD_SNKC.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRD_XCRK.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRD_XCRPKBB.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRP_PLAN_COGDOWN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRP_PLAN_ITEM.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRP_PLAN_ITEM_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRP_PLAN_ITEM_TEST.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRP_PLAN_REASON.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRP_PLAN_ROLL.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRP_PLAN_ROLL_ITEM.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRP_PLAN_ROLL_ITEM_INFO.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRP_PLAN_ROLL_ITEM_INFO_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRP_PLAN_ROLL_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRP_PLAN_ROLL_TEST.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRP_PLAN_SLAB_TIME.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TRP_WGD_ITEMINFO.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TSC_ALLOT_CENTER.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TSC_ALLOT_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TSC_SLAB_MAIN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TSC_SLAB_MAIN_DELETE_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TSC_SLAB_MAIN_KP.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TSC_SLAB_MAIN_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TSC_SLAB_MAIN_XM.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TSC_SLAB_MES.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TSC_SLAB_MES_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TSC_SLAB_MOVE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TSC_SLAB_NC.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TSC_SLAB_STACK.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TSC_SLAB_WLGP_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TSC_STOVE_TIME.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TSP_CAST_CD_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TSP_CAST_PLAN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TSP_CAST_PLAN_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TSP_CAST_PLAN_TEST.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TSP_CAST_REMARK.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TSP_PLAN_SMS.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TSP_PLAN_SMS_ITEM.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TSP_PLAN_SMS_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TSP_PLAN_SMS_TEST.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TS_BUTTON.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TS_BUTTON_FUN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TS_CUSTADDR.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TS_CUSTADDR2.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TS_CUSTFILE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TS_CUSTOTCOMPANY.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TS_CUST_SF.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TS_DEPT.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TS_DIC.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TS_FUNCTION.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TS_HEARTBEAT.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TS_MENU.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TS_MENU_FUN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TS_MODULE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TS_ROLE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TS_ROLE_FUN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TS_ROLE_FUN_PCI.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TS_ROLE_PCI.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TS_SALE_EMP.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TS_SERVER_CONFIG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TS_SOFT_DOWN_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TS_SOFT_VERSION.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TS_UP_SOFT_LOG.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TS_USER.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TS_USER_DEPT.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TS_USER_FUN.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TS_USER_FUN_PCI.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TS_USER_ROLE.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TS_USER_ROLE_PCI.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TT_TEST.cs">
+      <DependentUpon>CAPContext.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <EntityDeploy Include="CAPContext.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>CAPContext.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="CAPContext.edmx.diagram">
+      <DependentUpon>CAPContext.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CAPContext.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CAPContext.edmx</DependentUpon>
+      <LastGenOutput>CAPContext.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="CAPContext.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CAPContext.edmx</DependentUpon>
+      <LastGenOutput>CAPContext.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

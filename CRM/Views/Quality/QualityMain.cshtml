@@ -1,0 +1,99 @@
+﻿@model NF.Framework.DTO.TMQ_QUALITY_MAINDTO
+@using NF.Web.Core
+<!DOCTYPE html>
+
+<html>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<script src="~/Assets/js/My97DatePicker/WdatePicker.js"></script>
+@Html.Partial("~/Views/Shared/_Assets.cshtml")
+
+<title>@Model.Title</title>
+<body>
+
+    @using (Html.BeginForm())
+    {
+        <table class="table table-bordered">
+            <tr>
+                <td style="width:80px; text-align:right">
+                    质量问题
+                </td>
+                <td>
+                    @Html.DropDownDic("C_QUEST_ID", "QualityType", new { style = " width:200px" })
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.C_QUEST_ID)</span>
+                    @Html.HiddenFor(x => x.C_NAME)
+                    @Html.HiddenFor(x=>x.C_TEL)
+                </td>
+
+                <td style="width:80px; text-align:right">
+                    品种
+                </td>
+                <td>
+                    @Html.DropDownDic("C_PROD_KIND_ID", "QualityKind", new { style = " width:200px" })
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.C_PROD_KIND_ID)</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="width:80px; text-align:right">
+                    汽运
+                </td>
+                <td>
+                    @Html.DropDownDic("C_SHIPVIA", "ShipVia", new { style = " width:200px" })
+
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.C_SHIPVIA)</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="width:170px; text-align:right">
+                    发货时间
+                </td>
+                <td>
+                    @*@Html.TextBox("D_SHIP_START_DT", Model.D_SHIP_START_DT, new { style = " width:200px", id = "txt", OnClick = "WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})", name = "D_SHIP_START_DT", @class = "Wdate" })*@
+                    <input id="txtStart" value="@Model.D_SHIP_START_DT" name="D_SHIP_START_DT" type="text" class="Wdate" onclick="WdatePicker({ isShowClear: false, readOnly: true, maxDate: '#F{$dp.$D(\'txtEnd\')}' })" style=" width:200px" />
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.D_SHIP_START_DT)</span>
+                </td>
+
+                <td style="width:170px; text-align:right">
+                    到货时间
+                </td>
+                <td>
+                    @*@Html.TextBox("D_SHIP_END_DT", Model.D_SHIP_END_DT, new { style = " width:200px", id = "txt", OnClick = "WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'} )", name = "D_SHIP_END_DT", @class = "Wdate"})*@
+                    <input id="txtEnd" value="@Model.D_SHIP_END_DT" name="D_SHIP_END_DT" type="text" class="Wdate" onclick="WdatePicker({ isShowClear: false, readOnly: true, minDate: '#F{$dp.$D(\'txtStart\')}' })" style=" width:200px" />
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.D_SHIP_END_DT)</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="width:80px; text-align:right">
+                    母材剩余量
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.N_PARENT_REMAIN_WGT, new { style = " width:200px", maxlength = "8" })
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.N_PARENT_REMAIN_WGT)</span>
+                </td>
+                <td style="width:80px; text-align:right">
+                    中间产品剩余量
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.N_MIDDLE_REMAIN_WGT, new { style = " width:200px", maxlength = "8" })
+                    <span style=" color:red;">   @Html.ValidationMessageFor(x => x.N_MIDDLE_REMAIN_WGT)</span>
+                </td>
+
+            </tr>
+            <tr>
+                <td colspan="4" style=" text-align:center">
+                    <button class="btn btn-primary btn-xs" type="submit">下一步</button>&nbsp;&nbsp;
+                    <input type="button" name="Submit" class="btn btn-warning btn-xs" onclick="javascript:history.back(-1);" value="返回">
+                    <spn style=" color:red; ">@Html.ValidationMessage("error")</spn>
+
+                </td>
+            </tr>
+
+        </table>
+    }
+    <script type="text/javascript">
+    </script>
+</body>
+</html>

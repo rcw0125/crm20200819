@@ -1,0 +1,101 @@
+﻿
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>用户登录</title>
+    <!-- Bootstrap core CSS -->
+    <link href="~/Assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Assets/css/login.css" rel="stylesheet" />
+</head>
+
+<body>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td align="center" valign="top">
+                <div class="head">
+                    <table width="900px" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td style="height:50px; text-align:left; width:50px;"><img src="~/Assets/images/login_img/logo.jpg" width="50" height="50"></td>
+                            <td style="text-align:left; padding-left:15px;">
+                                <h3>销售管理系统 <small>邢台钢铁有限责任公司</small></h3>
+                            </td>
+                            <td style="text-align:right;">还没有账号？&nbsp;&nbsp;<a href="/Auth/Register" class="btn-link">立即注册</a></td>
+                        </tr>
+                    </table>
+
+                </div>
+                <div class="main">
+                    <div class="main_top">
+                        <div class="main_left">
+                            <!-- Carousel
+                            ================================================== -->
+                            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                                <!-- Indicators -->
+                                <ol class="carousel-indicators">
+                                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                                </ol>
+                                <div class="carousel-inner" role="listbox">
+                                    <div class="item active">
+                                        <img class="first-slide" src="~/Assets/images/login_img/login_banner03.jpg" alt="First slide">
+                                    </div>
+                                    <div class="item">
+                                        <img class="second-slide" src="~/Assets/images/login_img/login_banner02.jpg" alt="Second slide">
+                                    </div>
+                                    <div class="item">
+                                        <img class="third-slide" src="~/Assets/images/login_img/login_banner01.jpg" alt="Third slide">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- /.carousel -->
+                        </div>
+                        <div class="main_right">
+                            <form action="/Auth/Login" method="post" class="form-signin">
+                                <h3 class="form-signin-heading">
+                                    账号登录
+                                </h3>
+                                @Html.TextBox("account", null, new { @class = "form-control", placeholder = "输入用户名" })
+                                @Html.Password("password", null, new { @class = "form-control", placeholder = "输入密码" })
+                                <div class="form-inline">
+                                    @*<div class="form-group">
+                                        @Html.TextBox("verify", "", new { style = "width:120px;", placeholder = "验证码", @class = "form-control" })
+                                        <label for="exampleInputName2">
+                                            <img style="cursor: pointer; vertical-align:middle; " width="87" height="34" src="@Url.Action("VerifyCode", "Auth")" id="verify" title="看不清？点击换一个" onclick="refresh(this)">
+                                        </label>
+                                    </div>*@
+                                    <div class="form-group" style="margin-bottom:10px; margin-top:10px; overflow:hidden;">
+                                        <a class="redlink" href="/Auth/RetrievePsw">忘记密码？</a><label style="color:red">提示：&nbsp;@Html.ValidationMessage("error") </label>
+                                    </div>
+                                </div>
+                                <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+                                <div class="form-inline" style="text-align:center; margin-top:20px;">
+
+                                    <a href="~/Assets/upload/CRM用户操作手册.docx" style="margin-right:10px;">用户操作手册</a>  <a  href="~/Assets/upload/CRM操作手册_V1.2-1.docx">销售操作手册</a>
+                                    <img src="~/Assets/images/fileUpload.png"  width="190" height="190"/>
+                                </div>
+                             
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <script src="~/Assets/js/jquery-1.10.2.min.js"></script>
+    <script src="~/Assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        function refresh(obj) {
+            $(obj).attr("src", "/Auth/VerifyCode?random=" + Math.random());
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+﻿@model NF.Framework.DTO.TS_MENUDTO
+@using NF.Web.Core
+<!DOCTYPE html>
+
+<html>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+@Html.Partial("~/Views/Shared/_Assets.cshtml")
+
+<title>@Model.Title</title>
+<body>
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:20px;">
+        <tr>
+            <td align="center">
+                @using (Html.BeginForm())
+                {
+                    @Html.HiddenFor(x => x.C_ID)
+                    @Html.HiddenFor(x => x.C_EMP_ID)
+                    @Html.HiddenFor(x => x.C_EMP_NAME)
+                    @Html.HiddenFor(x => x.D_MOD_DT)
+                    @Html.HiddenFor(x => x.N_STATUS)
+                    @Html.HiddenFor(x => x.N_TYPE)
+                    <input type="hidden" id="ResultType" name="ResultType" value="@Model.ResultType" />
+                    <table class="table table-bordered">
+                        <tr>
+                            <td style="width:80px;">
+                                父级菜单
+                            </td>
+                            <td>
+                                @Html.DropDownList("C_PARENT_ID", Model.MenuItems, "-请选择-", new { })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:80px;">
+                                名称
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(x => x.C_NAME, new { style = " width:120px" })&nbsp;@Html.ValidationMessageFor(x => x.C_NAME)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                描述
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(x => x.C_DESC, new { style = " width:120px" })&nbsp;@Html.ValidationMessageFor(x => x.C_DESC)
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                URL
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(x => x.C_URL, new { style = " width:300px" })&nbsp;@Html.ValidationMessageFor(x => x.C_URL)
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                索引
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(x => x.N_SORT, new { style = " width:120px" })&nbsp;@Html.ValidationMessageFor(x => x.N_SORT)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                图标
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(x => x.C_ICON, new { style = " width:120px" })&nbsp;@Html.ValidationMessageFor(x => x.C_ICON)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                &nbsp;
+                            </td>
+                            <td>
+                                <div class="bs-example" data-example-id="btn-tags">
+                                    <button id="btnSave" class="btn btn-primary btn-xs btn-w60" type="submit">保存</button>&nbsp;&nbsp;
+                                    <span style=" color:red; ">@Html.ValidationMessage("error")</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                }
+            </td>
+        </tr>
+    </table>
+    <script type="text/javascript">
+        $(function () {
+
+            if ($("#ResultType").val() == "1") {
+                alert("新增成功");
+                window.parent.seatch();
+                close();    
+            }
+            if ($("#ResultType").val() == "2") {
+                alert("修改成功");
+                window.parent.seatch();
+                close();    
+            }
+        });
+
+    </script>
+</body>
+</html>

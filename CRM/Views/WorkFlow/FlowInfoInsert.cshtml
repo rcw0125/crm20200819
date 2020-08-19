@@ -1,0 +1,126 @@
+﻿@model NF.Framework.DTO.TMB_FLOWINFODTO
+@using NF.Web.Core;
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @Html.Partial("~/Views/Shared/_AssetsP.cshtml")
+    <title>@Model.Title</title>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        <table class="table table-bordered">
+            <tr>
+                <th style="width:100px; text-align:right">流程名称</th>
+                <td>
+                    @Html.TextBoxFor(x => x.C_NAME, new { style = "width:200px;" })
+                    @Html.HiddenFor(x => x.C_ID)
+                    @Html.HiddenFor(x => x.N_STATUS)
+                    @Html.HiddenFor(x => x.N_SORT)
+                    <input type="hidden" id="ResultType" name="ResultType" value="@Model.ResultType" />
+                    <span style="color:red;">@Html.ValidationMessageFor(x => x.C_NAME)</span>
+                </td>
+            </tr>
+            <tr>
+                <th style="width:100px; text-align:right">流程类型</th>
+                <td>
+                    @Html.DropDownDic("N_TYPE", "FlowType", new { style = "width:200px;" })
+                    <span style="color:red;">@Html.ValidationMessageFor(x => x.N_TYPE)</span>
+                </td>
+            </tr>
+            <tr>
+                <th style="width:100px; text-align:right">说明</th>
+                <td>
+                    @Html.TextAreaFor(x => x.C_DESC, new { style = "width:400px;" })
+                    <span style="color:red;">@Html.ValidationMessageFor(x => x.C_DESC)</span>
+                </td>
+            </tr>
+            <tr>
+                <th style="width:100px;   text-align:right">选择步骤</th>
+                <td>
+                    @{
+                        if (Model.StepInfos != null && Model.StepInfos.Count > 0)
+                        {
+                            <table id="tb" class="table table-bordered" style="width:500px">
+                                @for (int i = 0; i < Model.StepInfos.Count; i++)
+                                {
+                                    <tr>
+                                        <td style="width:30px; text-align:center">
+                                            @Html.CheckBoxFor(x => x.StepInfos[i].IsCheck, new { name = Model.StepInfos[i].IsCheck })
+                                            @Html.HiddenFor(x => x.StepInfos[i].C_ID, new { name = Model.StepInfos[i].C_ID })
+                                            @Html.HiddenFor(x => x.StepInfos[i].C_EMP_ID, new { name = Model.StepInfos[i].C_EMP_ID })
+                                            @Html.HiddenFor(x => x.StepInfos[i].C_EMP_NAME, new { name = Model.StepInfos[i].C_EMP_NAME })
+                                            @Html.HiddenFor(x => x.StepInfos[i].D_MOD_DT, new { name = Model.StepInfos[i].D_MOD_DT })
+                                            @Html.HiddenFor(x => x.StepInfos[i].N_STATUS, new { name = Model.StepInfos[i].N_STATUS })
+                                            @Html.HiddenFor(x => x.StepInfos[i].C_DESC, new { name = Model.StepInfos[i].C_DESC })
+                                            @Html.HiddenFor(x => x.StepInfos[i].C_REMARK, new { name = Model.StepInfos[i].C_REMARK })
+                                            @*@Html.HiddenFor(x => x.StepInfos[i].N_SORT, new { name = Model.StepInfos[i].N_SORT })*@
+                                        </td>
+                                        <td style="text-align:left;width:200px;">@Model.StepInfos[i].C_NAME</td>
+                                        @Html.HiddenFor(x => x.StepInfos[i].C_NAME, new { name = Model.StepInfos[i].C_NAME })
+                                        @*<td style="text-align:left;">
+                                                <span>审批人</span> @Html.TextBoxFor(x => x.StepInfos[i].C_APPROVE_Name, new { name = Model.StepInfos[i].C_APPROVE_Name, @readonly = "readonly" })
+                                                @Html.HiddenFor(x => x.StepInfos[i].C_APPROVE_ID)
+                                                <a href="javascript:;" id="" onClick="queryUser(this);"><span class="glyphicon glyphicon-search"></span></a>
+                                            </td>
+                                        *@
+                                        <td style="text-align:left;">
+                                            执行顺序
+                                            @Html.TextBoxFor(x => x.StepInfos[i].N_SORT, new { name = Model.StepInfos[i].N_SORT, style = "width: 30px; " })
+                                            @*@Html.DropDownListFor(x => x.StepInfos[i].N_Type, Model.items, new { name = Model.StepInfos[i].N_Type })*@
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        }
+                    }
+                </td>
+            </tr>
+            <tr>
+                <th style="width:100px; text-align:right">&nbsp;</th>
+                <td>
+                    <input id="btnSave" type="submit" class="btn btn-primary btn-xs btn_w60" value="保存" />
+                    @*<input id="btnSb" type="submit" class="btn btn-primary btn-xs btn_w60" value="确认" />*@
+                    <spn style=" color:red; ">@Html.ValidationMessage("error")</spn>
+                </td>
+            </tr>
+        </table>
+                        }
+    <script src="../Assets/js/jquery-2.0.3.min.js"></script>
+    <script src="../Assets/js/common.js"></script>
+    <script type="text/javascript">
+        function queryUser(e) {
+            var url = "/Base/QueryUser?queryType=" + $(e).parent().next().children().val();
+            url += "&htmlApproveId=" + $(e).prev().attr("id");
+            url += "&htmlApproveName=" + $(e).prev().prev().attr("id");
+            window.open(url, 'newwindow', 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,resizable=yes,status=yes,menubar=no,scrollbars=yes');
+        }
+
+        $("#N_TYPE").change(function () {
+            $("#form").attr("action", "/WorkFlow/FlowInfoInsertDouble?type=" + $(this).val());
+            $("#btnSave").click();
+        });
+
+        $(function () {
+            $("#btnSb").click(function () {
+                $("#form").attr("action", "/WorkFlow/FlowInfoInsert");
+            });
+
+            if ($("#ResultType").val() == "1") {
+                alert("新增成功");
+                window.parent.seatch();
+                close();    
+            } else if ($("#ResultType").val() == "2") {
+                alert("修改成功");
+                window.parent.seatch();
+                close();    
+            }
+
+        });
+
+    </script>
+</body>
+</html>

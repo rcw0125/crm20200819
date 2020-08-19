@@ -1,0 +1,53 @@
+﻿@model NF.Framework.DTO.TMQ_QUALITY_MAINDTO
+@using NF.Web.Core
+<!DOCTYPE html>
+
+<html>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+@Html.Partial("~/Views/Shared/_Assets.cshtml")
+
+<title>@Model.Title</title>
+<body>
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:20px;">
+        <tr>
+            <td align="center">
+                @using (Html.BeginForm())
+                {
+                    @Html.HiddenFor(x => x.C_ID)
+                    <input type="hidden" id="ResultType" name="ResultType" value="@Model.ResultType" />
+                    <table class="table table-bordered">
+                        <tr>
+                            <td style="width:100px;">
+                                反馈信息类型
+                            </td>
+                            <td>
+                                @Html.DropDownDic("N_FLAG", "QualityFlag", new { style = "width:120px;" })
+                            </td>
+                            <td>
+                                <div class="bs-example" data-example-id="btn-tags">
+                                    <button id="btnSave" class="btn btn-primary btn-xs btn-w60" type="submit">保存</button>&nbsp;&nbsp;
+                                    <span style=" color:red; ">@Html.ValidationMessage("error")</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                }
+            </td>
+        </tr>
+    </table>
+    <script type="text/javascript">
+        $(function () {
+            if ($("#ResultType").val() == "1") {
+                alert("变更成功");
+                window.parent.seatch();
+                close();    
+            }
+        });
+    </script>
+</body>
+</html>

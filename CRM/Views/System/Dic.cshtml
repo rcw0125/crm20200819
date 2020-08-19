@@ -1,0 +1,163 @@
+﻿@model NF.Framework.DTO.TS_DICDTO
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>数据字典</title>
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+</head>
+
+<body>
+    @Html.Partial("~/Views/Shared/_Button.cshtml")
+
+    @using (Html.BeginForm())
+    {
+        <table class="table table-bordered">
+            <tr>
+                <td style="width:80px;">类别编码</td>
+                <td style="width:125px;">
+                    @Html.TextBoxFor(x => x.C_TYPECODE, new { style = "width:120px;" })
+                    <input type="hidden" id="pageIndex" name="BasePage.PageIndex" />
+                </td>
+                <td style="width:80px;">类别名称</td>
+                <td style="width:125px;"> @Html.TextBoxFor(x => x.C_TYPENAME, new { style = "width:120px;" })</td>
+                <td><button id="btn_Search" type="submit" class="btn btn-primary btn-xs btn_w60">查询</button></td>
+
+            </tr>
+        </table>
+    }
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th style=" width:40px"> <input class="qx1" type="checkbox" name="" value="" /></th>
+                <th>类别编码</th>
+                <th>类别名称</th>
+                <th>详细编码</th>
+                <th>详细名称</th>
+                <th>索引</th>
+                <th>是否可用</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model.Dics.Count > 0)
+                {
+                    foreach (var item in Model.Dics)
+                    {
+                        <tr>
+                            <th scope="row"><input class="che2" type="checkbox" name="" value="@item.C_ID" data-type="@item.C_TYPECODE" data-code="@item.C_DETAILCODE" /></th>
+                            <td>@item.C_TYPECODE</td>
+                            <td>@item.C_TYPENAME</td>
+                            <td>@item.C_DETAILCODE</td>
+                            <td>@item.C_DETAILNAME</td>
+                            <td>@item.C_INDEX</td>
+                            <td>@(item.N_STATUS == 1 ? "是" : "否")</td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+
+    @Html.Partial("~/Views/Shared/_Paging.cshtml")
+
+    <script type="text/javascript">
+        function add() {
+            _iframe('/System/DicInsert', '500', '500', '新增');
+        }
+
+        function editMsg() {
+            var test = $("input[class='che2']:checked");
+            var checkBoxValue = "";
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+            if (checkBoxValue == "") {
+                alert("请任选一项修改");
+                return false;
+            } else {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var arr = checkBoxValue.split(',');
+                if (arr.length > 1) {
+                    alert("请任选一项修改");
+                    return false;
+                } else {
+                    var obj = new Object();
+                    obj.id = arr[0];
+                    _iframe('/System/DicUpdate?id=' + obj.id, '500', '500');
+                }
+            }
+        }
+
+        function delMsg() {
+            var r = confirm("是否确认删除");
+            if (r) {
+                var test = $("input[class='che2']:checked");
+                var checkBoxValue = "";
+                test.each(function () {
+                    checkBoxValue += $(this).val() + ",";
+                });
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var data = { ids: checkBoxValue };
+                $.post("/System/DicDel", data, function (result) {
+                    if (result == 1)
+                        alert("删除成功");
+                    $("#btn_Search").click();
+                });
+            }
+        }
+
+        function seatch() {
+            $("#btn_Search").click();
+        }
+
+        //全选
+        selectAll("input.qx1", "input.che2");
+    </script>
+
+    <script type="text/javascript">
+        function sync($btn) {
+
+            var test = $("input[class='che2']:checked");
+            var checkBoxValue = [];
+            test.each(function () {
+                var typeCode = $(this).attr('data-type');
+                var code = $(this).attr('data-code');
+                if (typeCode == 'SyncType') {
+                    checkBoxValue.push(code);
+                }
+            });
+
+            if (checkBoxValue.length == 0) {
+                alert('请选择同步的项(类别名称为：SyncType的项)');
+                return;
+            }
+
+            $btn.text('正在同步...');
+
+            $.ajax({
+                url: '/Outsourcing/SyncDic',
+                type: "POST",
+                traditional: true,
+                data: {
+                    arrCode: checkBoxValue
+                },
+                success: function (data) {
+                    $btn.text('同步');
+                    if (data.success) {
+                        alert('执行成功');
+                    }
+                    else {
+                        alert(data.msg);
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

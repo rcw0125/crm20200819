@@ -1,0 +1,100 @@
+﻿@model NF.Framework.DTO.TMC_CUST_REPORTDTO
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+    <title>用户使用报告</title>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        <table class="table table-bordered">
+
+            <tr>
+                <td style="width:200px;">公司名称</td>
+                <td>
+                    @Html.HiddenFor(x => x.C_CUST_NO)
+                    <input type="hidden" id="ResultType" name="ResultType" value="@Model.ResultType" />
+                    <input type="text" disabled="disabled" style="width: 50%" value="@Model.C_CUST_NAME" />
+                    <input type="hidden" id="C_CUST_NAME" name="C_CUST_NAME" value="@Model.C_CUST_NAME" />
+                    <span style=" color:red;"> @Html.ValidationMessageFor(x => x.C_CUST_NAME)</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>产品型号</td>
+                <td>
+                    @Html.HiddenFor(x => x.C_STL_GRD, new { style = "width: 50%" })
+                    <input type="text" id="grd" disabled="disabled" style="width: 50%" value="@Model.C_STL_GRD" />
+                    <a href="javascript:void(0);" onclick="openWeb(1);"><span class="glyphicon glyphicon-search"></span></a>
+                    <span style=" color:red;"> @Html.ValidationMessageFor(x => x.C_STL_GRD)</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>产品规格</td>
+                <td>
+                    @Html.HiddenFor(x => x.C_SPEC, new { style = "width: 50%" })
+                    <input type="text" id="spec" disabled="disabled" style="width: 50%" value="@Model.C_SPEC" />
+                    <span style=" color:red;"> @Html.ValidationMessageFor(x => x.C_SPEC)</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>产品用途</td>
+                <td>
+                    @Html.HiddenFor(x => x.C_PROD_USE, new { style = "width: 50%" })
+                    <input type="text" id="use" disabled="disabled" style="width: 50%" value="@Model.C_PROD_USE" />
+                    <span style=" color:red;"> @Html.ValidationMessageFor(x => x.C_PROD_USE)</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>产品使用情况</td>
+                <td>
+                    @Html.TextAreaFor(x => x.C_PROD_CONTENT, new { style = "width: 80%; height:100px" })
+                    <span style=" color:red;"> @Html.ValidationMessageFor(x => x.C_PROD_CONTENT)</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <button id="btnSave" class="btn btn-primary btn-xs" type="submit">提交</button>
+                </td>
+            </tr>
+        </table>
+        <script type="text/javascript">
+            $(function () {
+                $("#btnSave").click(function () {
+                    $("#ResultType").val(0);
+                });
+
+                if ($("#ResultType").val() == "1") {
+                    alert("提交成功");
+                }
+            });
+
+            function openWeb(index) {
+                switch (index) {
+                    case 1:
+                        _iframe('../../Common/_CustOrder.aspx', '800', '450', '历史签单');
+                        break;
+                }
+            }
+
+            function SetOrder(grd, spec, use) {
+                $("#C_STL_GRD").val(grd);
+                $("#C_SPEC").val(spec);
+                $("#C_PROD_USE").val(use);
+                $("#grd").val(grd);
+                $("#spec").val(spec);
+                $("#use").val(use);
+                close();
+            }
+        </script>
+    }
+</body>
+</html>

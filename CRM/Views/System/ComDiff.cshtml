@@ -1,0 +1,124 @@
+﻿
+@{
+    @model NF.Framework.DTO.TMB_COMDIFFDTO
+}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>合同完成公差</title>
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+
+</head>
+
+<body>
+    @Html.Partial("~/Views/Shared/_Button.cshtml")
+    @using (Html.BeginForm())
+    {
+        <table class="table table-bordered">
+            <tr>
+                <td style="width:50px; text-align:right">日期</td>
+                @{
+                    string start = Model.Start == DateTime.MinValue ? "" : Model.Start.ToString("yyyy-MM-dd");
+                    string end = Model.End == DateTime.MinValue ? "" : Model.End.ToString("yyyy-MM-dd");
+                }
+                <td style="width:125px;">
+                    <input id="txt_Start" name="Start" type="text" style=" width:120px;" class="Wdate" value="@start" onclick="WdatePicker({isShowClear:false,readOnly:true,maxDate:'#F{$dp.$D(\'txt_End\')}'})" />
+                </td>
+                <td style="width:125px;">
+                    <input id="txt_End" name="End" type="text" style=" width:120px;" class="Wdate" value="@end" onclick="WdatePicker({isShowClear:false,readOnly:true,minDate:'#F{$dp.$D(\'txt_Start\')}'})" />
+                </td>
+                <td>
+                    <button id="btn_Search" type="submit" class="btn btn-primary btn-xs btn_w60">查询</button>
+                </td>
+            </tr>
+        </table>
+        <table class="table table-bordered table-hover">
+
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>最小值</th>
+                    <th>最大值</th>
+                    <th>误差范围</th>
+                    <th>维护人</th>
+                    <th>维护时间</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @{
+                    foreach (var c in Model.ComDiffs)
+                    {
+                        <tr>
+                            <th scope="row"><input class="che2" type="radio" name="0" value="@c.C_ID" /></th>
+                            <td>@c.D_MIN</td>
+                            <td>@c.D_MAX</td>
+                            <td>±@c.C_RANGE</td>
+                            <td>@c.C_EMP_NAME</td>
+                            <td>@c.D_MOD_DT</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        @Html.Partial("~/Views/Shared/_Paging.cshtml")
+                    }
+    <script type="text/javascript">
+
+        function add() {
+            openPage("/System/ComDiffInsert", "500", "500")
+        }
+
+        function editMsg() {
+            var test = $("input[class='che2']:checked");
+            var checkBoxValue = "";
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+            if (checkBoxValue == "") {
+                alert("请任选一项修改");
+                return false;
+            } else {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var arr = checkBoxValue.split(',');
+                if (arr.length > 1) {
+                    alert("请任选一项修改");
+                    return false;
+                } else {
+                    var obj = new Object();
+                    obj.id = arr[0];
+                    openPage("/System/ComDiffUpdate?id=" + obj.id, "500", "500")
+                }
+            }
+        }
+
+        function delMsg() {
+            var r = confirm("是否确认删除");
+            if (r) {
+                var test = $("input[class='che2']:checked");
+                var checkBoxValue = "";
+                test.each(function () {
+                    checkBoxValue += $(this).val() + ",";
+                });
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var data = { ids: checkBoxValue };
+                $.post("/System/ComDiffDel", data, function (result) {
+                    if (result == 1)
+                        alert("删除成功");
+                    $("#btn_Search").click();
+                });
+            }
+        }
+
+        //全选
+        selectAll("input.qx1", "input.che2");
+
+    </script>
+</body>
+</html>

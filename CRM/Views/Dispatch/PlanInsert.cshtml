@@ -1,0 +1,445 @@
+﻿@model NF.Framework.DTO.TMP_PLANDTO
+@using NF.Web.Core
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>@Model.Title</title>
+    <link href="~/Assets/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Assets/js/My97DatePicker/WdatePicker.js"></script>
+    <style>
+        input:read-only {
+            border: 1px solid #DDD;
+            background-color: #F5F5F5;
+            color: #ACA899;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="legend" class="">
+        <legend class=""></legend>
+    </div>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:40px;">
+        <tr>
+            <td align="center">
+                @using (Html.BeginForm())
+                {
+                    @Html.HiddenFor(x => x.C_ID)
+                    @Html.HiddenFor(x => x.C_EMP_ID)
+                    @Html.HiddenFor(x => x.C_EMP_NAME)
+                    @Html.HiddenFor(x => x.D_MOD_DT)
+                    <table width="95%" border="0" cellspacing="0" cellpadding="0" class="table1">
+                        <tr>
+                            <td style="width:170px; text-align:right">
+                                合同号
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" disabled="disabled" value="@Model.C_CON_NO" />
+                                <input type="hidden" id="C_CON_NO" name="C_CON_NO" value="@Model.C_CON_NO" />
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_CON_NO)</td>
+                            <td style="width:170px; text-align:right">
+                                订单号
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" disabled="disabled" value="@Model.C_NO" />
+                                <input type="hidden" id="C_NO" name="C_NO" value="@Model.C_NO" />
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_NO)</td>
+                            <td style="width:170px; text-align:right">
+                                日计划单据号
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" disabled="disabled" value="@Model.C_ID" />
+                                <input type="hidden" id="C_ID" name="C_ID" value="@Model.C_ID" />
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_ID)</td>
+                            <td style="width:170px; text-align:right">
+                                计划发货日期
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:60px;">
+                                @Html.TextBox("D_PLANSEND_DT", Model.D_PLANSEND_DT, new { id = "txt", OnClick = "WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})", name = "D_PLANSEND_DT" })
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.D_PLANSEND_DT)</td>
+                            <td style="width:170px; text-align:right">
+                                存货编码
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" disabled="disabled" value="@Model.C_MAT_CODE" />
+                                <input type="hidden" id="C_MAT_CODE" name="C_MAT_CODE" value="@Model.C_MAT_CODE" />
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_MAT_CODE)</td>
+                        </tr>
+                        <tr>
+                            <td style="width:170px; text-align:right">
+                                存货名称
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" disabled="disabled" value="@Model.C_MAT_NAME" />
+                                <input type="hidden" id="C_MAT_NAME" name="C_MAT_NAME" value="@Model.C_MAT_NAME" />
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_MAT_NAME)</td>
+                            <td style="width:170px; text-align:right">
+                                型号
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" disabled="disabled" value="@Model.C_STL_GRD" />
+                                <input type="hidden" id="C_STL_GRD" name="C_STL_GRD" value="@Model.C_STL_GRD" />
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_STL_GRD)</td>
+                            <td style="width:170px; text-align:right">
+                                规格
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" disabled="disabled" value="@Model.C_SPEC" />
+                                <input type="hidden" id="C_SPEC" name="C_SPEC" value="@Model.C_SPEC" />
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_SPEC)</td>
+                            <td style="width:170px; text-align:right">
+                                质量等级
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                @Html.TextBoxFor(x => x.C_QUALIRY_LEV, new { style = " width:170px" })
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_QUALIRY_LEV)</td>
+                            <td style="width:170px; text-align:right">
+                                数量
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                @Html.TextBoxFor(x => x.N_WGT, new { style = " width:170px" })
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.N_WGT)</td>
+                        </tr>
+                        <tr>
+                            <td style="width:170px; text-align:right">
+                                已发运数量
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" disabled="disabled" value="@Model.N_SENDNUM_WGT" />
+                                <input type="hidden" id="N_SENDNUM_WGT" name="N_SENDNUM_WGT" value="@Model.N_SENDNUM_WGT" />
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.N_SENDNUM_WGT)</td>
+                            <td style="width:170px; text-align:right">
+                                到站
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                @Html.TextBoxFor(x => x.C_ATSTATION, new { style = " width:150px" })
+                                <a href="#" onclick="openWeb(1);"><span class="glyphicon glyphicon-search"></span></a>
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_ATSTATION)</td>
+                            <td style="width:170px; text-align:right">
+                                到货地区
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                @Html.TextBoxFor(x => x.C_AREA, new { style = " width:170px" })
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_AREA)</td>
+                            <td style="width:170px; text-align:right">
+                                到货地址
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                @Html.TextBoxFor(x => x.C_ADDR, new { style = " width:170px" })
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_ADDR)</td>
+                            <td style="width:170px; text-align:right">
+                                发运方式
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; ">
+                                @Html.DropDownDic("C_SHIPVIA", "ShipVia", new { style = " width:150px;height:25px;" })
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_SHIPVIA)</td>
+                        </tr>
+                        <tr>
+                            <td style="width:170px; text-align:right">
+                                收货单位
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                @Html.TextBoxFor(x => x.C_CGC, new { style = " width:170px" })
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_CGC)</td>
+                            <td style="width:170px; text-align:right">
+                                订货客户
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" disabled="disabled" value="@Model.C_ORGO_CUST" />
+                                <input type="hidden" id="C_ORGO_CUST" name="C_ORGO_CUST" value="@Model.C_ORGO_CUST" />         
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_ORGO_CUST)</td>
+                            <td style="width:170px; text-align:right">
+                                发货库存组织
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" disabled="disabled" value="@Model.C_SEND_STOCK_DEPT" />
+                                <input type="hidden" id="C_SEND_STOCK_DEPT" name="C_SEND_STOCK_DEPT" value="@Model.C_SEND_STOCK_DEPT" />
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_SEND_STOCK_DEPT)</td>
+                            <td style="width:170px; text-align:right">
+                                计划状态
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" disabled="disabled" value="@Model.C_STATUS_NAME" />
+                                <input type="hidden" id="C_STATUS_NAME" name="C_STATUS_NAME" value="@Model.C_STATUS_NAME" />
+                                @Html.HiddenFor(x => x.N_STATUS)
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.N_STATUS)</td>
+                            <td style="width:170px; text-align:right">
+                                订单要求到货日期
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:60px;">
+                                @Html.TextBox("D_ORRE_AOG_DT", Model.D_ORRE_AOG_DT, new { id = "txt", OnClick = "WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})", name = "D_ORRE_AOG_DT" })
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.D_ORRE_AOG_DT)</td>
+                        </tr>
+                        <tr>
+                            <td style="width:170px; text-align:right">
+                                发货仓库
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                @Html.TextBoxFor(x => x.C_SEND_STOCK, new { style = " width:170px" })
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_SEND_STOCK)</td>
+                            <td style="width:170px; text-align:right">
+                                到货库存组织
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" disabled="disabled" value="@Model.C_AOG_STOCK_DEPT" />
+                                <input type="hidden" id="C_AOG_STOCK_DEPT" name="C_AOG_STOCK_DEPT" value="@Model.C_AOG_STOCK_DEPT" />
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_AOG_STOCK_DEPT)</td>
+                            <td style="width:170px; text-align:right">
+                                到货仓库
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" disabled="disabled" value="@Model.C_AOG_STOCK" />
+                                <input type="hidden" id="C_AOG_STOCK" name="C_AOG_STOCK" value="@Model.C_AOG_STOCK" />
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_AOG_STOCK)</td>
+                            <td style="width:170px; text-align:right">
+                                发货单位
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                @Html.TextBoxFor(x => x.C_SEND_COM, new { style = " width:170px" })
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_SEND_COM)</td>
+                            <td style="width:170px; text-align:right">
+                                销售公司
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" disabled="disabled" value="@Model.C_SALE_COM" />
+                                <input type="hidden" id="C_SALE_COM" name="C_SALE_COM" value="@Model.C_SALE_COM" />
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_SALE_COM)</td>
+                        </tr>
+                        <tr>
+                            <td style="width:170px; text-align:right">
+                                到货公司
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" disabled="disabled" value="@Model.C_AOG_COM" />
+                                <input type="hidden" id="C_AOG_COM" name="C_AOG_COM" value="@Model.C_AOG_COM" />
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_AOG_COM)</td>
+                            <td style="width:170px; text-align:right">
+                                发货地区
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" disabled="disabled" value="@Model.C_SEND_AREA" />
+                                <input type="hidden" id="C_AOG_COM" name="C_SEND_AREA" value="@Model.C_SEND_AREA" />
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_SEND_AREA)</td>
+                            <td style="width:170px; text-align:right">
+                                发货地址
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" disabled="disabled" value="@Model.C_SEND_ADDR" />
+                                <input type="hidden" id="C_SEND_ADDR" name="C_SEND_ADDR" value="@Model.C_SEND_ADDR" />
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_SEND_ADDR)</td>
+                            <td style="width:170px; text-align:right">
+                                发货地点
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                @Html.TextBoxFor(x => x.C_SEND_SITE, new { style = " width:170px" })
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_SEND_SITE)</td>
+                            <td style="width:170px; text-align:right">
+                                到货地点
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                @Html.TextBoxFor(x => x.C_AOG_SITE, new { style = " width:170px" })
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_AOG_SITE)</td>
+                        </tr>
+                        <tr>
+                            <td style="width:170px; text-align:right">
+                                已出库数量
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" disabled="disabled" value="@Model.N_OUT_STOCK_WGT" />
+                                <input type="hidden" id="N_OUT_STOCK_WGT" name="N_OUT_STOCK_WGT" value="@Model.N_OUT_STOCK_WGT" />
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.N_OUT_STOCK_WGT)</td>
+                            <td style="width:170px; text-align:right">
+                                已签收数量
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" disabled="disabled" value="@Model.N_SIGN_WGT" />
+                                <input type="hidden" id="N_SIGN_WGT" name="N_SIGN_WGT" value="@Model.N_SIGN_WGT" />
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.N_SIGN_WGT)</td>
+                            <td style="width:170px; text-align:right">
+                                退回数量
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" disabled="disabled" value="@Model.N_BACK_WGT" />
+                                <input type="hidden" id="N_BACK_WGT" name="N_BACK_WGT" value="@Model.N_BACK_WGT" />
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.N_BACK_WGT)</td>
+                            <td style="width:170px; text-align:right">
+                                途损主数量
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" disabled="disabled" value="@Model.N_DAMAGE_WGT" />
+                                <input type="hidden" id="N_DAMAGE_WGT" name="N_DAMAGE_WGT" value="@Model.N_DAMAGE_WGT" />
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.N_DAMAGE_WGT)</td>
+                            <td style="width:170px; text-align:right">
+                                制定计划日期
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:60px;">
+                                <input type="text" id="txt" name="D_FOR_PLAN_DT" disabled="disabled" OnClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" value="@Model.D_FOR_PLAN_DT" />
+                                <input type="hidden" name="D_FOR_PLAN_DT" value="@Model.D_FOR_PLAN_DT" />
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.D_FOR_PLAN_DT)</td>
+                        </tr>
+                        <tr>
+                            <td style="width:170px; text-align:right">
+                                制定计划人
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" disabled="disabled" value="@Model.C_FOR_PALN_ID" />
+                                <input type="hidden" id="C_FOR_PALN_ID" name="C_FOR_PALN_ID" value="@Model.C_FOR_PALN_ID" />
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_FOR_PALN_ID)</td>
+                            <td style="width:170px; text-align:right">
+                                审批日期
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:60px;">
+                                <input type="text" id="txt" name="D_APPROVE_DT" disabled="disabled" OnClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" value="@Model.D_APPROVE_DT" />
+                                <input type="hidden" name="D_APPROVE_DT" value="@Model.D_APPROVE_DT" />
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.D_APPROVE_DT)</td>
+                            <td style="width:170px; text-align:right">
+                                审批人
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" disabled="disabled" value="@Model.C_APPROVE_ID" />
+                                <input type="hidden" id="C_APPROVE_ID" name="C_APPROVE_ID" value="@Model.C_APPROVE_ID" />
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_APPROVE_ID)</td>
+                            <td style="width:170px; text-align:right">
+                                订单类型
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" disabled="disabled" value="@Html.DetailName(Model.C_ORDER_TYPE,"OrderType")" />
+                                <input type="hidden" id="C_ORDER_TYPE" name="C_ORDER_TYPE" value="@Model.C_ORDER_TYPE" />
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_ORDER_TYPE)</td>
+                            <td style="width:170px; text-align:right">
+                                来源订单是否退
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                @Html.CheckBoxFor(x => x.SORO_BACK)
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.N_SORO_BACK)</td>
+                        </tr>
+                        <tr>
+                            <td style="width:170px; text-align:right">
+                                备注
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                @Html.TextBoxFor(x => x.C_REMARK, new { style = " width:170px" })
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_REMARK)</td>
+                            <td style="width:170px; text-align:right">
+                                业务部门
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" disabled="disabled" value="@Model.C_BUSINESS_DEPT_NAME" />
+                                <input type="hidden" id="C_BUSINESS_DEPT" name="C_BUSINESS_DEPT" value="@Model.C_BUSINESS_DEPT" />
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_BUSINESS_DEPT)</td>
+                            <td style="width:170px; text-align:right">
+                                业务类型
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" disabled="disabled" value="@Model.C_BUSINESS_TYPE" />
+                                <input type="hidden" id="C_BUSINESS_TYPE" name="C_BUSINESS_TYPE" value="@Model.C_BUSINESS_TYPE" />
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_BUSINESS_TYPE)</td>
+                            <td style="width:170px; text-align:right">
+                                业务员
+                            </td>
+                            <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                                <input type="text" disabled="disabled" value="@Model.C_SALESMAN_NAME" />
+                                <input type="hidden" id="C_SALESMAN" name="C_SALESMAN" value="@Model.C_SALESMAN" />
+                            </td>
+                            <td align="left">@Html.ValidationMessageFor(x => x.C_SALESMAN)</td>
+                        </tr>
+                    </table>
+                    <div class="bs-example" data-example-id="btn-tags">
+                        <button class="btn btn-primary btn-xs" type="submit">保存</button>&nbsp;&nbsp;
+                        <button class="btn btn-default btn-xs" type="submit" onclick="window.close()">关闭</button>
+                    </div>
+                    @Html.ValidationMessage("error")
+                }
+            </td>
+        </tr>
+    </table>
+    <script type="text/javascript">
+        function openWeb(index) {
+
+            switch (index) {
+                case 0:
+                    openPage2("../Common/_Site.aspx?flag=0", "600", "500", "new2");
+                    break;
+                case 1:
+                    openPage2("../Common/_Site.aspx?flag=1", "600", "500", "new2");
+                    break;
+            }
+        }
+
+        function SetLine(lineName, lineID) {
+            $("#C_PATH").val(lineName);
+        }
+
+        function SetSite(siteName, siteID) {
+            $("#C_ATSTATION").val(siteName);
+        }
+    </script>
+    <div class="dv_search" style="display:none;">
+        <ul>
+            <li>
+                时间段
+            </li>
+            <li>
+                <input id="txt_Start" name="Start" type="text" style=" width:120px;" class="Wdate" value="" onclick="WdatePicker({isShowClear:false,readOnly:true,maxDate:'#F{$dp.$D(\'txt_End\')}'})" />
+            </li>
+
+            <li>~</li>
+
+            <li>
+                <input id="txt_End" name="End" type="text" style=" width:120px;" class="Wdate" value="" onclick="WdatePicker({isShowClear:false,readOnly:true,minDate:'#F{$dp.$D(\'txt_Start\')}'})" />
+            </li>
+            <li>
+                <button id="btn_Search" type="submit" class="btn btn-primary btn-xs btn_w60">查询</button>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

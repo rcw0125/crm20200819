@@ -1,0 +1,156 @@
+﻿@{
+    NF.Framework.DTO.TMO_CONDETAILSDTO conDto = (NF.Framework.DTO.TMO_CONDETAILSDTO)Request.RequestContext.HttpContext.Session["SupplementSecond"];
+}
+
+<thead>
+    <tr>
+        <th>合同号</th>
+        <th>钢种</th>
+        <th>规格</th>
+        <th>自由项</th>
+        <th>自由项2</th>
+        <th>包装标准</th>
+        <th>质量等级</th>
+        <th>物料编码</th>
+        <th>物料名称</th>
+        <th>批号</th>
+        <th>炉号</th>
+        <th>件数</th>
+        <th>数量</th>
+        <th>添加件数</th>
+        <th>操作</th>
+    </tr>
+</thead>
+<tbody>
+    @if (conDto.Dispatch.SupplementDetails != null && conDto.Dispatch.SupplementDetails.Count > 0)
+    {
+        for (int j = 0; j < conDto.Dispatch.SupplementDetails.Count; j++)
+        {
+            <tr>
+                <td>@conDto.Dispatch.SupplementDetails[j].No</td>
+                <td>@conDto.Dispatch.SupplementDetails[j].Grd</td>
+                <td>@conDto.Dispatch.SupplementDetails[j].Spec</td>
+                <td>@conDto.Dispatch.SupplementDetails[j].Free</td>
+                <td>@conDto.Dispatch.SupplementDetails[j].Free2</td>
+                <td>@conDto.Dispatch.SupplementDetails[j].Pack</td>
+                <td>@conDto.Dispatch.SupplementDetails[j].QUALIRY_LEV</td>
+                <td>@conDto.Dispatch.SupplementDetails[j].MatCode</td>
+                <td>@conDto.Dispatch.SupplementDetails[j].MatName</td>
+                <td>@conDto.Dispatch.SupplementDetails[j].BatchNo</td>
+                <td>@conDto.Dispatch.SupplementDetails[j].Stove</td>
+                <td>@conDto.Dispatch.SupplementDetails[j].Qua</td>
+                <td>@conDto.Dispatch.SupplementDetails[j].Wgt</td>
+                <td>
+                    <input type="text" name="Dispatch.SupplementDetails[@j].SupOperationQua" onchange='setValue(this,"@j")' value="" />
+                    <input type="hidden" id="SupOperationQuaValue_@j" value="" />
+                </td>
+                <td> <a href='javascript:supplementInsert("@conDto.Dispatch.SupplementDetails[j].OrderNo","@conDto.Dispatch.SupplementDetails[j].Qua","@j","@conDto.Dispatch.SupplementDetails[j].Stove","@conDto.Dispatch.SupplementDetails[j].BatchNo");' class="" title="添加">添加</a></td>
+                <td style="display:none;">
+                    <input type="hidden" name="Dispatch.SupplementDetails[@j].OrderNo" value="@conDto.Dispatch.SupplementDetails[j].OrderNo" />
+                </td>
+            </tr>
+        }
+    }
+    @if (conDto.Dispatch.SupplementDispatchDetails != null && conDto.Dispatch.SupplementDispatchDetails.Count > 0)
+    {
+        for (int i = 0; i < conDto.Dispatch.SupplementDispatchDetails.Count; i++)
+        {
+            <tr style="display:none;">
+                <td> <a href='javascript:supplementInsert("@conDto.Dispatch.SupplementDispatchDetails[i].C_PRODUCT_ID");' class="glyphicon glyphicon-plus" title="添加发运单"></a></td>
+                <td>@conDto.Dispatch.SupplementDispatchDetails[i].C_CON_NO</td>
+                <td>@conDto.Dispatch.SupplementDispatchDetails[i].C_STL_GRD</td>
+                <td>@conDto.Dispatch.SupplementDispatchDetails[i].C_SPEC</td>
+                <td>@conDto.Dispatch.SupplementDispatchDetails[i].C_FREE_TERM</td>
+                <td>@conDto.Dispatch.SupplementDispatchDetails[i].C_FREE_TERM2</td>
+                <td>@conDto.Dispatch.SupplementDispatchDetails[i].C_PACK</td>
+                <td>@conDto.Dispatch.SupplementDispatchDetails[i].C_QUALIRY_LEV</td>
+                <td>1</td>
+                <td>@conDto.Dispatch.SupplementDispatchDetails[i].N_WGT</td>
+                <td>@conDto.Dispatch.SupplementDispatchDetails[i].C_MAT_CODE</td>
+                <td>@conDto.Dispatch.SupplementDispatchDetails[i].C_MAT_NAME</td>
+                <td>@conDto.Dispatch.SupplementDispatchDetails[i].C_BATCH_NO</td>
+                <td>@conDto.Dispatch.SupplementDispatchDetails[i].C_STOVE</td>
+                <td>@conDto.Dispatch.SupplementDispatchDetails[i].C_TICK_NO</td>
+                <td>@conDto.Dispatch.SupplementDispatchDetails[i].C_SLAB_NO</td>
+                <td style="display:none;">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_ID" name="Dispatch.SupplementDispatchDetails[@i].C_ID" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_ID">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_DISPATCH_ID" name="Dispatch.SupplementDispatchDetails[@i].C_DISPATCH_ID" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_DISPATCH_ID">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_STOVE" name="Dispatch.SupplementDispatchDetails[@i].C_STOVE" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_STOVE">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_BATCH_NO" name="Dispatch.SupplementDispatchDetails[@i].C_BATCH_NO" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_BATCH_NO">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_TICK_NO" name="Dispatch.SupplementDispatchDetails[@i].C_TICK_NO" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_TICK_NO">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_SLAB_NO" name="Dispatch.SupplementDispatchDetails[@i].C_SLAB_NO" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_SLAB_NO">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_MAT_CODE" name="Dispatch.SupplementDispatchDetails[@i].C_MAT_CODE" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_MAT_CODE">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_PLAN_ID" name="Dispatch.SupplementDispatchDetails[@i].C_PLAN_ID" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_PLAN_ID">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_MAT_NAME" name="Dispatch.SupplementDispatchDetails[@i].C_MAT_NAME" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_MAT_NAME">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_SPEC" name="Dispatch.SupplementDispatchDetails[@i].C_SPEC" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_SPEC">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_STL_GRD" name="Dispatch.SupplementDispatchDetails[@i].C_STL_GRD" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_STL_GRD">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_SEND_STOCK" name="Dispatch.SupplementDispatchDetails[@i].C_SEND_STOCK" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_SEND_STOCK">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_QUALIRY_LEV" name="Dispatch.SupplementDispatchDetails[@i].C_QUALIRY_LEV" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_QUALIRY_LEV">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_FREE_TERM" name="Dispatch.SupplementDispatchDetails[@i].C_FREE_TERM" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_FREE_TERM">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_ELSENEED" name="Dispatch.SupplementDispatchDetails[@i].C_ELSENEED" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_ELSENEED">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)N_COM_AMOUNT_WGT" name="Dispatch.SupplementDispatchDetails[@i].N_COM_AMOUNT_WGT" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].N_COM_AMOUNT_WGT">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)N_WGT" name="Dispatch.SupplementDispatchDetails[@i].N_WGT" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].N_WGT">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_EQUATION_FACTOR" name="Dispatch.SupplementDispatchDetails[@i].C_EQUATION_FACTOR" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_EQUATION_FACTOR">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)N_OUT_STOCK_WGT" name="Dispatch.SupplementDispatchDetails[@i].N_OUT_STOCK_WGT" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].N_OUT_STOCK_WGT">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_UNITIS" name="Dispatch.SupplementDispatchDetails[@i].C_UNITIS" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_UNITIS">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_SEND_SITE" name="Dispatch.SupplementDispatchDetails[@i].C_SEND_SITE" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_SEND_SITE">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_AOG_SITE" name="Dispatch.SupplementDispatchDetails[@i].C_AOG_SITE" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_AOG_SITE">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_ORGO_CUST" name="Dispatch.SupplementDispatchDetails[@i].C_ORGO_CUST" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_ORGO_CUST">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_CGC" name="Dispatch.SupplementDispatchDetails[@i].C_CGC" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_CGC">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)N_IS_SEND_CLOSE" name="Dispatch.SupplementDispatchDetails[@i].N_IS_SEND_CLOSE" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].N_IS_SEND_CLOSE">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_ORDER_TYPE" name="Dispatch.SupplementDispatchDetails[@i].C_ORDER_TYPE" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_ORDER_TYPE">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_SEND_AREA" name="Dispatch.SupplementDispatchDetails[@i].C_SEND_AREA" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_SEND_AREA">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_AREA" name="Dispatch.SupplementDispatchDetails[@i].C_AREA" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_AREA">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_AU_UNITIS" name="Dispatch.SupplementDispatchDetails[@i].C_AU_UNITIS" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_AU_UNITIS">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_CUSTFILE_ID" name="Dispatch.SupplementDispatchDetails[@i].C_CUSTFILE_ID" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_CUSTFILE_ID">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_REMARK" name="Dispatch.SupplementDispatchDetails[@i].C_REMARK" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_REMARK">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)D_CAL_FAKE_WGT_DT" name="Dispatch.SupplementDispatchDetails[@i].D_CAL_FAKE_WGT_DT" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].D_CAL_FAKE_WGT_DT">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)N_CAL_FAKE_WGT" name="Dispatch.SupplementDispatchDetails[@i].N_CAL_FAKE_WGT" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].N_CAL_FAKE_WGT">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)N_CAL_PACK_WGT" name="Dispatch.SupplementDispatchDetails[@i].N_CAL_PACK_WGT" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].N_CAL_PACK_WGT">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)N_CAL_TRUE_WGT" name="Dispatch.SupplementDispatchDetails[@i].N_CAL_TRUE_WGT" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].N_CAL_TRUE_WGT">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)N_CAL_FAKE_WGT_DT" name="Dispatch.SupplementDispatchDetails[@i].N_CAL_FAKE_WGT_DT" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].N_CAL_FAKE_WGT_DT">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)N_CAL_PACK_WGT_DT" name="Dispatch.SupplementDispatchDetails[@i].N_CAL_PACK_WGT_DT" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].N_CAL_PACK_WGT_DT">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)N_ACTUAL_WGT" name="Dispatch.SupplementDispatchDetails[@i].N_ACTUAL_WGT" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].N_ACTUAL_WGT">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)N_QUA" name="Dispatch.SupplementDispatchDetails[@i].N_QUA" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].N_QUA">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_CON_NO" name="Dispatch.SupplementDispatchDetails[@i].C_CON_NO" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_CON_NO">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_NO" name="Dispatch.SupplementDispatchDetails[@i].C_NO" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_NO">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_PRODUCT_ID" name="Dispatch.SupplementDispatchDetails[@i].C_PRODUCT_ID" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_PRODUCT_ID">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_JUDGE_LEV_ZH" name="Dispatch.SupplementDispatchDetails[@i].C_JUDGE_LEV_ZH" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_JUDGE_LEV_ZH">
+                    <input id="Dispatch_SupplementDispatchDetails(@i)C_PLAN_ID" name="Dispatch.SupplementDispatchDetails[@i].C_PLAN_ID" type="hidden" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_PLAN_ID">
+                    <input type="hidden" name="Dispatch.SupplementDispatchDetails[@i].C_STD_CODE" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_STD_CODE" />
+                    <input type="hidden" name="Dispatch.SupplementDispatchDetails[@i].C_FREE_TERM" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_FREE_TERM" />
+                    <input type="hidden" name="Dispatch.SupplementDispatchDetails[@i].C_FREE_TERM2" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_FREE_TERM2" />
+                    <input type="hidden" name="Dispatch.SupplementDispatchDetails[@i].C_PACK" value="@conDto.Dispatch.SupplementDispatchDetails[i].C_PACK" />
+                </td>
+            </tr>
+        }
+    }
+</tbody>
+<script type="text/javascript">
+    //补单添加
+    function supplementInsert(orderid, qua, i, stove, batchNo) {
+        var quaValue = $($("#SupOperationQuaValue_" + i)).val();
+        if (quaValue > qua) {
+            alert("添加支数不能大于库存支数");
+            return false;
+        }
+        //订单号
+        $("#SupplementNo").val(orderid);
+        $("#SupplementQua").val(quaValue);
+        $("#SupplementStove").val(stove);
+        $("#SupplementBatchNo").val(batchNo);
+        //操作类型1查询 2选中订单 3补单添加 4.提交  5.撤销发运单 6.保存
+        $("#OperationType").val(3);
+        //是否关闭页面
+        $("#IsRefresh").val(1);
+        //刷新数据
+        supplement();
+        //提交
+        $("#btnSave").click();
+    }
+
+    function setValue(object, i) {
+        $($("#SupOperationQuaValue_" + i)).val(object.value);
+    }
+</script>
+

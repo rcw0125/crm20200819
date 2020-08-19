@@ -1,0 +1,411 @@
+﻿
+@{
+    Layout = null;
+}
+
+@{
+    var list = ViewBag.PlanData as List<NF.MODEL.WWPlanInfo> ?? new List<NF.MODEL.WWPlanInfo>();
+
+    CRM.Controllers.PlanSearchCondition viewModel = Model as CRM.Controllers.PlanSearchCondition ?? new CRM.Controllers.PlanSearchCondition();
+
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>外委加工实绩</title>
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+</head>
+<body>
+    @using (Html.BeginForm("Product", "Outsourcing", FormMethod.Post, new { autocomplete = "off" }))
+    {
+        <table class="table table-bordered table-condensed" style="margin-top: 5px;">
+
+            <tr>
+                <td>开始时间</td>
+                <td>
+                    <input id="Text3" class="date" name="beginTime" type="text" value="@(viewModel.BeginTime?.ToString("yyyy-MM-dd"))" style="width: 100%" />
+                </td>
+                <td>结束时间</td>
+                <td>
+                    <input id="Text3" class="date" name="endTime" type="text" value="@(viewModel.EndTime?.ToString("yyyy-MM-dd"))" style="width: 100%" />
+                </td>
+                <td>批号</td>
+                <td>
+                    <input id="Text3" name="Ph" type="text" value="@viewModel.Ph" style="width: 100%" />
+                </td>
+                <td>钢种</td>
+                <td>
+                    <input id="Text3" name="gz" type="text" value="@viewModel.Gz" style="width: 100%" />
+                </td>
+                <td>执行标准</td>
+                <td>
+                    <input id="txtDate" name="zxbz" type="text" value="@viewModel.Zxbz" style="width: 100%" />
+                </td>
+            </tr>
+            <tr>
+                <td>规格</td>
+                <td>
+                    <input id="Text1" name="gg" type="text" value="@viewModel.Gg" style="width: 100%" />
+                </td>
+
+                <td>物料</td>
+                <td>
+                    <input id="Text2" name="wl" type="text" value="@viewModel.Wl" style="width: 100%" />
+                </td>
+                <td>
+                    <button id="btnSave" class="btn btn-primary btn-xs" type="submit">查询</button>
+                </td>
+                <td></td>
+                <td>班次</td>
+                <td>
+                    <select name="BC" id="sel_bc" style="width: 100%">
+                        @{var listBc = ViewBag.ListBC as List<NF.MODEL.Dto.WWBCBZ> ?? new List<NF.MODEL.Dto.WWBCBZ>();}
+                        @foreach (var item in listBc)
+                        {
+                            <option value="@item.PK_WTID" @(item.Selected ? "selected" : "")>@item.BCNAME</option>
+                        }
+                    </select>
+                </td>
+                <td>班组</td>
+                <td>
+                    <select name="BZ" id="sel_bz" style="width: 100%">
+                        @{var listBz = ViewBag.ListBZ as List<NF.MODEL.Dto.WWBZ> ?? new List<NF.MODEL.Dto.WWBZ>();}
+                        @foreach (var item in listBz)
+                        {
+                            <option value="@item.PK_PGAID" @(item.Selected ? "selected" : "")>@item.BZMC</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+        </table>
+    }
+
+    @using (Html.BeginForm("SetFinish", "Outsourcing"))
+    {
+        // 组批计划ID
+        <input type="hidden" name="C_ID" />
+        // 完工数量
+        <input type="hidden" name="N_QUA_REMOVE" />
+        // 完工重量
+        <input type="hidden" name="N_WGT_REMOVE" />
+        //班次
+        <input type="hidden" id="finish_bc" name="C_PRODUCE_SHIFT" />
+        // 班组
+        <input type="hidden" id="finish_bz" name="C_PRODUCE_GROUP" />
+        // 质量等级
+        <input type="hidden" id="finish_zldj" name="C_CHECKSTATE_NAME" />
+        // 入库仓库编码
+        <input type="hidden" id="finish_linewhcode" name="C_LINEWH_CODE" />
+        <input type="submit" id="btnWGSubmit" style="display:none" />
+    }
+
+    @using (Html.BeginForm("SetCancel", "Outsourcing"))
+    {
+        // 组批计划ID
+        <input type="hidden" id="txtCancelId" name="C_ID" />
+        //班次
+        <input type="hidden" name="C_PRODUCE_SHIFT" />
+        // 班组
+        <input type="hidden" name="C_PRODUCE_GROUP" />
+        <input type="submit" id="btnCancelSubmit" style="display:none" />
+    }
+
+    @using (Html.BeginForm("SendToNC", "Outsourcing"))
+    {
+        // 组批计划ID
+        <input type="hidden" id="txtSendNcId" name="idStr" />
+        <input type="submit" id="btnSendNcSubmit" style="display:none" />
+    }
+
+    @using (Html.BeginForm("UpdateBatchNo", "Outsourcing"))
+    {
+        // 组批计划ID
+        <input type="hidden" id="txtUpdateId" name="zpId" />
+        <input type="hidden" id="txtUpdateBatchNo" name="zpNewBatchNo" />
+
+        <input type="submit" id="btnUpdateSubmit" style="display:none" />
+    }
+
+    @using (Html.BeginForm("ResetPlan", "Outsourcing"))
+    {
+        // 组批计划ID
+        <input type="hidden" id="txtResetCId" name="cId" />
+        <input type="submit" id="btnResetNCSubmit" style="display:none" />
+    }
+
+    <div class="table-responsive" id="flow1">
+        <table class="table table-bordered table-hover  table-condensed" style="white-space:nowrap;" id="table1">
+            <thead>
+                <tr>
+                    <th>批号</th>
+                    <th>钢种</th>
+                    <th>规格</th>
+                    <th>执行标准</th>
+                    <th>组批支数</th>
+                    <th>组批量</th>
+                    <th>计划状态</th>
+                    <th>完工支数</th>
+                    <th>完工量</th>
+                    <th>质量等级</th>
+                    <th>入库仓库</th>
+                    <th style="width: 50px;text-align:center">操作</th>
+                    <th>制单人</th>
+                    <th>订单物料编码</th>
+                    <th>订单物料名称</th>
+                    <th>线材物料编码</th>
+                    <th>线材物料名称</th>
+                    <th>线材批号</th>
+                    <th>创建日期</th>
+                    <th>A1,A2,A3,A4,46</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in list)
+                {
+                    <tr id="table_tr_@list.IndexOf(item)">
+                        <td width="80px" name="td_batchNo">
+                            @if (item.N_STATUS == 21)
+                            {
+                                <input type="text" name="batchNo" style="width:120px" value="@item.C_BATCH_NO" />
+                                <input type="hidden" name="oldBatchNo" value="@item.C_BATCH_NO" />
+                            }
+                            else
+                            {
+                                @item.C_BATCH_NO
+                            }
+                        </td>
+                        <td width="80px">@item.C_STL_GRD_SLAB</td>
+                        <td>@item.C_SPEC_SLAB</td>
+                        <td>@item.C_STD_CODE</td>
+                        <td>@item.N_QUA_TOTAL</td>
+                        <td>@item.N_WGT_TOTAL</td>
+                        <td>@(CRM.Controllers.ProductGrpInfo.getStatu(item.N_STATUS))</td>
+                        <td width="60px" name="td_zs">
+                            @if (item.N_STATUS == 0)
+                            {
+                                <input type="number" disabled="disabled" name="wgzs" step="1" size="@item.N_QUA_TOTAL" style="width:50px" value="@item.N_QUA_TOTAL" />
+                            }
+                            else
+                            {
+                                @item.N_QUA_REMOVE
+                            }
+                        </td>
+                        <td width="200px" name="td_zl">
+                            @if (item.N_STATUS == 0)
+                            {
+                                <input type="number" name="wgzl" max="@item.N_WGT_TOTAL" style="width:80px" value="@item.N_WGT_TOTAL" />
+                            }
+                            else
+                            {
+                                @item.N_WGT_REMOVE
+                            }
+                        </td>
+                        <td name="td_checkstate" width="30px">
+                            @if (item.N_STATUS == 0)
+                            {
+                                <select name="CheckState" style="width:100%">
+                                    @foreach (var itemCheckItem in (ViewBag.CheckStateList as List<NF.MODEL.Mod_TQB_CHECKSTATE> ?? new List<NF.MODEL.Mod_TQB_CHECKSTATE>()))
+                                    {
+                                        <option value="@itemCheckItem.C_CHECKSTATE_NAME" @(itemCheckItem.C_CHECKSTATE_NAME == item.C_CHECKSTATE_NAME ? "selected" : "")>@itemCheckItem.C_CHECKSTATE_NAME</option>
+                                    }
+                                </select>
+                            }
+                            else
+                            {
+                                @item.C_CHECKSTATE_NAME
+                            }
+                        </td>
+                        <td name="td_inventory" width="150px">
+                            @if (item.N_STATUS == 0)
+                            {
+                                <div class="btn-group">
+                                    <input type="text" name="selCk" data-toggle="dropdown" aria-expanded="false">
+                                    <ul class="dropdown-menu pre-scrollable">
+                                        @foreach (var itemCheckItem in (ViewBag.ListCK as List<NF.MODEL.Mod_TPB_LINEWH> ?? new List<NF.MODEL.Mod_TPB_LINEWH>()))
+                                        {
+                                            <li><a href="javascript:void(0)" onclick="selectedCK('@itemCheckItem.C_LINEWH_CODE',$(this).parent().parent().parent())">@($"{itemCheckItem.C_LINEWH_CODE}-{itemCheckItem.C_LINEWH_NAME}")</a></li>
+                                        }
+                                    </ul>
+                                </div>
+                            }
+                            else
+                            {
+                                @item.C_LINEWH_CODE
+                            }
+                        </td>
+                        <td style="text-align: left">
+                            @if (item.N_STATUS == 0)
+                            {
+                                @*<a href="javascript:void(0)" onclick="openDialog2('@item.C_ID',$(this))">完工</a>*@
+                                <button class="btn btn-primary btn-xs" type="button" onclick="openDialog2('@item.C_ID',$(this))">完工</button>
+                            }
+                            else
+                            {
+                                if (item.N_STATUS == 1)
+                                {
+                                    <button class="btn btn-warning btn-xs" type="button" onclick="btnCancel('@item.C_ID',$(this))">撤销完工</button>
+                                }
+                                if (item.N_STATUS >= 1 && item.N_STATUS <= 30)
+                                {
+                                    if (item.N_STATUS == 21)
+                                    {
+                                        <button class="btn btn-primary btn-xs" type="button" onclick="btnUpdateBatchNo('@item.C_ID',$(this))">修改批号</button>
+                                    }
+                                    if (item.N_STATUS != 30)
+                                    {
+                                        <button class="btn btn-primary btn-xs" type="button" onclick="btnSendNC('@item.C_ID',$(this))">发送NC</button>
+                                    }
+                                    if (item.IsNcCancel & item.N_STATUS > 1)
+                                    {
+                                        <button title="请确保NC数据已经被删除后，再操作" class="btn btn-danger btn-xs" type="button" onclick="btnResetPlan('@item.C_ID',$(this))">撤回到完工状态</button>
+                                    }
+                                }
+                                <button class="btn btn-primary btn-xs" type="button" onclick="openDialog3('@item.C_ID',$(this))">成分录入</button>
+
+                            }
+                        </td>
+                        <td>@item.CreateUser</td>
+                        <td>@item.C_MAT_SLAB_CODE</td>
+                        <td>@item.C_MAT_SLAB_NAME</td>
+                        <td>@item.C_MAT_XC_CODE</td>
+                        <td>@item.C_MAT_XC_NAME</td>
+                        <td>@item.C_XC_BATCH_NO</td>
+                        <td>@item.D_MOD_DT.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td>@($"{item.A1Count},{item.A2Count},{item.A3Count},{item.A4Count},{item.A46Count}")</td>
+
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+
+</body>
+</html>
+
+<script>
+
+    function openDialog2(cId, $dom) {
+        // 获取完工数据
+        if (confirm("确认完工？") == false) return;
+
+        var $trDom = $dom.parent().parent().attr('id');
+
+        var zs = $('tr[id=' + $trDom + ']').children('td[name=td_zs]').children('input[name=wgzs]').eq(0).val();
+        var zl = $('tr[id=' + $trDom + ']').children('td[name=td_zl]').children('input[name=wgzl]').eq(0).val();
+        var checkState = $('tr[id=' + $trDom + ']').children('td[name=td_checkstate]').children('select[name=CheckState]').eq(0).val();
+        var linewhCode = $('tr[id=' + $trDom + ']').children('td[name=td_inventory]').children('div:first').children('input[type=text]').eq(0).val();
+        $('input[name=C_ID]').eq(0).val(cId);
+        $('input[name=N_QUA_REMOVE]').eq(0).val(zs);
+        $('input[name=N_WGT_REMOVE]').eq(0).val(zl);
+        $('#finish_bc').val($('#sel_bc').val());
+        $('#finish_bz').val($('#sel_bz').val());
+        $('#finish_zldj').val(checkState);
+        $('#finish_linewhcode').val(linewhCode);
+        $('#btnWGSubmit').click();
+    }
+
+    function btnCancel(cId) {
+        if (confirm("确认撤销?") == false) return;
+        $('#txtCancelId').val(cId);
+        $('#btnCancelSubmit').click();
+    }
+
+    function btnResetPlan(cId) {
+        if (confirm("确认撤销组批计划?，请确保NC单据已经删除") == false) return;
+        $('#txtResetCId').val(cId);
+        $('#btnResetNCSubmit').click();
+
+    }
+
+    function selectedCK(ckCode, $div) {
+        $($div.children()).eq(0).val(ckCode);
+    }
+
+    function btnSendNC(cId) {
+        if (confirm("确认发送NC吗?发送成功后数据将不能撤销，请您确认数据准确") == false) return;
+
+        $('#txtSendNcId').val(cId);
+        $("#btnSendNcSubmit").click();
+    }
+
+    function btnUpdateBatchNo(cId, $dom) {
+        // 修改批号
+        var $trDom = $dom.parent().parent().attr('id');
+
+
+        var newBatchNo = $('tr[id=' + $trDom + ']').children('td[name=td_batchNo]').children('input[name=batchNo]').eq(0).val();
+        var oldBatchNo = $('tr[id=' + $trDom + ']').children('td[name=td_batchNo]').children('input[name=oldBatchNo]').eq(0).val();
+
+        if (newBatchNo == oldBatchNo) {
+            alert('请输入新批号后再修改');
+            return;
+        }
+
+        if (confirm("确认提交吗？") == false) {
+            return;
+        }
+
+        $('#txtUpdateId').val(cId);
+        $('#txtUpdateBatchNo').val(newBatchNo);
+        $('#btnUpdateSubmit').click();
+    }
+
+    $(function () {
+
+        $('input[name=selCk]').bind('input propertychange', function () {
+            //alert($(this).val());
+            var val = $(this).val();
+            $(this).parent().children('ul:first').children("li").each(function () {
+                if (val) {
+                    if ($(this).text().indexOf(val) >= 0) {
+                        $(this).show();
+                        return;
+                    }
+                    else {
+                        $(this).hide();
+                    }
+                } else {
+                    $(this).show();
+                }
+            });
+
+
+        });
+    });
+
+    $(function () {
+        $(".date").datetimepicker({
+            format: 'yyyy-mm-dd',
+            minView: 'month',
+            language: 'zh-CN',
+            autoclose: true,
+            todayBtn: true,
+            //startDate: new Date()
+
+        }).on("changeDate", function (ev) {
+            $(this).datetimepicker('setStartDate', $("#txtStart").val())
+        });
+    });
+
+    function openDialog3(cId) {
+        _iframe('/Outsourcing/CfXnManager/' + cId, '800', '400', '成分录入');
+    }
+
+    function btnClick() {
+        close();
+    }
+
+    $(function () {
+         @if (ViewBag.ErrorMsg != null)
+         {
+            @:alert('@(ViewBag.ErrorMsg?.ToString())')
+         }
+
+    });
+</script>

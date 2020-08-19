@@ -1,0 +1,118 @@
+﻿@model NF.Framework.DTO.TS_DICDTO
+@using NF.Web.Core
+<!DOCTYPE html>
+
+<html>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+@Html.Partial("~/Views/Shared/_Assets.cshtml")
+
+<title>@Model.Title</title>
+<body>
+  
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:20px;">
+        <tr>
+            <td align="center">
+                @using (Html.BeginForm())
+                {
+                    @Html.HiddenFor(x => x.C_ID)
+                    @Html.HiddenFor(x => x.C_EMP_ID)
+                    @Html.HiddenFor(x => x.C_EMP_NAME)
+                    @Html.HiddenFor(x => x.N_ISGPS)
+                    @Html.HiddenFor(x => x.D_MOD_DT)
+                    <input type="hidden" id="ResultType" name="ResultType" value="@Model.ResultType" />
+                    <table class="table table-bordered">
+                        <tr>
+                            <td style="width:80px;">
+                                类别编码
+                            </td>
+                            <td >
+                                @Html.TextBoxFor(x => x.C_TYPECODE, new { style = " width:300px" })&nbsp;@Html.ValidationMessageFor(x => x.C_TYPECODE)
+                            </td>
+                           
+                        </tr>
+                        <tr>
+                            <td>
+                                类别名称
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(x => x.C_TYPENAME, new { style = " width:300px" })&nbsp;@Html.ValidationMessageFor(x => x.C_TYPENAME)
+                            </td>
+                          
+                        </tr>
+                        <tr>
+                            <td >
+                                详细编码
+                            </td>
+                            <td >
+                                @Html.TextBoxFor(x => x.C_DETAILCODE, new { style = " width:300px" })&nbsp;@Html.ValidationMessageFor(x => x.C_DETAILCODE)
+                            </td>
+                          
+                        </tr>
+                        <tr>
+                            <td >
+                                详细名称
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(x => x.C_DETAILNAME, new { style = " width:300px" }) &nbsp;@Html.ValidationMessageFor(x => x.C_DETAILNAME)
+                            </td>
+                           
+                        </tr>
+                        <tr>
+                            <td>
+                                索引
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(x => x.C_INDEX, new { style = " width:120px" })&nbsp;@Html.ValidationMessageFor(x => x.C_INDEX)
+                            </td>
+                            
+                        </tr>
+                        <tr>
+                            <td>
+                                是否可用
+                            </td>
+                            <td>
+                                @Html.DropDownDic("N_STATUS", "DicStatus", new { style = " width:60px;" })
+                            </td>
+                           
+                        </tr>
+                        <tr>
+                            <td>
+                                &nbsp;
+                            </td>
+                            <td>
+                                <div class="bs-example" data-example-id="btn-tags">
+                                    <button id="btnSave" class="btn btn-primary btn-xs btn-w60" type="submit">保存</button>&nbsp;&nbsp;
+                                    <span style=" color:red; ">@Html.ValidationMessage("error")</span>
+                                </div>
+                            </td>
+                           
+                        </tr>
+                    </table>
+                }
+            </td>
+        </tr>
+    </table>
+    <script type="text/javascript">
+        $(function () {
+
+            $("#btnSave").click(function () {
+                $("#ResultType").val(0);
+            });
+
+            if ($("#ResultType").val() == "1") {
+                alert("新增成功");
+                window.parent.seatch();
+                close(); 
+            } else  if ($("#ResultType").val() == "2") {
+                    alert("修改成功");
+                    window.parent.seatch();
+                    close(); 
+                }
+        });
+    </script>
+</body>
+</html>

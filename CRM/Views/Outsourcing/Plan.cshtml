@@ -1,0 +1,231 @@
+﻿
+@{
+    Layout = null;
+}
+
+@{
+    var list = ViewBag.PlanData as List<NF.MODEL.WWContractInfo> ?? new List<NF.MODEL.WWContractInfo>();
+
+    CRM.Controllers.PlanSearchCondition viewModel = Model as CRM.Controllers.PlanSearchCondition ?? new CRM.Controllers.PlanSearchCondition();
+
+    Func<string, string> getStatuStr = (string ordStau) =>
+    {
+        switch (ordStau)
+        {
+            case "-1":
+                return "未提交";
+            case "0":
+                return "待审";
+            case "1":
+                return "审核中";
+            case "2":
+                return "生效";
+            case "3":
+                return "变更";
+            case "4":
+                return "审核通过";
+            case "5":
+                return "冻结";
+            case "6":
+                return "终止";
+            default: break;
+        }
+
+        return string.Empty;
+    };
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>外委加工计划</title>
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+</head>
+<body>
+    @using (Html.BeginForm("Plan", "Outsourcing", FormMethod.Post, new { autocomplete = "off" }))
+    {
+        <table class="table table-bordered table-condensed" style="margin-top: 5px;">
+
+            <tr>
+                <td>开始时间</td>
+                <td>
+                    <input id="Text3" class="date" name="beginTime" type="text" value="@(viewModel.BeginTime?.ToString("yyyy-MM-dd"))" style="width: 100%" />
+                </td>
+                <td>结束时间</td>
+                <td>
+                    <input id="Text3" class="date" name="endTime" type="text" value="@(viewModel.EndTime?.ToString("yyyy-MM-dd"))" style="width: 100%" />
+                </td>
+                <td>合同</td>
+                <td>
+                    <input id="Text3" name="ht" type="text" value="@viewModel.Ht" style="width: 100%" />
+                </td>
+                <td>钢种</td>
+                <td>
+                    <input id="Text3" name="gz" type="text" value="@viewModel.Gz" style="width: 100%" />
+                </td>
+                <td>执行标准</td>
+                <td>
+                    <input id="txtDate" name="zxbz" type="text" value="@viewModel.Zxbz" style="width: 100%" />
+                </td>
+            </tr>
+            <tr>
+                <td>规格</td>
+                <td>
+                    <input id="Text1" name="gg" type="text" value="@viewModel.Gg" style="width: 100%" />
+                </td>
+
+                <td>客户</td>
+                <td>
+                    <input id="Text2" name="kh" type="text" value="@viewModel.Kh" style="width: 100%" />
+                </td>
+                <td>物料</td>
+                <td>
+                    <input id="Text2" name="wl" type="text" value="@viewModel.Wl" style="width: 100%" />
+                </td>
+                <td>仓库编码</td>
+                <td>
+                    <div class="btn-group" style="width:100%">
+                        <input type="text" autocomplete="off" name="LineWhCode" data-toggle="dropdown" aria-expanded="false" value="@viewModel.LineWhCode" style="width:100%">
+                        <ul class="dropdown-menu pre-scrollable">
+                            @foreach (var itemCheckItem in (ViewBag.ListCK as List<NF.MODEL.Mod_TPB_LINEWH> ?? new List<NF.MODEL.Mod_TPB_LINEWH>()))
+                            {
+                                <li><a href="javascript:void(0)" onclick="selectedCK('@itemCheckItem.C_LINEWH_CODE',$(this).parent().parent().parent())">@($"{itemCheckItem.C_LINEWH_CODE}-{itemCheckItem.C_LINEWH_NAME}")</a></li>
+                            }
+                        </ul>
+                    </div>
+                </td>
+                <td>
+                    <button id="btnSave" class="btn btn-primary btn-xs" type="submit">查询</button>
+                </td>
+            </tr>
+        </table>
+    }
+
+    <div class="table-responsive" id="flow1">
+        @*<div style="overflow: auto;">*@
+        <table class="table table-bordered table-hover  table-condensed" style="white-space:nowrap;" id="table1">
+            <thead>
+                <tr>
+                    <th>合同号</th>
+                    <th>合同名称</th>
+                    <th>钢种</th>
+                    <th>规格</th>
+                    <th>执行标准</th>
+                    <th>订单重量</th>
+                    <th>质量等级</th>
+                    <th>已组批量</th>
+                    <th>可组批量</th>
+                    <th>物料名称</th>
+                    <th>订单状态</th>
+                    <th>客户名称</th>
+                    <th>自由项1</th>
+                    <th>自由项2</th>
+                    <th>包装要求</th>
+                    <th>物料编码</th>
+                    <th>订单日期</th>
+                    <th>需求日期</th>
+                    <th style="width: 50px;"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in list)
+                {
+                    <tr>
+                        <td width="80px">@item.C_CON_NO</td>
+                        <td width="80px">@item.C_CON_NAME</td>
+                        <td>@item.C_STL_GRD</td>
+                        <td>@item.C_SPEC</td>
+                        <td>@item.C_STD_CODE</td>
+                        <td>@item.N_WGT</td>
+                        <td>@item.ZLDJ</td>
+                        <td width="60px"><a href="javascript:void(0)" onclick="openDialog2('@item.C_ID')">@item.HasSumWgt</a></td>
+                        <td width="60px"><a href="javascript:void(0)" onclick="openDialog('@item.C_ID')">@item.SumWgt</a></td>
+                        <td>@item.C_MAT_NAME</td>
+                        <td>@getStatuStr(item.N_STATUS.ToString())</td>
+                        <td>@item.C_CUST_NAME</td>
+                        <td>@item.C_FREE1</td>
+                        <td>@item.C_FREE2</td>
+                        <td>@item.C_PACK</td>
+                        <td>@item.C_MAT_CODE</td>
+                        <td width="80px">@(item.D_DT.HasValue ? item.D_DT.Value.ToString("yyyy-MM-dd") : string.Empty)</td>
+                        <td width="80px">@(item.D_NEED_DT.HasValue ? item.D_NEED_DT.Value.ToString("yyyy-MM-dd") : string.Empty)</td>
+                        <td style="text-align: center"></td>
+
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+        @*</div>*@
+    </div>
+
+
+</body>
+</html>
+
+<script>
+    function openDialog(cId) {
+        // 组批仓库号
+        var lineCode = $('input[name=LineWhCode]').eq(0).val();
+
+        _iframe('/Outsourcing/ZP/' + cId + '?lineCode=' + lineCode, '880', '400', '可组批库存');
+    }
+
+    function openDialog2(cId) {
+        _iframe('/Outsourcing/ZPManager/' + cId, '800', '400', '已组批管理');
+    }
+
+    function btnClick() {
+        close();
+        $('#btnSave').click();
+    }
+
+    function selectedCK(ckCode, $div) {
+        var $a = $($div.children()).eq(0);
+        $a.val(ckCode);
+        $a.focus();
+    }
+
+    function loginOut() {
+        alert('用户登录信息过期，请重新登录后再操作');
+        window.location.href = "/Auth/Login"
+    }
+
+    $(function () {
+        $(".date").datetimepicker({
+            format: 'yyyy-mm-dd',
+            minView: 'month',
+            language: 'zh-CN',
+            autoclose: true,
+            todayBtn: true,
+            //startDate: new Date()
+
+        }).on("changeDate", function (ev) {
+            $(this).datetimepicker('setStartDate', $("#txtStart").val())
+        });
+
+        $('input[name=LineWhCode]').bind('input propertychange', function () {
+            //alert($(this).val());
+            var val = $(this).val();
+            $(this).parent().children('ul:first').children("li").each(function () {
+                if (val) {
+                    if ($(this).text().indexOf(val) >= 0) {
+                        $(this).show();
+                        return;
+                    }
+                    else {
+                        $(this).hide();
+                    }
+                } else {
+                    $(this).show();
+                }
+            });
+
+
+        });
+    });
+</script>

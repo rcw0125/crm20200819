@@ -1,0 +1,53 @@
+﻿@model NF.Framework.DTO.TMC_CUST_REPORTDTO
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+    <title>用户使用报告</title>
+</head>
+<body>
+  
+    @using (Html.BeginForm())
+    {
+        <table class="table table-bordered">
+
+            <tr>
+                <td style="width:200px; text-align:right">公司名称</td>
+                <td>
+                    @Model.C_CUST_NAME
+                </td>
+            </tr>
+
+            <tr>
+                <td style="width:200px; text-align:right">产品型号</td>
+                <td>
+                    @Model.C_STL_GRD
+                </td>
+            </tr>
+
+            <tr>
+                <td style="width:200px; text-align:right">产品规格</td>
+                <td>
+                    @Model.C_SPEC
+                </td>
+            </tr>
+
+            <tr>
+                <td style="width:200px; text-align:right">产品用途</td>
+                <td>
+                    @Model.C_PROD_USE
+                </td>
+            </tr>
+            <tr>
+                <td style="width:200px; text-align:right">产品使用情况</td>
+                <td>
+                    @Model.C_PROD_CONTENT
+                </td>
+            </tr>
+        </table>
+
+    }
+</body>
+</html>

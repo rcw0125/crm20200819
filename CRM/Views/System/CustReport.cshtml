@@ -1,0 +1,82 @@
+﻿@model NF.Framework.DTO.TMC_CUST_REPORTDTO
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head >
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+    <title>用户使用报告</title>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        <table class="table table-bordered">
+            <tr>
+                <td style="width:50px; text-align:right">日期</td>
+                @{
+                    string start = Model.Start == DateTime.MinValue ? "" : Model.Start.ToString("yyyy-MM-dd");
+                    string end = Model.End == DateTime.MinValue ? "" : Model.End.ToString("yyyy-MM-dd");
+                }
+                <td style="width:125px;">
+                    <input id="txt_Start" name="Start" type="text" style=" width:120px;" class="Wdate" readonly="readonly" value="@start" onclick="WdatePicker({isShowClear:false,readOnly:true,maxDate:'#F{$dp.$D(\'txt_End\')}'})" />
+                </td>
+                <td style="width:125px;">
+                    <input id="txt_End" name="End" type="text" style=" width:120px;" class="Wdate" readonly="readonly" value="@end" onclick="WdatePicker({isShowClear:false,readOnly:true,minDate:'#F{$dp.$D(\'txt_Start\')}'})" />
+                </td>
+
+                <td style="width:120px;">
+                    @Html.TextBoxFor(x => x.C_STL_GRD, new { style = "width:115px", placeholder = "钢种" })
+                </td>
+                <td style="width:120px;">
+                    @Html.TextBoxFor(x => x.C_SPEC, new { style = "width:115px", placeholder = "规格" })
+                </td>
+                <td>
+                    <input type="hidden" id="pageIndex" name="BasePage.PageIndex" />
+                    <button id="btn_Search" type="submit" class="btn btn-primary btn-xs btn_w60">查询</button>
+                </td>
+            </tr>
+
+        </table>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>操作</th>
+                    <th>钢种</th>
+                    <th>规格</th>
+                    <th>用途</th>
+                    <th>客户名称</th>
+                    <th>提交时间</th>
+                    <th>打印</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.CustReports != null && Model.CustReports.Count > 0)
+                {
+                    foreach (var item in Model.CustReports)
+                    {
+                        <tr>
+                            <td><a href="/System/QueryCustReport?id=@item.C_ID">查看</a></td>
+                            <td>@item.C_STL_GRD</td>
+                            <td>@item.C_SPEC</td>
+                            <td>@item.C_PROD_USE</td>
+                            <td>@item.C_CUST_NAME</td>
+                            <td>@item.D_MOD_DT</td>
+                            <td><a href="" onclick='print("@item.C_ID")'>打印</a></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        @Html.Partial("~/Views/Shared/_Paging.cshtml")
+                    }
+
+    <script>
+        function print(id) {
+            var url = "/System/QueryCustReport?id=" + id;
+            var wind = window.open(url, 'newwindow', 'height=300, width=700, top=100, left=100');
+            wind.print();
+        }
+    </script>
+</body>
+</html>

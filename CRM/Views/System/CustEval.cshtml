@@ -1,0 +1,102 @@
+﻿@model  NF.Framework.DTO.TMC_CUST_EVALDTO
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+    <title>顾客满意度调查</title>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        <table class="table table-bordered">
+            <tr>
+                <td style="width:50px; text-align:right">日期</td>
+                @{
+                    string start = Model.Start == DateTime.MinValue ? "" : Model.Start.ToString("yyyy-MM-dd");
+                    string end = Model.End == DateTime.MinValue ? "" : Model.End.ToString("yyyy-MM-dd");
+                }
+                <td style="width:125px;">
+                    <input id="txt_Start" name="Start" type="text" style=" width:120px;" class="Wdate"  readonly="readonly" value="@start" onclick="WdatePicker({isShowClear:false,readOnly:true,maxDate:'#F{$dp.$D(\'txt_End\')}'})" />
+                </td>
+                <td style="width:125px;">
+                    <input id="txt_End" name="End" type="text" style=" width:120px;" class="Wdate" readonly="readonly" value="@end" onclick="WdatePicker({isShowClear:false,readOnly:true,minDate:'#F{$dp.$D(\'txt_Start\')}'})" />
+                </td>
+
+                <td style="width:80px; text-align:right">
+                    产品
+                </td>
+                <td style="width:170px;">
+                    @Html.HiddenFor(x => x.C_PROD)
+                    <input type="text" id="prod" disabled="disabled" value="@Model.C_PROD" />
+                    <a href="javascript:void(0);" onclick="openWeb(1);"><span class="glyphicon glyphicon-search"></span></a>
+                    @*<span style=" color:red;">   @Html.ValidationMessageFor(x => x.C_PROD)</span>*@
+                </td>
+                <td>
+                    <button id="btn_Search" type="submit" class="btn btn-primary btn-xs btn_w60">查询</button>
+                </td>
+            </tr>
+        </table>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>操作</th>
+                    <th>产品</th>
+                    <th>客户单位</th>
+                    <th>直销/经销</th>
+                    <th>填表人</th>
+                    <th>联系电话</th>
+                    <th>提交时间</th>
+                    <th>打印</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.CustEvals != null && Model.CustEvals.Count > 0)
+                {
+                    foreach (var item in Model.CustEvals)
+                    {
+                        <tr>
+                            <td><a href="/System/QueryCustEval?id=@item.C_ID">查看</a></td>
+
+                            <td>@item.C_PROD</td>
+                            <td>@item.C_CUST</td>
+                            <td>@( item.N_CUST_TYPE == 1 ? "经销商" : "直销商")</td>
+                            <td>@item.C_EMP_NAME</td>
+                            <td>@item.C_TEL</td>
+                            <td>@item.D_MOD_DT</td>
+                            <td><a href="" onclick='print("@item.C_ID")'>打印</a></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        @Html.Partial("~/Views/Shared/_Paging.cshtml")
+                    }
+    <script type="text/javascript">
+        $();
+
+        function print(id) {
+            var url = "/System/QueryCustEval?id=" + id;
+            var wind = window.open(url, 'newwindow', 'height=300, width=700, top=100, left=100');
+            wind.print();
+        }
+
+        function openWeb(index) {
+            switch (index) {
+                case 1:
+                    var _w = window.screen.availWidth;//$(window).width();
+                    var _h = window.screen.availHeight;//$(window).height();
+                    openPage2("../../Common/_MatGroup.aspx", _w, _h, "new2");
+                    break;
+            }
+        }
+
+        function SetMatClass(stlGrd) {
+            $("#C_PROD").val(stlGrd);
+            $("#prod").val(stlGrd);
+        }
+
+    </script>
+</body>
+</html>

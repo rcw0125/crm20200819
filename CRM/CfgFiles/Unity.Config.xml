@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <configSections>
+    <section name="unity" type="Microsoft.Practices.Unity.Configuration.UnityConfigurationSection, Microsoft.Practices.Unity.Configuration"/>
+  </configSections>
+  <unity xmlns="http://schemas.microsoft.com/practices/2010/unity">
+    <containers>
+      <container name="capContainer">
+        <register type="System.Data.Entity.DbContext,EntityFramework" mapTo="NF.EF.Model.Entities,NF.EF.Model"/>
+        <register type="NF.Bussiness.Interface.IBaseService,NF.Bussiness.Interface" mapTo="NF.Bussiness.Service.BaseService,NF.Bussiness.Service"/>
+        <register type="NF.Bussiness.Interface.IUserMenuService,NF.Bussiness.Interface" mapTo="NF.Bussiness.Service.UserMenuService,NF.Bussiness.Service"/>
+        <register type="NF.Bussiness.Interface.IMenuButtonService,NF.Bussiness.Interface" mapTo="NF.Bussiness.Service.MenuButtonService,NF.Bussiness.Service"/>
+        <register type="NF.Bussiness.Interface.IHtmlHelperService,NF.Bussiness.Interface" mapTo="NF.Bussiness.Service.HtmlHelperService,NF.Bussiness.Service"/>
+        <register type="NF.Bussiness.Interface.IBasicsDataService,NF.Bussiness.Interface" mapTo="NF.Bussiness.Service.BasicsDataService,NF.Bussiness.Service"/>
+        <register type="NF.Bussiness.Interface.IWorkFlowService,NF.Bussiness.Interface" mapTo="NF.Bussiness.Service.WorkFlowService,NF.Bussiness.Service"/>
+        <register type="NF.Bussiness.Interface.IPlanService,NF.Bussiness.Interface" mapTo="NF.Bussiness.Service.PlanService,NF.Bussiness.Service"/>
+        <register type="NF.Bussiness.Interface.IComService,NF.Bussiness.Interface" mapTo="NF.Bussiness.Service.ComService,NF.Bussiness.Service"/>
+        <register type="NF.Bussiness.Interface.IQualityService,NF.Bussiness.Interface" mapTo="NF.Bussiness.Service.QualityService,NF.Bussiness.Service"/>
+        <register type="NF.Bussiness.Interface.IApiService,NF.Bussiness.Interface" mapTo="NF.Bussiness.Service.ApiService,NF.Bussiness.Service"/>       
+      </container>
+    </containers>
+  </unity>
+</configuration>

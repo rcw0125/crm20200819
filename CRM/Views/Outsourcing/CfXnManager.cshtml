@@ -1,0 +1,95 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CfXnManager</title>
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+</head>
+<body>
+    @using (Html.BeginForm("SaveCf", "Outsourcing", FormMethod.Post, new { autocomplete = "off" }))
+    {
+        <input type="hidden" name="cId" value="@ViewBag.WWCid" />
+        <div class="table-responsive" id="flow1">
+            <table class="table table-bordered table-hover  table-condensed" style="white-space:nowrap;" id="table1">
+                <thead>
+                    <tr>
+                        <th>项目名称</th>
+                        <th>项目类型</th>
+                        <th>项目值1</th>
+                        <th>项目值2</th>
+                        <th>项目值3</th>
+                        <th>项目值4</th>
+                        <th>备注</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{var source = ViewBag.SourceList as List<NF.MODEL.WWCFXNInfo> ?? new List<NF.MODEL.WWCFXNInfo>();}
+                    @foreach (var item in source)
+                    {
+                        <tr>
+                            <td width="80px">@item.C_ITEM_NAME</td>
+                            <td width="60px">@item.C_TYPE</td>
+                            <td width="80px">
+                                <input type="text" name="list[@source.IndexOf(item)][C_VALUE]" style="width:100%" value="@item.C_VALUE" />
+                            </td>
+                            <td width="80px">
+                                @if (item.C_TYPE == "性能")
+                                {
+                                    <input type="text" placeholder="值2" name="list[@source.IndexOf(item)][C_VALUE1]" style="width:100%" value="@item.C_VALUE1" />
+                                }
+                            </td>
+                            <td width="80px">
+                                @if (item.C_TYPE == "性能")
+                                {
+                                    <input type="text" placeholder="值3" name="list[@source.IndexOf(item)][C_VALUE2]" style="width:100%" value="@item.C_VALUE2" />
+                                }
+                            </td>
+                            <td width="80px">
+                                @if (item.C_TYPE == "性能")
+                                {
+                                    <input type="text" placeholder="值4" name="list[@source.IndexOf(item)][C_VALUE3]" style="width:100%" value="@item.C_VALUE3" />
+                                }
+                            </td>
+                            <td>
+                                <input type="text" name="list[@source.IndexOf(item)][C_REMARK]" style="width:100%" value="@item.C_REMARK" />
+                                <input type="hidden" name="list[@source.IndexOf(item)][C_ITEM_NAME]" value="@item.C_ITEM_NAME" />
+                                <input type="hidden" name="list[@source.IndexOf(item)][C_CHARACTER_ID]" value="@item.C_CHARACTER_ID" />
+                                <input type="hidden" name="list[@source.IndexOf(item)][C_TYPE]" value="@item.C_TYPE" />
+                                <input type="hidden" name="list[@source.IndexOf(item)][C_IS_PRINT]" value="@item.C_IS_PRINT" />
+                                <input type="hidden" name="list[@source.IndexOf(item)][C_IS_DECIDE]" value="@item.C_IS_DECIDE" />
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+        @*<div class="table-responsive" id="flow2">*@
+        <table class="table table-bordered table-hover table-condensed" style="margin-top:50px">
+            <tr>
+                <td colspan="4" align="right">
+                    <button id="btnSave" class="btn btn-primary btn-xs" type="submit">保存</button>
+                    <button class="btn btn-danger btn-primary btn-xs" type="button" onclick="window.parent.btnClick();">关闭</button>
+                </td>
+            </tr>
+        </table>
+        @*</div>*@
+
+    }
+</body>
+</html>
+<script>
+    $(function () {
+        @if (ViewBag.ErrorMsg != null)
+        {
+            @:alert('@(ViewBag.ErrorMsg?.ToString())')
+        }
+    });
+
+</script>

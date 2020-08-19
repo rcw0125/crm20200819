@@ -1,0 +1,86 @@
+﻿@model NF.Framework.DTO.TMB_STEPINFODTO
+@using NF.Web.Core;
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @Html.Partial("~/Views/Shared/_AssetsP.cshtml")
+    <title>@Model.Title</title>
+</head>
+<div id="legend" class="">
+    <legend class=""></legend>
+</div>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:20px;">
+    <tr>
+        <td align="center">
+            @using (Html.BeginForm())
+            {
+                @Html.HiddenFor(x => x.C_ID)
+                @Html.HiddenFor(x => x.C_EMP_NAME)
+                @Html.HiddenFor(x => x.C_EMP_ID)
+                @Html.HiddenFor(x => x.C_REMARK)
+                @Html.HiddenFor(x => x.N_STATUS)
+                <table width="80%" border="0" cellspacing="0" cellpadding="0" class="table1">
+                    <tr>
+                        <td style="width:80px; text-align:right">
+                            步骤名称
+                        </td>
+                        <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                            @Html.TextBoxFor(x => x.C_NAME, new { style = "width:210px;", @class = "input-xlarge" })
+                        </td>
+                        <td align="left">@Html.ValidationMessageFor(x => x.C_NAME)</td>
+                    </tr>
+                    <tr>
+                        <td style="width:80px; text-align:right">
+                            步骤类型
+                        </td>
+                        <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                            @Html.DropDownDic("N_SETP_TYPE", "FlowType", null)
+                        </td>
+                        <td align="left">@Html.ValidationMessageFor(x => x.N_SETP_TYPE)</td>
+                    </tr>
+                    <tr>
+                        <td style="width:80px; text-align:right">
+                            说明
+                        </td>
+                        <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                            @Html.TextAreaFor(x => x.C_DESC)
+                        </td>
+                        <td align="left">@Html.ValidationMessageFor(x => x.C_DESC)</td>
+                    </tr>
+                    <tr>
+                        <td style="width:80px; text-align:right">
+                            顺序
+                        </td>
+                        <td align="left" style=" width:150px; padding-left:10px; height:40px;">
+                            @if (Model.OperationType == 1)
+                            {
+                                @Html.TextBoxFor(x => x.N_SORT, new { style = "width:30px;", @readonly = "readonly" })
+                            }
+                            else
+                            {
+                                @Html.TextBoxFor(x => x.N_SORT, new { style = "width:30px;" })
+                            }
+                        </td>
+                        <td align="left">@Html.ValidationMessageFor(x => x.N_SORT)</td>
+                    </tr>
+                    <tr>
+                        <td align="right" style=" height:40px;">
+                            &nbsp;
+                        </td>
+                        <td align="left" style=" width:150px; padding-left:10px;">
+                            <div class="bs-example" data-example-id="btn-tags">
+                                <button id="sbmSave" class="btn btn-primary btn-xs" type="submit">保存</button>&nbsp;&nbsp;
+                                <button class="btn btn-default btn-xs" type="submit" onclick="window.close()">关闭</button>
+                            </div>
+                        </td>
+                        <td align="left"><spn style=" color:red; ">@Html.ValidationMessage("error")</spn></td>
+                    </tr>
+                </table>
+            }
+        </td>
+    </tr>
+</table>
+</html>

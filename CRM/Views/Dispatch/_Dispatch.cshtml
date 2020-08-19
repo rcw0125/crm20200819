@@ -1,0 +1,139 @@
+﻿@{
+    NF.Framework.DTO.TMD_DISPATCHDTO dto = (NF.Framework.DTO.TMD_DISPATCHDTO)ViewData["dispatch"];
+    object obj = ViewData["no"];
+
+}
+@using NF.Web.Core
+
+<div style="overflow:scroll;">
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+    @Html.Partial("~/Views/Shared/_Button.cshtml")
+    <table class="table" style="min-width:5000px;" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td align="center">
+                <table class="table table-bordered table-hover"  style="white-space: nowrap;">
+                    <thead>
+                        <tr>
+                            <th style=" width:40px"> </th>
+                            <th>操作</th>
+                            <th>发运单单据号</th>@Html.Hidden("no", obj == null ? "" : obj.ToString())
+                            <th>日计划单据号</th>
+                            <th>GPS设备号</th>
+                            <th>合同号</th>
+                            <th>订单号</th>
+                            <th>发运日期</th>
+                            <th>发运方式</th>
+                            <th>承运商</th>
+                            <th>路线</th>
+                            <th>路线描述</th>
+                            <th>发运组织</th>
+                            <th>业务部门</th>
+                            <th>业务员</th>
+                            <th>车牌号</th>
+                            <th>到站</th>
+                            <th>发运单审批日期</th>
+                            <th>发运单制单日期</th>
+                            <th>审批人</th>
+                            <th>制单人</th>
+                            <th>发运单状态</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            if (dto != null && dto.Dispatchs != null && dto.Dispatchs.Count > 0)
+                            {
+                                foreach (var item in dto.Dispatchs)
+                                {
+                                    <tr>
+                                        <th scope="row"><input class="che3" type="checkbox" name="" value="@item.C_ID" /></th>
+                                        <td><a href="/Dispatch/DispatchQuery?no=@item.C_ID" target="_blank">查看</a></td>
+                                        <td>@item.C_ID</td>
+                                        <td>@item.C_PLAN_ID</td>
+                                        <td>@item.C_GPS_NO</td>
+                                        <td>@item.C_CON_NO </td>
+                                        <td>@item.C_NO</td>
+                                        <td>@item.D_DISP_DT</td>
+                                        <td>@Html.DetailName(item.C_SHIPVIA, "ShipVia")</td>
+                                        <td>@item.C_COMCAR</td>
+                                        <td>@item.C_PATH</td>
+                                        <td>@item.C_PATH_DESC</td>
+                                        <td>@item.C_SEND_DEPT</td>
+                                        <td>@item.C_BUSINESS_DEPT</td>
+                                        <td>@item.C_BUSINESS_ID</td>
+                                        <td>@item.C_LIC_PLA_NO</td>
+                                        <td>@item.C_ATSTATION</td>
+                                        <td>@item.D_APPROVE_DT</td>
+                                        <td>@item.D_CREATE_DT</td>
+                                        <td>@item.C_APPROVE_ID</td>
+                                        <td>@item.C_CREATE_NAME</td>
+                                        <td>@Html.DetailName(item.C_STAUTS, "DispatchStatus")</td>
+                                        <td style="display:none;" class="hidStatus">@item.C_STAUTS</td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <script type="text/javascript">
+        function dispatchAdd() {
+            var url = "/Dispatch/DispatchInsert?no=" + $("#no").val();
+            window.open(url, 'newwindow', 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,resizable=yes,status=yes,menubar=no,scrollbars=yes');
+        }
+
+        function imports() {
+            var test = $("input[class='che3']:checked");
+            var checkBoxValue = "";
+            test.each(function () {
+                if ($(this).parents().parents().first().children(".hidStatus").text() == "2") {
+                }
+                else {
+                    checkBoxValue += $(this).val() + ",";
+                }
+            });
+            if (checkBoxValue == "") {
+                alert("发运单已全部导出");
+                return false;
+            } else {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var url = "/Dispatch/Imports?no=" + checkBoxValue + "&planID=" + $("#no").val();
+                $.get(url, function (date) {
+                    $.get("/Dispatch/DispatchPlan?no=" + date, function (re) {
+                        $("#dispatch").html(re);
+                    });
+                });
+            }
+        }
+
+        function editMsg() {
+            var test = $("input[class='che3']:checked");
+            var status = test.parents().parents().first().children(".hidStatus").text();
+            if (status == "2") {
+                alert("已处理状态不能再次操作");
+                return false;
+            }
+            var checkBoxValue = "";
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+            if (checkBoxValue == "") {
+                alert("请任选一项修改");
+                return false;
+            } else {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var arr = checkBoxValue.split(',');
+                if (arr.length > 1) {
+                    alert("请任选一项修改");
+                    return false;
+                } else {
+                    var obj = new Object();
+                    obj.id = arr[0];
+                    var url = "/Dispatch/DispatchUpdate?no=" + obj.id;
+                    window.open(url, 'newwindow', 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,resizable=yes,status=yes,menubar=no,scrollbars=yes');
+                }
+            }
+        }
+    </script>
+</div>

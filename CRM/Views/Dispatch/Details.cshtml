@@ -1,0 +1,111 @@
+﻿@model NF.Framework.DTO.TMO_CONDETAILSDTO
+@using NF.Web.Core
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>合同详情</title>
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+</head>
+<body>
+    @Html.Partial("~/Views/Shared/_Button.cshtml")
+    <div>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td align="left">
+                    <button id="btn_Search" type="button" style="display:none">查询</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @using (Html.BeginForm("Details", "Dispatch", FormMethod.Post))
+                    {
+                        <div class="dv_search">
+                            <ul>
+                                <li>合同号</li>
+                                <li>
+                                    @Html.TextBoxFor(x => x.C_CON_NO, new { style = "width:120px;" })
+                                    <input type="hidden" id="pageIndex" name="BasePage.PageIndex" />
+                                </li>
+                                <li>
+                                    订单号
+                                </li>
+                                <li>
+                                    @Html.TextBoxFor(x => x.C_ORDER_NO, new { style = "width:120px;" })
+                                </li>
+                                <li>
+                                    合同名称
+                                </li>
+                                <li>
+                                    @Html.TextBoxFor(x => x.C_CON_NAME, new { style = "width:120px;" })
+                                </li>
+                                <li>
+                                    合同类型
+                                </li>
+                                <li>
+                                    @Html.DropDownDic("N_TYPE", "OrderType", new { style = "width:120px;" })
+                                </li>
+                                <li>
+                                    <button id="btn_Search" type="submit" class="btn btn-primary btn-xs btn_w60">查询</button>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <table id="tb" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th style=" width:40px"> </th>
+                                <th>合同号</th>
+                                <th>订单号</th>
+                                <th>合同名称</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                if (Model.ConDetails.Count > 0)
+                                {
+                                    foreach (var item in Model.ConDetails)
+                                    {
+                                        <tr>
+                                            <th scope="row"><input class="che2" type="checkbox" name="" value="@item.C_ORDER_NO" /></th>
+                                            <td>@item.C_CON_NO</td>
+                                            <td>@item.C_ORDER_NO</td>
+                                            <td>@item.C_CON_NAME</td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            @Html.Partial("~/Views/Shared/_Paging.cshtml")
+        </table>
+    </div>
+    <script type="text/javascript">
+        function dispatchAdd() {
+            var test = $("input[class='che2']:checked");
+            var checkBoxValue = "";
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+            if (checkBoxValue == "") {
+                alert("请任选一项修改");
+                return false;
+            } else {
+                checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+                var url = "/Dispatch/DispatchInsert?no=" + checkBoxValue;
+                window.open(url, '_self', 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,resizable=yes,status=yes,menubar=no,scrollbars=yes');
+            }
+        }
+
+        //全选
+        selectAll("input.qx1", "input.che2");
+    </script>
+</body>
+</html>

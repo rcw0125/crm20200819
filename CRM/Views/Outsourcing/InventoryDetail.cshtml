@@ -1,0 +1,179 @@
+﻿
+@{
+    Layout = null;
+    var list = (ViewBag.ListData as List<NF.MODEL.Mod_TRC_ROLL_PRODCUT> ?? new List<NF.MODEL.Mod_TRC_ROLL_PRODCUT>());
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>线材详情</title>
+    @Html.Partial("~/Views/Shared/_Assets.cshtml")
+</head>
+<body>
+    @using (Html.BeginForm("UpdateDetail", "Outsourcing", FormMethod.Post, new { id = "form_inventory_detail" }))
+    {
+        <table class="table table-bordered table-condensed" style="margin-top: 5px;">
+
+            <tr>
+                <td>支数</td>
+                <td>
+                    <input id="txt_zs" name="txtzs" type="number" disabled="disabled" style="width: 100%" />
+                </td>
+                <td>重量</td>
+                <td>
+                    <input id="txt_amt" name="txtamt" type="number" style="width: 100%" />
+                </td>
+                <td>线材状态</td>
+                <td>
+                    <select class="form-control" name="moveType">
+                        <option value="QE" @(list.Any(w => w.C_LINEWH_CODE.StartsWith("680")) ? "selected" : "")>
+                            可组批
+                        </option>
+                        <option value="E" @(list.Any(w => w.C_LINEWH_CODE.StartsWith("681")) ? "selected" : "")>
+                            可销售
+                        </option>
+                        <option value="S" style="color:red">
+                            平库
+                        </option>
+                    </select>
+                </td>
+                <td>
+                    @foreach (var item in list)
+                    {
+                        <input type="hidden" name="arrAllId[@list.IndexOf(item)]" value="@item.C_ID" />
+                    }
+                    <div id="td_form_hidden"></div>
+                    <input id="btnSave" class="btn btn-primary btn-xs" type="button" onclick="btnSubmit()" value="修改" />
+                </td>
+            </tr>
+
+        </table>
+    }
+
+    <div class="table-responsive" id="flow1">
+        <table class="table table-bordered table-hover  table-condensed" style="white-space:nowrap;" id="table1">
+            <thead>
+                <tr class="info">
+                    <td colspan="6" align="right">合计：</td>
+                    <th>@($"{list.Count}支")</th>
+                    <th>@list.Sum(w => w.N_WGT)</th>
+                    <th colspan="6"></th>
+                </tr>
+                <tr>
+                    <th><input type="checkbox" id="chk_all" name="radio_chk" /></th>
+                    <th>序号</th>
+                    <th>批号</th>
+                    <th>钢种</th>
+                    <th>规格</th>
+                    <th>执行标准</th>
+                    <th>质量等级</th>
+                    <th>总重</th>
+                    <th>物料编码</th>
+                    <th>物料描述</th>
+                    <th>线材仓库编码</th>
+                    <th>包装要求</th>
+                    <th>线材状态</th>
+                    <th style="width: 50px;"></th>
+                </tr>
+            </thead>
+            <tbody id="em_tbody">
+                @foreach (var item in list)
+                {
+
+                    <tr>
+                        <td>
+                            <input type="checkbox" id="radio_@(list.IndexOf(item))" name="radio_chk" value="@item.C_ID" />
+                            <input type="hidden" name="txtwgt" value="@item.N_WGT" />
+                        </td>
+                        <td>@(list.IndexOf(item) + 1)</td>
+                        <td width="150px">@item.C_BATCH_NO</td>
+                        <td>@item.C_STL_GRD</td>
+                        <td>@item.C_SPEC</td>
+                        <td>@item.C_STD_CODE</td>
+                        <td>@item.C_JUDGE_LEV_ZH</td>
+                        <th>@item.N_WGT</th>
+                        <td>@item.C_MAT_CODE</td>
+                        <td>@item.C_MAT_DESC</td>
+                        <td>@item.C_LINEWH_CODE</td>
+                        <td>@item.C_BZYQ</td>
+                        <td>@(item.C_MOVE_TYPE == "QE" ? "可组批" : "可销售")</td>
+                        <td style="text-align: center"></td>
+
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    var data = [];
+
+    function btnSubmit() {
+        if (data.length == 0) {
+            alert('请选择需要修改的线材');
+            return;
+        }
+
+        $('#td_form_hidden').html('');
+        for (var i = 0; i < data.length; i++) {
+            $('#td_form_hidden').append('<input type="hidden" name="arrUpdateId[' + i + ']" value="' + data[i].id + '" />');
+        }
+
+        if (confirm('确认提交吗？') == false) { return; }
+
+        $('#form_inventory_detail').submit();
+    }
+
+    $(function () {
+        $(".table tbody tr").unbind('click');
+
+        function isall(id) {
+            return id == 'chk_all';
+        }
+
+        $('input[name=radio_chk]').on('change', function () {
+            data.length = 0;
+            var isAll = isall(this.id);
+            var allflag = this.checked;
+
+            var all = true;
+
+            $('input[name=radio_chk]').each(function () {
+                if (isAll) {
+                    this.checked = allflag;
+                }
+
+                if (this.checked == false) {
+                    all = false;
+                } else {
+                    if (!isall(this.id)) {
+
+                        data.push({
+                            id: $(this).val(),
+                            wgt: $(this).parent().children()[1].value
+                        });
+                    }
+                }
+            });
+
+            //$('#chk_all')[0].checked = all;
+            var amt = parseFloat(0);
+            for (var i = 0; i < data.length; i++) {
+                amt = amt + parseFloat(data[i].wgt);
+            }
+
+            $('#txt_zs').val(data.length);
+            $('#txt_amt').val(amt.toFixed(4));
+        });
+    });
+
+@if (ViewBag.ErrorMsg != null)
+    {
+        @:alert('@ViewBag.ErrorMsg');
+    }
+</script>

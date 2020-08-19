@@ -1,0 +1,133 @@
+﻿@model NF.Framework.DTO.TS_USERDTO
+@using NF.Web.Core
+<!DOCTYPE html>
+
+<html>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+@Html.Partial("~/Views/Shared/_Assets.cshtml")
+
+<title>@Model.Title</title>
+<body>
+
+    @using (Html.BeginForm())
+    {
+        <table class="table table-bordered">
+
+            <tr>
+                <td style="width:100px;">用户姓名</td>
+                <td>
+                    @Html.HiddenFor(x => x.C_ID)
+                    @Html.HiddenFor(x => x.C_EMP_ID)
+                    @Html.HiddenFor(x => x.C_EMP_NAME)
+                    @Html.HiddenFor(x => x.D_MOD_DT)
+                    @Html.HiddenFor(x => x.C_PASSWORD)
+                    @Html.HiddenFor(x => x.C_CUST_ID)
+                    @Html.HiddenFor(x => x.C_CJNAME)
+                    @Html.HiddenFor(x => x.C_CJINTRO)
+                    @Html.HiddenFor(x => x.C_STL_GRD)
+                    @Html.HiddenFor(x => x.C_LEGALREPRES)
+                    @Html.HiddenFor(x => x.C_CGJCR)
+                    @Html.HiddenFor(x => x.C_JOB)
+                    @Html.HiddenFor(x => x.C_JCTEL)
+                    @Html.HiddenFor(x => x.C_ADDRESS)
+                    @Html.HiddenFor(x => x.C_AREA)
+                    @Html.HiddenFor(x => x.C_MANAGER)
+                    @Html.HiddenFor(x => x.C_TOKEN_ID)
+                    <input type="hidden" id="ResultType" name="ResultType" value="@Model.ResultType" />
+                    @Html.TextBoxFor(x => x.C_NAME, new { style = " width: 50%" })
+                    <span style=" color:red;"> @Html.ValidationMessageFor(x => x.C_NAME)</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>登录名</td>
+                <td>
+                    <input type="text" disabled="disabled" style="width:50%;" value="@Model.C_ACCOUNT" />
+                    <input type="hidden" id="C_ACCOUNT" name="C_ACCOUNT" value="@Model.C_ACCOUNT" />
+                    <span style=" color:red;"> @Html.ValidationMessageFor(x => x.C_ACCOUNT)</span>
+                </td>
+            </tr>
+            <tr>
+                <td>邮箱</td>
+                <td>
+                    @Html.TextBoxFor(x => x.C_EMAIL, new { style = "width: 50%", placeholder = "必填" })
+                    <span style=" color:red;"> @Html.ValidationMessageFor(x => x.C_EMAIL)</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>电话</td>
+                <td>
+                    @Html.TextBoxFor(x => x.C_MOBILE, new { style = "width: 50%", placeholder = "必填" })
+                    <span style=" color:red;"> @Html.ValidationMessageFor(x => x.C_MOBILE)</span>
+                </td>
+            </tr>
+            <tr>
+                <td>传真</td>
+                <td>
+                    @Html.TextBoxFor(x => x.C_MOBILE2, new { style = "width: 50%" })
+                    <span style=" color:red;"> @Html.ValidationMessageFor(x => x.C_MOBILE2)</span>
+                </td>
+            </tr>
+            <tr>
+                <td>  用户状态</td>
+                <td>
+                    @Html.DropDownDic("N_STATUS", "UserStatus", new { style = "width: 50%" })
+                </td>
+            </tr>
+            <tr>
+                <td>  用户类型</td>
+                <td>
+                    @Html.DropDownDic("N_TYPE", "UserType2", new { style = "width: 50%", disabled = "disabled" })
+                    @Html.HiddenFor(x => x.N_TYPE)
+                </td>
+            </tr>
+            <tr>
+                <td>  用户部门</td>
+                <td>
+                    @Html.TextBoxFor(x => x.DeptName, new { @readonly = "readonly", style = "width: 50%" })
+                    @Html.HiddenFor(x => x.DeptID)
+                    <a href="javascript:;" id="" onClick="queryDept(this);"><span class="glyphicon glyphicon-search"></span></a>
+                </td>
+            </tr>
+            <tr>
+                <td> 公司名称</td>
+                <td>
+                    @Html.TextBoxFor(m => m.C_SHORTNAME, new { style = "width: 50%", placeholder = "必填" })
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <button id="btnSave" class="btn btn-primary btn-xs" type="submit">保存</button>
+                    <spn style=" color:red; ">@Html.ValidationMessage("error")</spn>
+                </td>
+            </tr>
+        </table>
+        <script type="text/javascript">
+            $(function () {
+                $("#btnSave").click(function () {
+                    $("#ResultType").val(0);
+                });
+
+                if ($("#ResultType").val() == "1") {
+                    alert("修改成功");
+                    window.parent.seatch();
+                    close(); 
+                }
+            });
+
+            function queryDept(e) {
+                var url = "/Base/QueryDept";
+                //url += "&htmlApproveId=" + $(e).prev().attr("id");
+                //url += "&htmlApproveName=" + $(e).prev().prev().attr("id");
+                window.open(url, 'newwindow', 'width=' + (window.screen.availWidth - 10) + ',height=' + (window.screen.availHeight - 30) + ',top=0,left=0,resizable=yes,status=yes,menubar=no,scrollbars=yes');
+            }
+        </script>
+    }
+</body>
+</html>

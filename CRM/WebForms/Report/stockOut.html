@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>出库单查询</title>
+    <script src="js/jsStye.js"></script>
+    <script src="../JsDate.js"></script>
+    <script src="js/jsStock.js"></script>
+
+</head>
+<body onresize="fromsize();">
+    <form>
+        <table class="table table-bordered table-condensed">
+            <tr>
+                <td>发运单号</td>
+                <td><input type="text" id="txtsendcode" style="width: 100%;" /></td>
+
+                <td>车号</td>
+                <td><input type="text" id="txtchehao" style="width: 100%;" /></td>
+
+                <td>发运日期</td>
+                <td><input type="text" class="form-control Wdate" readonly="readonly" id="txtStart"></td>
+                <td><input type="text" class="form-control Wdate" readonly="readonly" id="txtEnd"></td>
+                <td><input type="button" class="btn btn-primary btn-xs" value="查询" onclick="getList();" />&nbsp;&nbsp;<input type="button" class="btn btn-primary btn-xs" value="出库单打印" onclick="printFY(2);"  />&nbsp;&nbsp;<input type="button" class="btn btn-primary btn-xs" value="发运单打印"  onclick="printFY(1);" /></td>
+            </tr>
+        </table>
+
+        <div id="dvlist" style="overflow: auto; width: 100%">
+            <table class="table table-bordered table-hover table-condensed">
+                <thead>
+                    <tr>
+                        <th>发运单号</th>
+                        <th>出库单号</th>
+                        <th>仓库</th>
+                        <th>批次/炉号</th>
+                        <th>存货名称</th>
+                        <th>钢种</th>
+                        <th>规格</th>
+                        <th>件数</th>
+                        <th>重量</th>
+                        <th>钩号</th>
+                    </tr>
+                </thead>
+                <tbody id="content1">
+                   
+                </tbody>
+            </table>
+        </div>
+        <input id="hiduserid" type="hidden" value="08766" />
+    </form>
+</body>
+</html>

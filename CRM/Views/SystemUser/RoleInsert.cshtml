@@ -1,0 +1,82 @@
+﻿@model NF.Framework.DTO.TS_ROLEDTO
+@using NF.Web.Core
+<!DOCTYPE html>
+
+<html>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+@Html.Partial("~/Views/Shared/_Assets.cshtml")
+
+<title>@Model.Title</title>
+<body>
+    @using (Html.BeginForm())
+    {
+        <table class="table table-bordered">
+
+            <tr>
+                <td style="width:100px;">角色编码</td>
+                <td>
+                    @Html.HiddenFor(x => x.C_ID)
+                    @Html.HiddenFor(x => x.C_EMP_ID)
+                    @Html.HiddenFor(x => x.C_EMP_NAME)
+                    @Html.HiddenFor(x => x.D_MOD_DT)
+                    <input type="hidden" id="ResultType" name="ResultType" value="@Model.ResultType" />
+                    @Html.TextBoxFor(x => x.C_CODE, new { style = " width: 50%" })
+                    <span style=" color:red;"> @Html.ValidationMessageFor(x => x.C_CODE)</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td >角色名称</td>
+                <td>
+                    @Html.TextBoxFor(x => x.C_NAME, new { style = " width: 50%" })
+                    <span style=" color:red;"> @Html.ValidationMessageFor(x => x.C_NAME)</span>
+                </td>
+            </tr>
+            <tr>
+                <td >描述</td>
+                <td>
+                    @Html.TextBoxFor(x => x.C_DESC, new { style = "width: 50%" })
+                    <span style=" color:red;"> @Html.ValidationMessageFor(x => x.C_DESC)</span>
+                </td>
+            </tr>
+            <tr>
+                <td >状态</td>
+                <td>
+                    @Html.DropDownDic("N_STATUS", "CommonStatus", new { style = "width: 50%" })
+                    <span style=" color:red;"> @Html.ValidationMessageFor(x => x.N_STATUS)</span>
+                </td>
+            </tr>
+            <tr>
+                <td >&nbsp;</td>
+                <td>
+                    <button id="btnSave" class="btn btn-primary btn-xs" type="submit">保存</button>
+                    <spn style=" color:red; ">@Html.ValidationMessage("error")</spn>
+                </td>
+            </tr>
+        </table>
+        <script type="text/javascript">
+            $(function () {
+                $("#btnSave").click(function () {
+                    $("#ResultType").val(0);
+                });
+
+                if ($("#ResultType").val() == "1") {
+                    alert("新增成功");
+                    window.parent.seatch();
+                    close();        
+                } else if ($("#ResultType").val() == "2") {
+                    alert("修改成功");
+                    window.parent.seatch();
+                    close();        
+                }
+            });
+
+        </script>
+    }
+
+</body>
+</html>

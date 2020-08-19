@@ -1,0 +1,78 @@
+﻿@model NF.Framework.DTO.TS_CUSTADDRDTO
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>收货地址</title>
+    <link href="../Assets/css/bootstrap-form.css" rel="stylesheet" />
+    <script src="~/Assets/js/jquery-2.0.3.min.js"></script>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+    
+        @Html.HiddenFor(x => x.OperationType)
+        @Html.HiddenFor(x => x.C_CUST_ID)
+
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>收货公司</th>
+                    <th>收货地址</th>
+                    <th>收货地区</th>
+                    <th>收货人</th>
+                    <th>收货电话</th>
+                    <th>收货电话2</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                if (Model.Addrs.Count > 0)
+                {
+                    for (int i = 0; i < Model.Addrs.Count; i++)
+                    {
+                        <tr>
+                            <td>@Html.TextBoxFor(x => x.Addrs[i].C_CGC, new { name = Model.Addrs[i].C_CGC, style = "width:80px;" }) <span style="color:red;">@Html.ValidationMessageFor(x => x.Addrs[i].C_CGC)</span> </td>
+                            <td>@Html.TextBoxFor(x => x.Addrs[i].C_CGADDR, new { name = Model.Addrs[i].C_CGADDR, style = "width:80px;" })<span style="color:red;">@Html.ValidationMessageFor(x => x.Addrs[i].C_CGADDR)</span></td>
+                            <td>@Html.TextBoxFor(x => x.Addrs[i].C_CGAREA, new { name = Model.Addrs[i].C_CGAREA, style = "width:80px;" })<span style="color:red;">@Html.ValidationMessageFor(x => x.Addrs[i].C_CGAREA)</span></td>
+                            <td>@Html.TextBoxFor(x => x.Addrs[i].C_CGMAN, new { name = Model.Addrs[i].C_CGMAN, style = "width:80px;" })<span style="color:red;">@Html.ValidationMessageFor(x => x.Addrs[i].C_CGMAN)</span></td>
+                            <td>@Html.TextBoxFor(x => x.Addrs[i].C_CGMOBILE, new { name = Model.Addrs[i].C_CGMOBILE, style = "width:80px;" })<span style="color:red;">@Html.ValidationMessageFor(x => x.Addrs[i].C_CGMOBILE)</span></td>
+                            <td>@Html.TextBoxFor(x => x.Addrs[i].C_CGMOBILE2, new { name = Model.Addrs[i].C_CGMOBILE2, style = "width:80px;" })<span style="color:red;">@Html.ValidationMessageFor(x => x.Addrs[i].C_CGMOBILE2)</span></td>
+                            <td style="display:none;">
+                                <input type="hidden" name="Addrs[@i].N_ISDEFAULT" value="@Model.Addrs[i].N_ISDEFAULT" />
+                                @Html.HiddenFor(x => x.Addrs[i].C_CUST_ID, new { name = Model.Addrs[i].C_CUST_ID })
+                            </td>
+                        </tr>
+                }
+            }
+                }
+            </tbody>
+        </table>
+       
+        <table class="table table-bordered">
+            <tr>
+                <td align="center">
+                    <button id="btnInsert" class="btn btn-primary btn-xs" type="submit">新增</button>&nbsp;&nbsp;
+                    <button id="btnSave" class="btn btn-primary btn-xs" type="submit">保存</button>&nbsp;&nbsp;
+                    <button class="btn btn-default btn-xs" type="submit" onclick="window.close()">关闭</button>
+                    @Html.ValidationMessage("error")
+                </td>
+            </tr>
+        </table>
+  
+       }
+
+    <script type="text/javascript">
+        $(function () {
+            $("#btnInsert").click(function () {
+                $("#OperationType").val(1);
+            });
+            $("#btnSave").click(function () {
+                $("#OperationType").val(2);
+            });
+        });
+    </script>
+</body>
+</html>

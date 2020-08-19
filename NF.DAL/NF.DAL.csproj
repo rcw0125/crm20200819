@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F72ACBAB-5DC3-40B1-96F8-FB4B025CB9C2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NF.DAL</RootNamespace>
+    <AssemblyName>NF.DAL</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.122.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <HintPath>..\packages\Oracle.ManagedDataAccess.12.2.1100\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="zxing">
+      <HintPath>..\CRM\bin\zxing.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ByPage.cs" />
+    <Compile Include="B\Dal_TB_OVERDUE_CONFIGURE.cs" />
+    <Compile Include="B\Dal_TB_BCBZ.cs" />
+    <Compile Include="B\Dal_TB_STA.cs" />
+    <Compile Include="B\Dal_TMB_NCADDRESS_COST.cs" />
+    <Compile Include="B\Dal_TMB_STLGRD_PRICE_WGT.cs" />
+    <Compile Include="B\Dal_TMB_AREAPLAN.cs" />
+    <Compile Include="B\Dal_TB_MATRL_MAIN.cs" />
+    <Compile Include="B\Dal_TB_STD_CONFIG.cs" />
+    <Compile Include="B\Dal_TMB_NOTICE.cs" />
+    <Compile Include="B\Dal_TMB_AREA.cs" />
+    <Compile Include="B\Dal_TMB_PROC.cs" />
+    <Compile Include="B\Dal_TMB_TAXITEMS.cs" />
+    <Compile Include="B\Dal_TPB_STEEL_PRO_CONDITION.cs" />
+    <Compile Include="B\Dal_TQB_DESIGN.cs" />
+    <Compile Include="B\Dal_TQB_DESIGN_ORDER.cs" />
+    <Compile Include="B\Dal_TQB_PACK.cs" />
+    <Compile Include="B\Dal_TMB_ACTIVITY.cs" />
+    <Compile Include="B\Dal_TMB_MEAS.cs" />
+    <Compile Include="B\Dal_TMB_AREAMAX.cs" />
+    <Compile Include="B\Dal_TMB_COMDIFF.cs" />
+    <Compile Include="B\Dal_TMB_FLOWINFO.cs" />
+    <Compile Include="B\Dal_TQB_REMARKPRINT.cs" />
+    <Compile Include="B\Dal_TQB_STD_MAIN.cs" />
+    <Compile Include="B\Dal_TMB_FILE_NEXT_EMP.cs" />
+    <Compile Include="B\Dal_TMB_FLOWPROC.cs" />
+    <Compile Include="B\Dal_TMB_FLOWSTEP.cs" />
+    <Compile Include="B\Dal_TMB_STEPINFO.cs" />
+    <Compile Include="B\Dal_TMF_FILEINFO.cs" />
+    <Compile Include="B\Dal_TMB_ACTIVITY_LOG.cs" />
+    <Compile Include="B\Dal_TMB_XG.cs" />
+    <Compile Include="B\Dal_TQB_STD_SPEC.cs" />
+    <Compile Include="B\Dal_TQB_CHECKSTATE.cs" />
+    <Compile Include="B\Dal_TMB_INTERFACE_LOG.cs" />
+    <Compile Include="B\Dal_TB_FILE.cs" />
+    <Compile Include="B\Dal_TB_MATRL_GROUP.cs" />
+    <Compile Include="C\Dal_TMC_TRAIN_MAIN.cs" />
+    <Compile Include="C\Dal_TMC_TRAIN_ITEM.cs" />
+    <Compile Include="C\Dal_TQC_ZZS_FILE.cs" />
+    <Compile Include="C\Dal_TMC_CUST_BOOK.cs" />
+    <Compile Include="C\Dal_TMC_QUESTION.cs" />
+    <Compile Include="C\Dal_TMC_QUESTION_DEPT.cs" />
+    <Compile Include="C\Dal_TMC_TECH_CONSULT.cs" />
+    <Compile Include="C\Dal_TMC_TECH_CONSULT_RESULT.cs" />
+    <Compile Include="C\Dal_TMC_CHAT.cs" />
+    <Compile Include="C\Dal_TMC_CHAT_EMP.cs" />
+    <Compile Include="C\Dal_TQ_MODULE.cs" />
+    <Compile Include="C\Dal_TRC_ROLL_PRODCUT.cs" />
+    <Compile Include="C\Dal_TSC_SLAB_MAIN.cs" />
+    <Compile Include="C\Dal_TMC_CUSTGIVEMARK.cs" />
+    <Compile Include="C\Dal_TMC_GIVEMARK_ITEM.cs" />
+    <Compile Include="C\Dal_TMC_CUSTGMARK_MAIN.cs" />
+    <Compile Include="C\Dal_TMC_ROLL_APPLY.cs" />
+    <Compile Include="C\Dal_TMC_ROLL_APPLY_ITEM.cs" />
+    <Compile Include="C\Dal_TMC_ROLL_DEPLOY_LOG.cs" />
+    <Compile Include="Dal_GPS.cs" />
+    <Compile Include="Dal_Interface_FR.cs" />
+    <Compile Include="DataSetHelper.cs" />
+    <Compile Include="DataTableExtends.cs" />
+    <Compile Include="DbHelperNC.cs" />
+    <Compile Include="DbHelperOra.cs" />
+    <Compile Include="DbHelper_SQL2.cs" />
+    <Compile Include="DbHelper_SQL.cs" />
+    <Compile Include="D\Dal_TMD_CAR_NUMBER.cs" />
+    <Compile Include="D\Dal_TMD_DISPATCH.cs" />
+    <Compile Include="D\Dal_TMD_DISPATCHDETAILS.cs" />
+    <Compile Include="D\Dal_TMD_DISPATCH_PARTIAL.cs" />
+    <Compile Include="D\Dal_TMD_GPFY_LOG.cs" />
+    <Compile Include="D\Dal_TMD_ZZSCONFIRM_RECORD.cs" />
+    <Compile Include="D\Dal_TMD_HY_PLAN.cs" />
+    <Compile Include="I\Dal_Interface_FR.cs" />
+    <Compile Include="I\Dal_Interface_NC_DM.cs" />
+    <Compile Include="I\Dal_Interface_NC_Roll_QT4A.cs" />
+    <Compile Include="I\Dal_Interface_NC_Roll_QT4I.cs" />
+    <Compile Include="I\Dal_Interface_NC_Roll_ZK4A.cs" />
+    <Compile Include="I\Dal_Interface_NC_Roll_ZK4I.cs" />
+    <Compile Include="I\Dal_Interface_NC_XC.cs" />
+    <Compile Include="I\Dal_Interface_WL.cs" />
+    <Compile Include="I\Dal_Send_NC.cs" />
+    <Compile Include="I\Dal_TPB_SLABWH.cs" />
+    <Compile Include="O\Dal_TMO_CON.cs" />
+    <Compile Include="O\Dal_TMO_CONDETAILS.cs" />
+    <Compile Include="O\Dal_TMO_CONRULES.cs" />
+    <Compile Include="O\Dal_TMO_ORDER.cs" />
+    <Compile Include="O\Dal_TMO_ORDER_MATCH.cs" />
+    <Compile Include="O\Dal_TMO_ORDER_PARTIAL.cs" />
+    <Compile Include="O\Dal_TMO_ORDER_PCZB.cs" />
+    <Compile Include="O\Dal_TMO_SALEORDER.cs" />
+    <Compile Include="O\Dal_TMO_SALEORDERITEM.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="P\Dal_PLAN_XQCX.cs" />
+    <Compile Include="P\Dal_TMP_PLAN.cs" />
+    <Compile Include="P\Dal_TPB_LINEWH.cs" />
+    <Compile Include="P\Dal_TPP_INITIALIZE_ORDER.cs" />
+    <Compile Include="P\Dal_TMP_DAYPLAN.cs" />
+    <Compile Include="Q\Dal_TMQ_QUALITY_FILE.cs" />
+    <Compile Include="Q\Dal_TMQ_QUALITY_MAIN.cs" />
+    <Compile Include="Q\Dal_TMQ_QUALITY_STL_GRD.cs" />
+    <Compile Include="Dal_RandomNumber.cs" />
+    <Compile Include="Q\Dal_TMQ_QUA_MAIN.cs" />
+    <Compile Include="R\Dal_TRC_ROLL_MAIN.cs" />
+    <Compile Include="R\Dal_TRC_ROLL_PRODCUT.cs" />
+    <Compile Include="R\Dal_TRC_ROLL_QTCKD.cs" />
+    <Compile Include="R\Dal_TRC_Roll_QTCKD_ITEM.cs" />
+    <Compile Include="R\Dal_TRC_ROLL_WW_MAIN.cs" />
+    <Compile Include="R\Dal_TRC_ROLL_ZKD.cs" />
+    <Compile Include="S\Dal_TSC_SLAB_MAIN_LOG.cs" />
+    <Compile Include="S\Dal_TS_CUST_SF.cs" />
+    <Compile Include="S\Dal_TS_DIC.cs" />
+    <Compile Include="S\Dal_TS_USER.cs" />
+    <Compile Include="S\Dal_TS_CUSTADDR.cs" />
+    <Compile Include="S\Dal_TS_CUSTFILE.cs" />
+    <Compile Include="S\Dal_TS_CUSTOTCOMPANY.cs" />
+    <Compile Include="S\Dal_TS_DEPT.cs" />
+    <Compile Include="S\Dal_TS_USER_DEPT.cs" />
+    <Compile Include="S\Dal_TS_USER_ROLE.cs" />
+    <Compile Include="S\Dal_TS_ROLE.cs" />
+    <Compile Include="TransactionHelper.cs" />
+    <Compile Include="TransantionHelper_SQL.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NF.MODEL\NF.MODEL.csproj">
+      <Project>{23edbffb-5109-415a-bda0-01974e612b81}</Project>
+      <Name>NF.MODEL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
